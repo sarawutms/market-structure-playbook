@@ -523,6 +523,8 @@ const sndT = (i: number) => SND[i].time;
  * ------------------------------------------------------------------------- */
 
 const EW_BARS: Array<[number, number, number, number]> = [
+  [103.0, 103.2, 101.2, 101.6], // lead-in drift (context before the pattern)
+  [101.6, 101.8, 99.6, 100.2], // lead-in drift
   [100.0, 101.5, 99.5, 101.2], // wave 1
   [101.2, 101.4, 99.8, 100.2], // wave 2
   [100.2, 103.5, 100.0, 103.2], // wave 3
@@ -534,14 +536,18 @@ const EW_BARS: Array<[number, number, number, number]> = [
   [102.5, 104.0, 102.3, 103.6], // next cycle begins
 ];
 
-const EW = toCandles(EW_BARS, '2024-11-18');
-const ewT = (i: number) => EW[i].time;
+const EW = toCandles(EW_BARS, '2024-11-14');
+/** Lead-in bars prepended before wave 1 so the first marker isn't clipped at the chart edge. */
+const EW_OFF = 2;
+const ewT = (i: number) => EW[i + EW_OFF].time;
 
 /* ---------------------------------------------------------------------------
  * Dataset 16 — Harmonic (Gartley X-A-B-C-D)
  * ------------------------------------------------------------------------- */
 
 const HARM_BARS: Array<[number, number, number, number]> = [
+  [103.4, 103.6, 101.8, 102.2], // lead-in drift (context before X)
+  [102.2, 102.6, 100.2, 100.8], // lead-in drift
   [100.0, 100.8, 99.4, 100.6], // X
   [100.6, 104.0, 100.4, 103.6], // X→A
   [103.6, 108.2, 103.2, 107.8],
@@ -556,8 +562,10 @@ const HARM_BARS: Array<[number, number, number, number]> = [
   [105.6, 108.4, 105.2, 108.0],
 ];
 
-const HARM = toCandles(HARM_BARS, '2024-12-02');
-const harmT = (i: number) => HARM[i].time;
+const HARM = toCandles(HARM_BARS, '2024-11-28');
+/** Lead-in bars prepended before X so the first marker isn't clipped at the chart edge. */
+const HARM_OFF = 2;
+const harmT = (i: number) => HARM[i + HARM_OFF].time;
 
 /* ---------------------------------------------------------------------------
  * Dataset 17 — VSA signals with volume
@@ -768,6 +776,8 @@ const pbQmlT = (i: number) => PB_QML[i].time;
 
 /** Bearish Bat (short) — X→A impulse, B 0.5, C 0.886 of AB, D at 0.886 of XA. */
 const PB_BAT_BARS: Array<[number, number, number, number]> = [
+  [2412, 2416, 2404, 2408], // lead-in drift (context before X)
+  [2408, 2412, 2392, 2396], // lead-in drift
   [2390, 2396, 2388, 2394], // X = 2388 (swing low)
   [2394, 2420, 2392, 2416], // X→A rally
   [2416, 2422, 2408, 2412],
@@ -785,8 +795,10 @@ const PB_BAT_BARS: Array<[number, number, number, number]> = [
   [2382, 2386, 2360, 2364], // → TP 2360 (sell-side liquidity below X)
   [2364, 2368, 2352, 2356],
 ];
-const PB_BAT = toCandles(PB_BAT_BARS, '2025-11-10');
-const pbBatT = (i: number) => PB_BAT[i].time;
+const PB_BAT = toCandles(PB_BAT_BARS, '2025-11-06');
+/** Lead-in bars prepended before X so the first marker isn't clipped at the chart edge. */
+const PB_BAT_OFF = 2;
+const pbBatT = (i: number) => PB_BAT[i + PB_BAT_OFF].time;
 
 /** VSA Stopping Volume at Support (long) — climax, no demand, SOS. */
 const PB_VSA_BARS: Array<[number, number, number, number, number]> = [
