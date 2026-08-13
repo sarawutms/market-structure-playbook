@@ -13,7 +13,7 @@ import {
   type Time,
 } from 'lightweight-charts';
 import type { ConceptScenario, IndicatorType, Language, TradeLevel } from '../data/types';
-import { pickLang } from '../i18n/ui';
+import { UI, pickLang } from '../i18n/ui';
 import { TrendLinesPlugin } from '../chart/TrendLinesPlugin';
 import { ZonesPlugin } from '../chart/ZonesPlugin';
 import { BollingerBandsPlugin } from '../chart/BollingerBandsPlugin';
@@ -48,6 +48,22 @@ function createTradePriceLine(
     axisLabelVisible: true,
     title,
   });
+}
+
+/**
+ * Zooms the time scale around the current visible center (v5 API — `zoom()`
+ * was removed; `factor < 1` zooms in, `factor > 1` zooms out).
+ */
+function zoomChart(chart: IChartApi | null, factor: number): void {
+  if (!chart) return;
+  const timeScale = chart.timeScale();
+  const range = timeScale.getVisibleLogicalRange();
+  if (!range) return;
+  const { from, to } = range;
+  const width = to - from;
+  const center = (from + to) / 2;
+  const next = width * factor;
+  timeScale.setVisibleLogicalRange({ from: center - next / 2, to: center + next / 2 });
 }
 
 /** Maps indicator flags to their plugin constructors. */
@@ -241,11 +257,47 @@ export function ChartPanel({ scenario, lang }: ChartPanelProps) {
 
       {/* Chart canvas (auto-resizes with the container via autoSize). */}
       {/* Fixed height on mobile so `h-full` always resolves; flex-1 on desktop. */}
-      <div className="h-[420px] flex-1 p-3 pb-0 lg:h-auto lg:min-h-[440px]">
+      <div className="relative h-[420px] flex-1 p-3 pb-0 lg:h-auto lg:min-h-[440px]">
         <div
           ref={containerRef}
           className="h-full w-full overflow-hidden rounded-xl border border-edge"
         />
+        {/* Zoom controls — wheel / pinch also work; these make it discoverable. */}
+        <div className="absolute right-5 top-5 flex flex-col overflow-hidden rounded-lg border border-edge bg-panel-2/95 shadow-lg backdrop-blur">
+          <button
+            type="button"
+            aria-label={pickLang(UI.zoomIn, lang)}
+            title={pickLang(UI.zoomIn, lang)}
+            onClick={() => zoomChart(chartRef.current, 0.5)}
+            className="flex h-8 w-8 items-center justify-center text-base font-bold text-muted transition-colors hover:bg-panel-1 hover:text-white active:scale-95"
+          >
+            +
+          </button>
+          <div className="mx-1.5 h-px bg-edge" />
+          <button
+            type="button"
+            aria-label={pickLang(UI.zoomOut, lang)}
+            title={pickLang(UI.zoomOut, lang)}
+            onClick={() => zoomChart(chartRef.current, 2)}
+            className="flex h-8 w-8 items-center justify-center text-base font-bold text-muted transition-colors hover:bg-panel-1 hover:text-white active:scale-95"
+          >
+            −
+          </button>
+          <div className="mx-1.5 h-px bg-edge" />
+          <button
+            type="button"
+            aria-label={pickLang(UI.zoomReset, lang)}
+            title={pickLang(UI.zoomReset, lang)}
+            onClick={() => chartRef.current?.timeScale().resetTimeScale()}
+            className="flex h-8 w-8 items-center justify-center text-sm text-muted transition-colors hover:bg-panel-1 hover:text-white active:scale-95"
+          >
+            ⌂
+          </button>
+        </div>
+        {/* Hint bar — makes zoom/pan gestures discoverable on any device. */}
+        <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md border border-edge bg-panel-2/80 px-2.5 py-1 text-[11px] text-muted backdrop-blur">
+          {pickLang(UI.zoomHint, lang)}
+        </div>
       </div>
     </div>
   );

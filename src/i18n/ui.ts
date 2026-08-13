@@ -100,6 +100,22 @@ export const UI = {
     en: 'XAUUSD · Simulated',
     th: 'XAUUSD · ข้อมูลจำลอง',
   },
+  zoomIn: {
+    en: 'Zoom in',
+    th: 'ขยายเข้า',
+  },
+  zoomOut: {
+    en: 'Zoom out',
+    th: 'ย่อออก',
+  },
+  zoomReset: {
+    en: 'Reset zoom',
+    th: 'คืนขนาดเดิม',
+  },
+  zoomHint: {
+    en: 'Scroll / pinch to zoom · drag to pan',
+    th: 'เลื่อนล้อหรือบีบสองนิ้วเพื่อซูม · ลากเพื่อเลื่อนกราฟ',
+  },
   featured: {
     en: 'Featured setup',
     th: 'เซ็ตอัปเด่น',

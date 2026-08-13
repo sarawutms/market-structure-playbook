@@ -22,6 +22,9 @@ export const chartOptions: DeepPartial<ChartOptions> = {
     vertLine: { color: '#3a4458', labelBackgroundColor: '#3a4458' },
     horzLine: { color: '#3a4458', labelBackgroundColor: '#3a4458' },
   },
+  // Explicitly enable mouse-wheel / pinch zoom and drag-to-pan.
+  handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: true },
+  handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: false },
   rightPriceScale: { borderColor: CHART_BORDER },
   timeScale: { borderColor: CHART_BORDER, rightOffset: 2 },
   localization: { locale: 'en-US' },
