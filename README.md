@@ -1,4 +1,4 @@
-# Market Structure Playbook · Ultimate Trading Playbook
+# Market Structure Playbook
 
 > **Live demo:** https://sarawutms.github.io/market-structure-playbook/
 

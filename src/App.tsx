@@ -46,7 +46,7 @@ export default function App() {
             </svg>
           </div>
           <div className="min-w-0">
-            <h1 className="truncate text-sm font-semibold text-white">Ultimate Trading Playbook</h1>
+            <h1 className="truncate text-sm font-semibold text-white">Market Structure Playbook</h1>
             <p className="truncate text-[11px] text-dim">{UI.appSubtitle[lang]}</p>
           </div>
         </div>
