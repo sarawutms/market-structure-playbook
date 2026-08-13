@@ -80,7 +80,7 @@ function TradeLegCard({
         <span className="font-mono text-[13px] font-bold text-white">${price.toFixed(1)}</span>
       </div>
       <p className="mt-0.5 text-[10px] tracking-wide text-dim uppercase">{UI[meta.hint][lang]}</p>
-      <p className="mt-2 text-[12px] leading-relaxed text-muted">{pickLang(conditions, lang)}</p>
+      <p className="mt-2 text-[12px] leading-relaxed break-words text-muted">{pickLang(conditions, lang)}</p>
     </div>
   );
 }
@@ -110,7 +110,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
   const trade = scenario.trade;
 
   return (
-    <section className="border-t border-edge bg-panel p-4 lg:p-5">
+    <section className="border-t border-edge bg-panel p-4 overscroll-contain lg:max-h-[42vh] lg:overflow-y-auto lg:p-5">
       {/* Concept Explanation */}
       <div className="flex items-start gap-3">
         <span className="mt-0.5 shrink-0 rounded-md bg-accent px-2 py-1 font-mono text-xs font-bold text-white">
@@ -123,7 +123,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
           <h3 className="mt-0.5 text-base font-semibold text-white">
             {scenarioTitle(scenario, scenarioId, lang)}
           </h3>
-          <p className="mt-1 text-sm leading-relaxed text-muted">
+          <p className="mt-1 text-sm leading-relaxed break-words text-muted">
             {scenarioSummary(scenario, scenarioId, lang)}
           </p>
         </div>
@@ -143,7 +143,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
                 </span>
                 <div className="min-w-0">
                   <p className="text-[13px] font-medium text-white">{pickLang(step.title, lang)}</p>
-                  <p className="mt-0.5 text-[12px] leading-relaxed text-muted">
+                  <p className="mt-0.5 text-[12px] leading-relaxed break-words text-muted">
                     {pickLang(step.description, lang)}
                   </p>
                 </div>
@@ -167,7 +167,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
               </span>
             </div>
           </div>
-          <p className="mt-2 text-[13px] leading-relaxed text-muted">
+          <p className="mt-2 text-[13px] leading-relaxed break-words text-muted">
             {pickLang(trade.logic, lang)}
           </p>
           <div className="mt-3 grid gap-2 sm:grid-cols-3">
@@ -191,7 +191,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
               >
                 <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span>{point}</span>
+              <span className="min-w-0 break-words">{point}</span>
             </li>
           ))}
         </ul>
@@ -211,7 +211,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
                       opacity: entry.dashed ? 0.7 : 1,
                     }}
                   />
-                  {legendLabel(entry.label, scenarioId, lang)}
+                  <span className="min-w-0 break-words">{legendLabel(entry.label, scenarioId, lang)}</span>
                 </li>
               ))}
             </ul>

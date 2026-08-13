@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { CONCEPTS } from './data/concepts';
 import { SCENARIOS } from './data/scenarios';
 import type { Concept, Language } from './data/types';
@@ -17,11 +17,20 @@ export default function App() {
     [selectedId],
   );
   const scenario = SCENARIOS[concept.scenarioId];
+  const rightRef = useRef<HTMLDivElement>(null);
 
-  const handleSelect = (next: Concept) => setSelectedId(next.id);
+  const handleSelect = (next: Concept) => {
+    setSelectedId(next.id);
+    // On mobile the index sits above the chart — bring the analysis into view.
+    if (window.matchMedia('(max-width: 1023px)').matches) {
+      requestAnimationFrame(() => {
+        rightRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  };
 
   return (
-    <div className="flex h-dvh flex-col bg-terminal">
+    <div className="flex min-h-dvh flex-col bg-terminal lg:h-dvh">
       {/* Header */}
       <header className="flex shrink-0 items-center justify-between gap-3 border-b border-edge bg-panel px-4 py-3 lg:px-6">
         <div className="flex min-w-0 items-center gap-3">
@@ -58,7 +67,7 @@ export default function App() {
       <main className="flex min-h-0 flex-1 flex-col lg:flex-row">
         <ConceptList selectedId={selectedId} onSelect={handleSelect} lang={lang} />
 
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+        <div ref={rightRef} className="flex min-h-0 min-w-0 flex-1 scroll-mt-2 flex-col">
           <div className="flex min-h-0 flex-1 flex-col">
             <ChartPanel scenario={scenario} lang={lang} />
           </div>

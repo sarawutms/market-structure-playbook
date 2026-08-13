@@ -206,7 +206,8 @@ export function ChartPanel({ scenario, lang }: ChartPanelProps) {
   return (
     <div className="relative flex min-w-0 flex-1 flex-col bg-terminal">
       {/* Chart canvas (auto-resizes with the container via autoSize). */}
-      <div className="min-h-[380px] flex-1 p-3 pb-0 lg:min-h-[440px]">
+      {/* Fixed height on mobile so `h-full` always resolves; flex-1 on desktop. */}
+      <div className="h-[420px] flex-1 p-3 pb-0 lg:h-auto lg:min-h-[440px]">
         <div
           ref={containerRef}
           className="h-full w-full overflow-hidden rounded-xl border border-edge"

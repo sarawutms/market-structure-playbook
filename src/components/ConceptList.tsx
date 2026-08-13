@@ -55,7 +55,7 @@ export function ConceptList({ selectedId, onSelect, lang }: ConceptListProps) {
   const searching = query.trim().length > 0;
 
   return (
-    <aside className="flex flex-col overflow-hidden border-edge bg-panel lg:w-80 xl:w-96 lg:border-r">
+    <aside className="flex max-h-[40vh] flex-col overflow-hidden border-b border-edge bg-panel lg:max-h-none lg:w-80 lg:border-r lg:border-b-0 xl:w-96">
       {/* Header + search */}
       <div className="border-b border-edge p-4">
         <div className="mb-3 flex items-center justify-between">
@@ -88,7 +88,7 @@ export function ConceptList({ selectedId, onSelect, lang }: ConceptListProps) {
       </div>
 
       {/* Scrollable category accordion */}
-      <nav className="flex-1 overflow-y-auto p-2">
+      <nav className="flex-1 overflow-y-auto overscroll-contain p-2">
         {filtered.map((cat) => {
           const isCollapsed = !searching && collapsed.has(cat.name);
           const multiGroup = cat.groups.length > 1;
