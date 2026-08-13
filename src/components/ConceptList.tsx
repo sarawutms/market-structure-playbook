@@ -82,8 +82,20 @@ export function ConceptList({ selectedId, onSelect, lang }: ConceptListProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={UI.searchPlaceholder[lang]}
-            className="w-full rounded-lg border border-edge bg-panel-2 py-2 pr-3 pl-9 text-sm text-[#d6dae4] placeholder:text-dim focus:border-accent focus:outline-none"
+            className="w-full rounded-lg border border-edge bg-panel-2 py-2 pr-9 pl-9 text-sm text-[#d6dae4] placeholder:text-dim focus:border-accent focus:outline-none"
           />
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery('')}
+              aria-label="Clear search"
+              className="absolute top-1/2 right-2.5 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full text-dim transition-colors hover:bg-panel hover:text-muted"
+            >
+              <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
 
@@ -98,7 +110,7 @@ export function ConceptList({ selectedId, onSelect, lang }: ConceptListProps) {
               <button
                 type="button"
                 onClick={() => toggle(cat.name)}
-                className="flex w-full items-center justify-between rounded-md px-2.5 py-2 text-left text-[11px] font-semibold uppercase tracking-wider text-dim transition-colors hover:text-muted"
+                className="flex w-full items-center justify-between rounded-md px-2.5 py-2 text-left text-[11px] font-semibold uppercase tracking-wider text-dim transition-colors hover:bg-panel-2 hover:text-muted"
               >
                 <span>{categoryName(cat.name, lang)}</span>
                 <span className="flex items-center gap-1.5">
@@ -137,12 +149,15 @@ export function ConceptList({ selectedId, onSelect, lang }: ConceptListProps) {
                                 <button
                                   type="button"
                                   onClick={() => onSelect(concept)}
-                                  className={`flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left transition-colors ${
+                                  className={`relative flex w-full items-center gap-3 rounded-lg border px-3 py-2.5 text-left transition-colors ${
                                     active
                                       ? 'border-accent/60 bg-accent/10'
                                       : 'border-transparent hover:border-edge hover:bg-panel-2'
                                   }`}
                                 >
+                                  {active && (
+                                    <span className="absolute top-1/2 left-0 h-5 w-[3px] -translate-y-1/2 rounded-r-full bg-accent" />
+                                  )}
                                   <span
                                     className={`shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] font-bold tracking-wide ${
                                       active ? 'bg-accent text-white' : 'bg-panel-2 text-muted'
@@ -152,11 +167,21 @@ export function ConceptList({ selectedId, onSelect, lang }: ConceptListProps) {
                                   </span>
                                   <span className="min-w-0">
                                     <span
-                                      className={`block truncate text-[13px] font-medium ${
+                                      className={`flex items-center gap-1 truncate text-[13px] font-medium ${
                                         active ? 'text-white' : 'text-[#d6dae4]'
                                       }`}
                                     >
-                                      {conceptName(concept, lang)}
+                                      {concept.category === 'Trading Playbook' && (
+                                        <svg
+                                          className="h-3 w-3 shrink-0 text-amber-400"
+                                          viewBox="0 0 24 24"
+                                          fill="currentColor"
+                                          aria-label={UI.featured[lang]}
+                                        >
+                                          <path d="m12 2 2.9 6.26L21.5 9.27l-4.75 4.53 1.12 6.7L12 17.27l-5.87 3.23 1.12-6.7L2.5 9.27l6.6-1.01L12 2z" />
+                                        </svg>
+                                      )}
+                                      <span className="truncate">{conceptName(concept, lang)}</span>
                                     </span>
                                     <span className="block truncate text-[11px] text-dim">
                                       {conceptDescription(concept, lang)}

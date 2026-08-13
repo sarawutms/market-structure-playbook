@@ -96,6 +96,18 @@ export const UI = {
     en: 'Target selection logic',
     th: 'ตรรกะการเลือกเป้าหมาย',
   },
+  instrument: {
+    en: 'XAUUSD · Simulated',
+    th: 'XAUUSD · ข้อมูลจำลอง',
+  },
+  featured: {
+    en: 'Featured setup',
+    th: 'เซ็ตอัปเด่น',
+  },
+  disclaimer: {
+    en: 'For education only — all data is simulated. Not financial advice.',
+    th: 'เพื่อการศึกษาเท่านั้น — ข้อมูลทั้งหมดเป็นข้อมูลจำลอง ไม่ใช่คำแนะนำทางการเงิน',
+  },
 } as const;
 
 /* ---------------------------------------------------------------------------

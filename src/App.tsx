@@ -34,7 +34,7 @@ export default function App() {
       {/* Header */}
       <header className="flex shrink-0 items-center justify-between gap-3 border-b border-edge bg-panel px-4 py-3 lg:px-6">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/15">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-gradient-to-br from-accent/30 to-accent/5">
             <svg
               className="h-4.5 w-4.5 text-accent"
               viewBox="0 0 24 24"
@@ -49,6 +49,10 @@ export default function App() {
             <h1 className="truncate text-sm font-semibold text-white">Market Structure Playbook</h1>
             <p className="truncate text-[11px] text-dim">{UI.appSubtitle[lang]}</p>
           </div>
+          <span className="hidden shrink-0 items-center gap-1.5 rounded-full border border-edge bg-panel-2 px-2.5 py-1 font-mono text-[11px] text-muted md:flex">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-bull" />
+            {UI.instrument[lang]}
+          </span>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <div className="hidden items-center gap-2 sm:flex">
@@ -74,6 +78,11 @@ export default function App() {
           <ExplanationCard concept={concept} scenario={scenario} scenarioId={concept.scenarioId} lang={lang} />
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="shrink-0 border-t border-edge bg-panel px-4 py-2 text-center text-[11px] text-dim">
+        {UI.disclaimer[lang]}
+      </footer>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Concept, ConceptScenario, Language, Localizable, TradeDirection } from '../data/types';
 import { TH_SCENARIOS } from '../i18n/scenarios';
 import { UI, pickLang, stepMark } from '../i18n/ui';
@@ -85,6 +86,15 @@ function TradeLegCard({
   );
 }
 
+function SectionHeading({ children }: { children: ReactNode }) {
+  return (
+    <h4 className="flex items-center gap-2 text-[11px] font-semibold tracking-wider text-dim uppercase">
+      <span className="h-3 w-1 rounded-full bg-accent" />
+      {children}
+    </h4>
+  );
+}
+
 function DirectionBadge({ direction, lang }: { direction: TradeDirection; lang: Language }) {
   const long = direction === 'long';
   const label = long ? UI.long[lang] : UI.short[lang];
@@ -117,9 +127,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
           {concept.tag}
         </span>
         <div className="min-w-0">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-dim">
-            {UI.conceptExplanation[lang]}
-          </p>
+          <SectionHeading>{UI.conceptExplanation[lang]}</SectionHeading>
           <h3 className="mt-0.5 text-base font-semibold text-white">
             {scenarioTitle(scenario, scenarioId, lang)}
           </h3>
@@ -132,13 +140,14 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
       {/* Chart Breakdown — the numbered ① ② ③ sequence, step by step */}
       {trade && trade.steps.length > 0 && (
         <div className="mt-4 border-t border-edge pt-4">
-          <h4 className="text-[11px] font-semibold tracking-wider text-dim uppercase">
-            {UI.chartBreakdown[lang]}
-          </h4>
-          <ol className="mt-3 space-y-3">
-            {trade.steps.map((step) => (
-              <li key={step.n} className="flex gap-3">
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-accent/30 bg-accent/10 font-mono text-[13px] font-bold text-accent">
+          <SectionHeading>{UI.chartBreakdown[lang]}</SectionHeading>
+          <ol className="mt-3">
+            {trade.steps.map((step, i) => (
+              <li key={step.n} className="relative flex gap-3 pb-4 last:pb-0">
+                {i < trade.steps.length - 1 && (
+                  <span className="absolute top-6 bottom-1 left-[11px] w-px bg-edge" />
+                )}
+                <span className="relative z-10 mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-accent/30 bg-panel-2 font-mono text-[13px] font-bold text-accent">
                   {stepMark(step.n)}
                 </span>
                 <div className="min-w-0">
@@ -157,9 +166,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
       {trade && (
         <div className="mt-4 border-t border-edge pt-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h4 className="text-[11px] font-semibold tracking-wider text-dim uppercase">
-              {UI.howToTrade[lang]}
-            </h4>
+            <SectionHeading>{UI.howToTrade[lang]}</SectionHeading>
             <div className="flex items-center gap-2">
               <DirectionBadge direction={trade.direction} lang={lang} />
               <span className="rounded-full border border-edge bg-panel-2 px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider text-muted">
@@ -198,9 +205,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
 
         {scenario.legend && scenario.legend.length > 0 && (
           <div className="sm:w-44">
-            <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-dim">
-              {UI.chartLegend[lang]}
-            </p>
+            <SectionHeading>{UI.chartLegend[lang]}</SectionHeading>
             <ul className="space-y-1.5">
               {scenario.legend.map((entry) => (
                 <li key={legendLabel(entry.label, scenarioId, lang)} className="flex items-center gap-2 text-[12px] text-muted">
