@@ -1,4 +1,6 @@
-# Market Structure Lab
+# Market Structure Playbook · Ultimate Trading Playbook
+
+> **Live demo:** https://sarawutms.github.io/Market-Structure-Playbook/
 
 An interactive educational web app for learning **price action** and
 **Smart Money Concepts (SMC)**, plus Wyckoff, ICT, volume analysis and more —
