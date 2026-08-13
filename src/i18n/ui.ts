@@ -1,0 +1,239 @@
+import type { Concept, Language, Localizable } from '../data/types';
+
+/* ---------------------------------------------------------------------------
+ * Helpers
+ * ------------------------------------------------------------------------- */
+
+/** Resolves a `Localizable` to the active language (plain strings = English). */
+export function pickLang(text: Localizable, lang: Language): string {
+  return typeof text === 'string' ? text : text[lang] ?? text.en;
+}
+
+/** Returns the circled number glyph for a step (1 → ①, 2 → ②, …). */
+export function stepMark(n: number): string {
+  const GLYPHS = '①②③④⑤⑥⑦⑧⑨⑩';
+  return GLYPHS[n - 1] ?? String(n);
+}
+
+/* ---------------------------------------------------------------------------
+ * UI chrome strings (nested en / th)
+ * ------------------------------------------------------------------------- */
+
+export const UI = {
+  appSubtitle: {
+    en: 'Learn SMC, ICT, Wyckoff & price action on simulated charts',
+    th: 'เรียนรู้ SMC, ICT, Wyckoff และ Price Action บนกราฟจำลอง',
+  },
+  playbookIndex: {
+    en: 'Playbook Index',
+    th: 'ดัชนีเพลย์บุ๊ก',
+  },
+  concepts: {
+    en: 'concepts',
+    th: 'แนวคิด',
+  },
+  candles: {
+    en: 'candles',
+    th: 'แท่งเทียน',
+  },
+  searchPlaceholder: {
+    en: 'Search concepts…',
+    th: 'ค้นหาแนวคิด…',
+  },
+  noMatches: {
+    en: 'No concepts match “{q}”.',
+    th: 'ไม่พบแนวคิดที่ตรงกับ “{q}”',
+  },
+  conceptExplanation: {
+    en: 'Concept Explanation',
+    th: 'คำอธิบายรูปแบบ',
+  },
+  chartBreakdown: {
+    en: 'Chart Breakdown',
+    th: 'การอ่านกราฟทีละสเต็ป',
+  },
+  actionPlan: {
+    en: 'Action Plan',
+    th: 'แผนการเทรด',
+  },
+  howToTrade: {
+    en: 'How to Trade',
+    th: 'วิธีหาจุดเข้าและออกออเดอร์',
+  },
+  chartLegend: {
+    en: 'Chart legend',
+    th: 'คำอธิบายแผนภูมิ',
+  },
+  long: {
+    en: 'LONG',
+    th: 'ซื้อ (LONG)',
+  },
+  short: {
+    en: 'SHORT',
+    th: 'ขาย (SHORT)',
+  },
+  entry: {
+    en: 'How to find Entry',
+    th: 'วิธีหาจุดเข้า',
+  },
+  stopLoss: {
+    en: 'How to set SL',
+    th: 'วิธีตั้งจุดตัดขาดทุน',
+  },
+  takeProfit: {
+    en: 'How to set TP',
+    th: 'วิธีตั้งจุดทำกำไร',
+  },
+  entryHint: {
+    en: 'Entry trigger criteria',
+    th: 'เงื่อนไขการเปิดออเดอร์',
+  },
+  slHint: {
+    en: 'Invalidation logic',
+    th: 'ตรรกะการยกเลิกออเดอร์',
+  },
+  tpHint: {
+    en: 'Target selection logic',
+    th: 'ตรรกะการเลือกเป้าหมาย',
+  },
+} as const;
+
+/* ---------------------------------------------------------------------------
+ * Sidebar taxonomy — Thai translations keyed by the internal English name.
+ * Technical abbreviations (BOS, OB, FVG…) stay unchanged in both languages.
+ * ------------------------------------------------------------------------- */
+
+export const TH_CATEGORIES: Record<string, string> = {
+  'Trading Playbook': 'เพลย์บุ๊กการเทรด',
+  'Basic Structure': 'โครงสร้างพื้นฐาน',
+  'SMC & ICT': 'SMC & ICT',
+  'Wyckoff Logic': 'ทฤษฎี Wyckoff',
+  'Advanced PA': 'Price Action ขั้นสูง',
+  'Wave & Harmonics': 'ทฤษฎีคลื่นและฮาร์โมนิก',
+  'Volume & Systematic': 'ปริมาณการซื้อขายและระบบเทรด',
+};
+
+export const TH_GROUPS: Record<string, string> = {
+  'Featured Setups': 'เซ็ตอัปเด่น',
+  'Price Levels': 'ระดับราคา',
+  'Trend Structure': 'โครงสร้างแนวโน้ม',
+  'Market Regime': 'สภาวะตลาด',
+  Momentum: 'โมเมนตัม',
+  'Structure Shifts': 'การเปลี่ยนโครงสร้าง',
+  'Fractal Structure': 'โครงสร้างแฟร็กทัล',
+  'SMC & ICT': 'SMC & ICT',
+  Wyckoff: 'Wyckoff',
+  'Candlestick Patterns': 'รูปแบบแท่งเทียน',
+  'Structural Patterns': 'รูปแบบโครงสร้าง',
+  'Elliott Wave': 'คลื่น Elliott',
+  Harmonics: 'ฮาร์โมนิก',
+  VSA: 'VSA',
+  'Volume Profile': 'Volume Profile',
+  Ichimoku: 'Ichimoku',
+  'Trend Following': 'การเทรดตามเทรนด์',
+  'Mean Reversion': 'การกลับสู่ค่าเฉลี่ย',
+};
+
+/** Thai concept names + descriptions, keyed by concept id. */
+export const TH_CONCEPTS: Record<string, { name: string; description: string }> = {
+  'playbook-ob': {
+    name: 'การเข้าเทรด Order Block',
+    description: 'Buy: กวาดสภาพคล่อง → CHoCH → รีเทสต์ OB',
+  },
+  'playbook-fvg': {
+    name: 'การเติมช่องว่าง FVG',
+    description: 'Buy: พุ่งแรงทิ้งช่องว่าง → เติมเต็ม → เดินต่อ',
+  },
+  'playbook-spring': {
+    name: 'Spring ของ Wyckoff',
+    description: 'Buy: เขย่ากรอบราคา → ปิดกลับเข้ากรอบ',
+  },
+  'playbook-qml': {
+    name: 'การกลับตัว QML',
+    description: 'Short: Higher High → เบรกแนวคอ → รีเทสต์',
+  },
+  'playbook-bat': {
+    name: 'เซ็ตอัป Bat ขาลง',
+    description: 'Short: XA พุ่ง → D ที่ 0.886 → เข้าที่ PRZ',
+  },
+  'playbook-vsa': {
+    name: 'VSA: ปริมาณหยุด',
+    description: 'Buy: ไคลแมกซ์ที่แนวรับ → ไร้ดีมานด์ → SOS เข้า',
+  },
+  'playbook-uptrend': {
+    name: 'การต่อเนื่องเทรนด์ขาขึ้น',
+    description: 'Buy: HH/HL → BOS → ย่อแล้วเข้า',
+  },
+  bat: {
+    name: 'รูปแบบ Bat',
+    description: 'โครงสร้างกลับตัวที่ Fibonacci 0.886',
+  },
+  turtle: {
+    name: 'Turtle Trading',
+    description: 'ระบบเบรกเอาท์ 20 วัน พร้อม Stop แบบ ATR',
+  },
+  high: { name: 'จุดสูงสุด', description: 'ราคาสูงสุดที่ซื้อขายได้ในหนึ่งช่วงเวลา' },
+  low: { name: 'จุดต่ำสุด', description: 'ราคาต่ำสุดที่ซื้อขายได้ในหนึ่งช่วงเวลา' },
+  'swing-high': { name: 'Swing High', description: 'จุดหมุนที่ราคาพลิกกลับลง' },
+  'swing-low': { name: 'Swing Low', description: 'จุดหมุนที่ราคาพลิกกลับขึ้น' },
+  hh: { name: 'Higher High', description: 'Swing High ที่สูงกว่า Swing High ก่อนหน้า' },
+  hl: { name: 'Higher Low', description: 'Swing Low ที่สูงกว่า Swing Low ก่อนหน้า' },
+  lh: { name: 'Lower High', description: 'Swing High ที่ต่ำกว่า Swing High ก่อนหน้า' },
+  ll: { name: 'Lower Low', description: 'Swing Low ที่ต่ำกว่า Swing Low ก่อนหน้า' },
+  eqh: { name: 'Equal Highs', description: 'Swing High ที่เกิดขึ้นในระดับราคาเท่ากัน' },
+  eql: { name: 'Equal Lows', description: 'Swing Low ที่เกิดขึ้นในระดับราคาเท่ากัน' },
+  uptrend: { name: 'เทรนด์ขาขึ้น', description: 'ลำดับ HH / HL — ผู้ซื้อควบคุมตลาด' },
+  downtrend: { name: 'เทรนด์ขาลง', description: 'ลำดับ LH / LL — ผู้ขายควบคุมตลาด' },
+  sideway: { name: 'Sideways / กรอบราคา', description: 'ไม่มีเทรนด์ — ราคาแกว่งระหว่าง EQH และ EQL' },
+  impulse: { name: 'จังหวะพุ่งแรง', description: 'ขาที่แข็งแรงและมีทิศทางของเทรนด์' },
+  pullback: { name: 'การย่อตัว', description: 'การย่อทวนเทรนด์หลังจังหวะพุ่งแรง' },
+  bos: { name: 'การเบรกโครงสร้าง', description: 'เบรกจุดสวิงสุดท้าย — เทรนด์เดินต่อ' },
+  choch: { name: 'การเปลี่ยนลักษณะ', description: 'การเบรกโครงสร้างครั้งแรกที่สวนเทรนด์' },
+  mss: { name: 'การเปลี่ยนโครงสร้างตลาด', description: 'เบรกโครงสร้างภายในหลังการดันครั้งสุดท้าย' },
+  'internal-structure': { name: 'โครงสร้างภายใน', description: 'สวิงย่อยที่ประกอบเป็นขาใหญ่' },
+  'external-structure': { name: 'โครงสร้างภายนอก', description: 'สวิงหลักที่กำหนดเทรนด์โดยรวม' },
+  'order-block': { name: 'Order Block', description: 'แท่งสีตรงข้ามแท่งสุดท้ายก่อนการพุ่งแรง' },
+  fvg: { name: 'Fair Value Gap', description: 'ความไม่สมดุลจากการพุ่ง 3 แท่ง' },
+  'liquidity-sweep': { name: 'การกวาดสภาพคล่อง', description: 'ไส้เทียนที่กวาด Stop ก่อนพลิกกลับ' },
+  inducement: { name: 'Inducement', description: 'ระดับเล็ก ๆ ที่ถูกสร้างเพื่อล่อการเข้าเทรด' },
+  'kill-zones': { name: 'Kill Zones', description: 'เซสชันลอนดอนและนิวยอร์กที่สภาพคล่องเคลื่อนไหว' },
+  accumulation: { name: 'การสะสม', description: 'เม็ดเงินใหญ่ซื้อในขณะที่ราคาอยู่ในกรอบ' },
+  spring: { name: 'Spring', description: 'การเขย่าใต้กรอบที่ดัก Short' },
+  markup: { name: 'ช่วงขึ้น', description: 'ช่วงรีบาวด์หลังการสะสม' },
+  distribution: { name: 'การกระจาย', description: 'เม็ดเงินใหญ่ขายในขณะที่ราคาสร้างยอด' },
+  utad: { name: 'UTAD', description: 'การดันขึ้นครั้งสุดท้ายหลังการกระจาย — กับดักสุดท้าย' },
+  doji: { name: 'โดจิ', description: 'แท่งเทียนที่ไม่มีตัวแท่ง — ความลังเล' },
+  engulfing: { name: 'Engulfing', description: 'แท่งเทียนที่กลืนแท่งก่อนหน้าทั้งแท่ง' },
+  qml: { name: 'Quasimodo', description: 'Higher High, เบรกแนวคอ, และรีเทสต์' },
+  'supply-demand': { name: 'โซน Supply & Demand', description: 'โซนที่สถาบันทิ้งรอยเท้าเอาไว้' },
+  'elliott-wave': { name: 'คลื่น Elliott', description: 'คลื่น impulse 5 ลูกและการปรับฐาน 3 ลูก' },
+  harmonic: { name: 'รูปแบบฮาร์โมนิก', description: 'รูปแบบ X-A-B-C-D ที่สร้างจาก Fibonacci' },
+  vsa: { name: 'Volume Spread Analysis', description: 'อ่านซัปพลาย/ดีมานด์จากวอลุ่มและสเปรด' },
+  'volume-profile': { name: 'Volume Profile & POC', description: 'วอลุ่มรายระดับราคา — จุดที่มูลค่าอยู่' },
+  ichimoku: { name: 'เมฆ Ichimoku', description: 'Tenkan, Kijun, เมฆ และ Chikou ในระบบเดียว' },
+  'mean-reversion': { name: 'การกลับสู่ค่าเฉลี่ย', description: 'เทรดการย่อกลับเข้าหาค่าเฉลี่ย (BB)' },
+};
+
+/** Resolves a category display name for the current language. */
+export function categoryName(name: string, lang: Language): string {
+  if (lang === 'th' && TH_CATEGORIES[name]) return TH_CATEGORIES[name];
+  return name;
+}
+
+/** Resolves a group heading for the current language. */
+export function groupName(name: string, lang: Language): string {
+  if (lang === 'th' && TH_GROUPS[name]) return TH_GROUPS[name];
+  return name;
+}
+
+/** Resolves a concept's display name for the current language. */
+export function conceptName(concept: Concept, lang: Language): string {
+  if (lang === 'th' && TH_CONCEPTS[concept.id]) return TH_CONCEPTS[concept.id].name;
+  return concept.name;
+}
+
+/** Resolves a concept's one-line description for the current language. */
+export function conceptDescription(concept: Concept, lang: Language): string {
+  if (lang === 'th' && TH_CONCEPTS[concept.id]) return TH_CONCEPTS[concept.id].description;
+  return concept.description;
+}

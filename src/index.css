@@ -1,0 +1,53 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+ * Global app theme (dark trading-terminal palette)
+ * ------------------------------------------------------------------------- */
+@theme {
+  --color-terminal: #0b0e14;      /* app background               */
+  --color-panel: #10141d;         /* card / panel background      */
+  --color-panel-2: #151a25;       /* raised surface               */
+  --color-edge: #1f2634;          /* borders                      */
+  --color-muted: #8b94a7;         /* secondary text               */
+  --color-dim: #5b6478;           /* tertiary text                */
+  --color-bull: #0ecb81;          /* bullish green                */
+  --color-bear: #f6465d;          /* bearish red                  */
+  --color-accent: #4f8cff;        /* brand / selection accent     */
+  /* Prompt covers Latin + Thai with one family; falls back to system fonts. */
+  --font-sans: 'Prompt', 'Noto Sans Thai', ui-sans-serif, system-ui,
+    -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, Consolas,
+    monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-terminal);
+  color: #d6dae4;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Slim, dark scrollbars for the learning hub */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2a3344 transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #2a3344;
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
