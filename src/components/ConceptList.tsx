@@ -13,6 +13,8 @@ interface ConceptListProps {
   selectedId: string;
   onSelect: (concept: Concept) => void;
   lang: Language;
+  /** Mobile drawer mode — fills the viewport height instead of a capped strip. */
+  drawer?: boolean;
 }
 
 /**
@@ -22,7 +24,7 @@ interface ConceptListProps {
  * names, concept names and descriptions switch between Thai and English;
  * technical abbreviations (BOS, OB, FVG…) stay unchanged.
  */
-export function ConceptList({ selectedId, onSelect, lang }: ConceptListProps) {
+export function ConceptList({ selectedId, onSelect, lang, drawer = false }: ConceptListProps) {
   const [query, setQuery] = useState('');
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
 
@@ -55,7 +57,13 @@ export function ConceptList({ selectedId, onSelect, lang }: ConceptListProps) {
   const searching = query.trim().length > 0;
 
   return (
-    <aside className="flex max-h-[40vh] flex-col overflow-hidden border-b border-edge bg-panel lg:max-h-none lg:w-80 lg:border-r lg:border-b-0 xl:w-96">
+    <aside
+      className={`flex flex-col overflow-hidden border-b border-edge bg-panel ${
+        drawer
+          ? 'h-full w-full border-b-0'
+          : 'max-h-[40vh] lg:max-h-none lg:w-80 lg:border-r lg:border-b-0 xl:w-96'
+      }`}
+    >
       {/* Header + search */}
       <div className="border-b border-edge p-4">
         <div className="mb-3 flex items-center justify-between">

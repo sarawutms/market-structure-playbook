@@ -116,6 +116,14 @@ export const UI = {
     en: 'Scroll / pinch to zoom · drag to pan',
     th: 'เลื่อนล้อหรือบีบสองนิ้วเพื่อซูม · ลากเพื่อเลื่อนกราฟ',
   },
+  openMenu: {
+    en: 'Open playbook index',
+    th: 'เปิดดัชนีเพลย์บุ๊ก',
+  },
+  closeMenu: {
+    en: 'Close playbook index',
+    th: 'ปิดดัชนีเพลย์บุ๊ก',
+  },
   featured: {
     en: 'Featured setup',
     th: 'เซ็ตอัปเด่น',
