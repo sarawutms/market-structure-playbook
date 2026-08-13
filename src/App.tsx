@@ -8,10 +8,32 @@ import { ExplanationCard } from './components/ExplanationCard';
 import { LanguageToggle } from './components/LanguageToggle';
 import { UI } from './i18n/ui';
 
+/** localStorage key for the UI language preference (persists across reloads). */
+const LANG_STORAGE_KEY = 'playbook.lang';
+
+/** Reads the saved language; falls back to English when absent or invalid. */
+function loadSavedLang(): Language {
+  try {
+    const saved = localStorage.getItem(LANG_STORAGE_KEY);
+    return saved === 'th' || saved === 'en' ? saved : 'en';
+  } catch {
+    return 'en'; // localStorage unavailable (private mode, etc.)
+  }
+}
+
 export default function App() {
   const [selectedId, setSelectedId] = useState('playbook-ob');
-  const [lang, setLang] = useState<Language>('en');
+  const [lang, setLang] = useState<Language>(loadSavedLang);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // Persist the language choice so it survives page reloads.
+  useEffect(() => {
+    try {
+      localStorage.setItem(LANG_STORAGE_KEY, lang);
+    } catch {
+      /* ignore — storage unavailable */
+    }
+  }, [lang]);
 
   const concept = useMemo(
     () => CONCEPTS.find((c) => c.id === selectedId) ?? CONCEPTS[0],
