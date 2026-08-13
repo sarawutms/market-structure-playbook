@@ -74,21 +74,21 @@ function TradeLegCard({
   return (
     <div className="rounded-lg border border-edge bg-panel-2 p-3" style={{ borderTop: `2px solid ${meta.color}` }}>
       <div className="flex items-center justify-between gap-2">
-        <span className="flex items-center gap-1.5 text-[11px] font-bold tracking-wide uppercase" style={{ color: meta.color }}>
+        <span className="flex items-center gap-1.5 text-xs font-bold tracking-wide uppercase" style={{ color: meta.color }}>
           <span className="inline-block h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: meta.color }} />
           {UI[meta.ui][lang]}
         </span>
-        <span className="font-mono text-[13px] font-bold text-white">${price.toFixed(1)}</span>
+        <span className="font-mono text-sm font-bold text-white">${price.toFixed(1)}</span>
       </div>
-      <p className="mt-0.5 text-[10px] tracking-wide text-dim uppercase">{UI[meta.hint][lang]}</p>
-      <p className="mt-2 text-[12px] leading-relaxed break-words text-muted">{pickLang(conditions, lang)}</p>
+      <p className="mt-0.5 text-[11px] tracking-wide text-muted uppercase">{UI[meta.hint][lang]}</p>
+      <p className="mt-2 text-[13px] leading-[1.7] break-words text-[#c9d1e0]">{pickLang(conditions, lang)}</p>
     </div>
   );
 }
 
 function SectionHeading({ children }: { children: ReactNode }) {
   return (
-    <h4 className="flex items-center gap-2 text-[11px] font-semibold tracking-wider text-dim uppercase">
+    <h4 className="flex items-center gap-2 text-xs font-semibold tracking-wider text-muted uppercase">
       <span className="h-3 w-1 rounded-full bg-accent" />
       {children}
     </h4>
@@ -131,7 +131,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
           <h3 className="mt-0.5 text-base font-semibold text-white">
             {scenarioTitle(scenario, scenarioId, lang)}
           </h3>
-          <p className="mt-1 text-sm leading-relaxed break-words text-muted">
+          <p className="mt-1 text-[15px] leading-[1.7] break-words text-[#c9d1e0]">
             {scenarioSummary(scenario, scenarioId, lang)}
           </p>
         </div>
@@ -151,8 +151,8 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
                   {stepMark(step.n)}
                 </span>
                 <div className="min-w-0">
-                  <p className="text-[13px] font-medium text-white">{pickLang(step.title, lang)}</p>
-                  <p className="mt-0.5 text-[12px] leading-relaxed break-words text-muted">
+                  <p className="text-sm font-medium text-white">{pickLang(step.title, lang)}</p>
+                  <p className="mt-0.5 text-[13px] leading-[1.7] break-words text-[#c9d1e0]">
                     {pickLang(step.description, lang)}
                   </p>
                 </div>
@@ -174,7 +174,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
               </span>
             </div>
           </div>
-          <p className="mt-2 text-[13px] leading-relaxed break-words text-muted">
+          <p className="mt-2 text-sm leading-[1.7] break-words text-[#c9d1e0]">
             {pickLang(trade.logic, lang)}
           </p>
           <div className="mt-3 grid gap-2 sm:grid-cols-3">
@@ -188,9 +188,9 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
       <div className="mt-4 grid gap-4 sm:grid-cols-[1fr_auto]">
         <ul className="space-y-1.5">
           {scenarioKeyPoints(scenario, scenarioId, lang).map((point) => (
-            <li key={point} className="flex gap-2 text-[13px] leading-relaxed text-muted">
+            <li key={point} className="flex gap-2.5 text-sm leading-[1.7]">
               <svg
-                className="mt-1 h-3.5 w-3.5 shrink-0 text-accent"
+                className="mt-1 h-4 w-4 shrink-0 text-accent"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -198,7 +198,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
               >
                 <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span className="min-w-0 break-words">{point}</span>
+              <span className="min-w-0 break-words text-[#c9d1e0]">{point}</span>
             </li>
           ))}
         </ul>
@@ -208,7 +208,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
             <SectionHeading>{UI.chartLegend[lang]}</SectionHeading>
             <ul className="space-y-1.5">
               {scenario.legend.map((entry) => (
-                <li key={legendLabel(entry.label, scenarioId, lang)} className="flex items-center gap-2 text-[12px] text-muted">
+                <li key={legendLabel(entry.label, scenarioId, lang)} className="flex items-center gap-2 text-[13px] text-muted">
                   <span
                     className="inline-block h-[3px] w-5 shrink-0 rounded-full"
                     style={{

@@ -212,28 +212,28 @@ export function ChartPanel({ scenario, lang }: ChartPanelProps) {
       {trade && (
         <div className="flex flex-wrap items-center gap-1.5 px-3 pt-3">
           <span
-            className={`flex items-center gap-1.5 rounded-md border px-2 py-1 font-mono text-[11px] font-bold tracking-wider ${
+            className={`flex items-center gap-1.5 rounded-md border px-2 py-1 font-mono text-xs font-bold tracking-wider ${
               long ? 'border-bull/40 bg-bull/10 text-bull' : 'border-bear/40 bg-bear/10 text-bear'
             }`}
           >
             {long ? '▲ LONG' : '▼ SHORT'}
           </span>
-          <span className="rounded-md border border-accent/30 bg-accent/10 px-2 py-1 font-mono text-[11px] font-bold text-accent">
+          <span className="rounded-md border border-accent/30 bg-accent/10 px-2 py-1 font-mono text-xs font-bold text-accent">
             R:R {trade.riskReward}
           </span>
-          <span className="flex items-center gap-1.5 rounded-md border border-edge bg-panel-2 px-2 py-1 font-mono text-[11px]">
+          <span className="flex items-center gap-1.5 rounded-md border border-edge bg-panel-2 px-2 py-1 font-mono text-xs">
             <span className="h-2 w-2 rounded-full bg-[#0ecb81]" />
-            <span className="text-dim">Entry</span>
+            <span className="text-muted">Entry</span>
             <span className="font-bold text-white">{trade.entry.price.toFixed(1)}</span>
           </span>
-          <span className="flex items-center gap-1.5 rounded-md border border-edge bg-panel-2 px-2 py-1 font-mono text-[11px]">
+          <span className="flex items-center gap-1.5 rounded-md border border-edge bg-panel-2 px-2 py-1 font-mono text-xs">
             <span className="h-2 w-2 rounded-full bg-[#f6465d]" />
-            <span className="text-dim">SL</span>
+            <span className="text-muted">SL</span>
             <span className="font-bold text-white">{trade.sl.price.toFixed(1)}</span>
           </span>
-          <span className="flex items-center gap-1.5 rounded-md border border-edge bg-panel-2 px-2 py-1 font-mono text-[11px]">
+          <span className="flex items-center gap-1.5 rounded-md border border-edge bg-panel-2 px-2 py-1 font-mono text-xs">
             <span className="h-2 w-2 rounded-full bg-[#4f8cff]" />
-            <span className="text-dim">TP</span>
+            <span className="text-muted">TP</span>
             <span className="font-bold text-white">{trade.tp.price.toFixed(1)}</span>
           </span>
         </div>

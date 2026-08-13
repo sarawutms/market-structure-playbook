@@ -9,8 +9,8 @@ export const chartOptions: DeepPartial<ChartOptions> = {
   autoSize: true,
   layout: {
     background: { type: ColorType.Solid, color: CHART_BG },
-    textColor: '#8b94a7',
-    fontSize: 11,
+    textColor: '#9aa4b9',
+    fontSize: 12,
     attributionLogo: false,
   },
   grid: {
