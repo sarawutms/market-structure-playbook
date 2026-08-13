@@ -223,7 +223,7 @@ export function ChartPanel({ scenario, lang }: ChartPanelProps) {
   const long = trade?.direction === 'long';
 
   return (
-    <div className="relative flex min-w-0 flex-1 flex-col bg-terminal">
+    <div className="relative flex min-h-0 min-w-0 flex-1 flex-col bg-terminal">
       {/* Status bar — trade direction, R:R and the Entry / SL / TP legend */}
       {trade && (
         <div className="flex flex-wrap items-center gap-1.5 px-3 pt-3">
@@ -257,7 +257,7 @@ export function ChartPanel({ scenario, lang }: ChartPanelProps) {
 
       {/* Chart canvas (auto-resizes with the container via autoSize). */}
       {/* Fixed height on mobile so `h-full` always resolves; flex-1 on desktop. */}
-      <div className="relative h-[420px] flex-1 p-3 pb-0 lg:h-auto lg:min-h-[440px]">
+      <div className="relative h-[420px] shrink-0 p-3 pb-0 lg:h-auto lg:min-h-0 lg:shrink lg:flex-1">
         <div
           ref={containerRef}
           className="h-full w-full overflow-hidden rounded-xl border border-edge"

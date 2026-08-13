@@ -120,7 +120,7 @@ export function ExplanationCard({ concept, scenario, scenarioId, lang }: Explana
   const trade = scenario.trade;
 
   return (
-    <section className="border-t border-edge bg-panel p-4 overscroll-contain lg:max-h-[42vh] lg:overflow-y-auto lg:p-5">
+    <section className="shrink-0 border-t border-edge bg-panel p-4 overscroll-contain lg:max-h-[35vh] lg:shrink-0 lg:overflow-y-auto lg:p-5">
       {/* Concept Explanation */}
       <div className="flex items-start gap-3">
         <span className="mt-0.5 shrink-0 rounded-md bg-accent px-2 py-1 font-mono text-xs font-bold text-white">
