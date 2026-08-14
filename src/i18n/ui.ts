@@ -116,6 +116,71 @@ export const UI = {
     en: 'Scroll / pinch to zoom · drag to pan',
     th: 'เลื่อนล้อหรือบีบสองนิ้วเพื่อซูม · ลากเพื่อเลื่อนกราฟ',
   },
+  /* Bar Replay (simulation mode) — practice trading on the chart. */
+  replayMode: {
+    en: 'Bar Replay',
+    th: 'โหมดจำลอง',
+  },
+  exitReplay: {
+    en: 'Exit Replay',
+    th: 'ออกจากโหมดจำลอง',
+  },
+  replayPickHint: {
+    en: 'Pick a line to place it on the chart',
+    th: 'คลิกปุ่มเพื่อหยิบเส้นไปวางบนกราฟ',
+  },
+  replayDragHint: {
+    en: 'Drag the mouse to position… click the chart to confirm',
+    th: 'กำลังเลื่อนเมาส์เพื่อวางเส้น... (คลิกกราฟเพื่อยืนยัน)',
+  },
+  draftEntry: {
+    en: 'ENTRY',
+    th: 'จุดเข้า',
+  },
+  placeOrder: {
+    en: 'PLACE ORDER',
+    th: 'วางคำสั่ง',
+  },
+  pendingStatus: {
+    en: 'PENDING',
+    th: 'รอเข้า',
+  },
+  tpHitStatus: {
+    en: 'TP HIT',
+    th: 'ถึง TP',
+  },
+  slHitStatus: {
+    en: 'SL HIT',
+    th: 'โดน SL',
+  },
+  closePosition: {
+    en: 'CLOSE',
+    th: 'ปิด',
+  },
+  clearPosition: {
+    en: 'CLEAR',
+    th: 'ล้าง',
+  },
+  nextCandle: {
+    en: 'Next Candle',
+    th: 'แท่งถัดไป',
+  },
+  nextShort: {
+    en: 'Next',
+    th: 'ถัดไป',
+  },
+  replayLong: {
+    en: 'LONG',
+    th: 'ซื้อ',
+  },
+  replayShort: {
+    en: 'SHORT',
+    th: 'ขาย',
+  },
+  resetChartView: {
+    en: 'Reset Chart View',
+    th: 'รีเซ็ตมุมมองกราฟ',
+  },
   timeframe: {
     en: 'Timeframe',
     th: 'ไทม์เฟรม',
