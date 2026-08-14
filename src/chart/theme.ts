@@ -1,15 +1,15 @@
-import { ColorType, CrosshairMode, type DeepPartial, type ChartOptions, type CandlestickSeriesPartialOptions } from 'lightweight-charts';
+import { ColorType, CrosshairMode, LineStyle, type DeepPartial, type ChartOptions, type CandlestickSeriesPartialOptions } from 'lightweight-charts';
 
 /** Dark trading-terminal palette for the chart. */
-export const CHART_BG = '#10141d';
-export const CHART_GRID = 'rgba(31, 38, 52, 0.55)';
-export const CHART_BORDER = '#1f2634';
+export const CHART_BG = 'transparent';
+export const CHART_GRID = 'rgba(255, 255, 255, 0.04)';
+export const CHART_BORDER = 'rgba(255, 255, 255, 0.08)';
 
 export const chartOptions: DeepPartial<ChartOptions> = {
   autoSize: true,
   layout: {
-    background: { type: ColorType.Solid, color: CHART_BG },
-    textColor: '#9aa4b9',
+    background: { type: ColorType.Solid, color: 'transparent' },
+    textColor: '#94a3b8',
     fontSize: 12,
     attributionLogo: false,
   },
@@ -18,14 +18,27 @@ export const chartOptions: DeepPartial<ChartOptions> = {
     horzLines: { color: CHART_GRID },
   },
   crosshair: {
-    mode: CrosshairMode.Normal,
-    vertLine: { color: '#3a4458', labelBackgroundColor: '#3a4458' },
-    horzLine: { color: '#3a4458', labelBackgroundColor: '#3a4458' },
+    mode: CrosshairMode.Magnet,
+    vertLine: { 
+      color: 'rgba(245, 158, 11, 0.6)', 
+      width: 1, 
+      style: LineStyle.Dashed, 
+      labelBackgroundColor: '#f59e0b' 
+    },
+    horzLine: { 
+      color: 'rgba(245, 158, 11, 0.6)', 
+      width: 1, 
+      style: LineStyle.Dashed, 
+      labelBackgroundColor: '#f59e0b' 
+    },
   },
   // Explicitly enable mouse-wheel / pinch zoom and drag-to-pan.
   handleScale: { mouseWheel: true, pinch: true, axisPressedMouseMove: true },
   handleScroll: { mouseWheel: true, pressedMouseMove: true, horzTouchDrag: true, vertTouchDrag: false },
-  rightPriceScale: { borderColor: CHART_BORDER },
+  rightPriceScale: { 
+    borderColor: CHART_BORDER,
+    scaleMargins: { top: 0.15, bottom: 0.15 }
+  },
   timeScale: { borderColor: CHART_BORDER, rightOffset: 2 },
   localization: { locale: 'en-US' },
 };

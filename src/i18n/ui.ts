@@ -116,6 +116,30 @@ export const UI = {
     en: 'Scroll / pinch to zoom · drag to pan',
     th: 'เลื่อนล้อหรือบีบสองนิ้วเพื่อซูม · ลากเพื่อเลื่อนกราฟ',
   },
+  timeframe: {
+    en: 'Timeframe',
+    th: 'ไทม์เฟรม',
+  },
+  timeframeM5: {
+    en: '5 minutes',
+    th: '5 นาที',
+  },
+  timeframeM15: {
+    en: '15 minutes',
+    th: '15 นาที',
+  },
+  timeframeH1: {
+    en: '1 hour',
+    th: '1 ชั่วโมง',
+  },
+  timeframeH4: {
+    en: '4 hours',
+    th: '4 ชั่วโมง',
+  },
+  timeframeD1: {
+    en: 'Daily',
+    th: 'รายวัน',
+  },
   openMenu: {
     en: 'Open playbook index',
     th: 'เปิดดัชนีเพลย์บุ๊ก',
@@ -132,6 +156,46 @@ export const UI = {
     en: 'For education only — all data is simulated. Not financial advice.',
     th: 'เพื่อการศึกษาเท่านั้น — ข้อมูลทั้งหมดเป็นข้อมูลจำลอง ไม่ใช่คำแนะนำทางการเงิน',
   },
+  heroTitle: {
+    en: 'Master Market Structure',
+    th: 'เจาะลึกโครงสร้างตลาด',
+  },
+  heroSubtitle: {
+    en: 'Interactive playbook for SMC, ICT, Wyckoff, and advanced Price Action. Learn setups on simulated charts.',
+    th: 'เพลย์บุ๊กแบบอินเทอร์แอกทีฟสำหรับ SMC, ICT, Wyckoff และ Price Action ขั้นสูง เรียนรู้ผ่านกราฟจำลอง',
+  },
+  openPlaybook: {
+    en: 'Open Playbook',
+    th: 'เริ่มเรียนรู้เลย',
+  },
+  featuresTitle: {
+    en: 'Why use this playbook?',
+    th: 'ทำไมต้องใช้เพลย์บุ๊กนี้?',
+  },
+  feat1Title: {
+    en: 'Interactive Charts',
+    th: 'กราฟอินเทอร์แอกทีฟ',
+  },
+  feat1Desc: {
+    en: 'Analyze setups step-by-step on realistic simulated charts.',
+    th: 'วิเคราะห์เซ็ตอัปแบบทีละขั้นตอนบนกราฟจำลองที่สมจริง',
+  },
+  feat2Title: {
+    en: 'Multiple Timeframes',
+    th: 'หลากหลายไทม์เฟรม',
+  },
+  feat2Desc: {
+    en: 'See how market structure behaves across different timeframes.',
+    th: 'ดูพฤติกรรมโครงสร้างตลาดในไทม์เฟรมต่างๆ',
+  },
+  feat3Title: {
+    en: 'Actionable Logic',
+    th: 'ตรรกะที่นำไปใช้ได้จริง',
+  },
+  feat3Desc: {
+    en: 'Clear entry, stop-loss, and take-profit criteria for every setup.',
+    th: 'เงื่อนไขจุดเข้า จุดตัดขาดทุน และจุดทำกำไรที่ชัดเจนในทุกเซ็ตอัป',
+  },
 } as const;
 
 /* ---------------------------------------------------------------------------
@@ -142,10 +206,13 @@ export const UI = {
 export const TH_CATEGORIES: Record<string, string> = {
   'Trading Playbook': 'เพลย์บุ๊กการเทรด',
   'Basic Structure': 'โครงสร้างพื้นฐาน',
+  'Chart Patterns': 'รูปแบบกราฟ',
   'SMC & ICT': 'SMC & ICT',
   'Wyckoff Logic': 'ทฤษฎี Wyckoff',
   'Advanced PA': 'Price Action ขั้นสูง',
+  'Candlestick Patterns': 'รูปแบบแท่งเทียน',
   'Wave & Harmonics': 'ทฤษฎีคลื่นและฮาร์โมนิก',
+  'Harmonic Patterns': 'รูปแบบฮาร์โมนิก',
   'Volume & Systematic': 'ปริมาณการซื้อขายและระบบเทรด',
 };
 
@@ -159,6 +226,9 @@ export const TH_GROUPS: Record<string, string> = {
   'Fractal Structure': 'โครงสร้างแฟร็กทัล',
   'SMC & ICT': 'SMC & ICT',
   Wyckoff: 'Wyckoff',
+  'Reversal Patterns': 'รูปแบบกลับตัว',
+  'Continuation Patterns': 'รูปแบบไปต่อ',
+  'Single Candles': 'แท่งเดี่ยว',
   'Candlestick Patterns': 'รูปแบบแท่งเทียน',
   'Structural Patterns': 'รูปแบบโครงสร้าง',
   'Elliott Wave': 'คลื่น Elliott',
@@ -200,6 +270,102 @@ export const TH_CONCEPTS: Record<string, { name: string; description: string }> 
     name: 'การต่อเนื่องเทรนด์ขาขึ้น',
     description: 'Buy: HH/HL → BOS → ย่อแล้วเข้า',
   },
+  'playbook-trendline': {
+    name: 'รูปแบบ Bull Flag',
+    description: 'Buy: เสาธง → ตัวธง → เบรกเอาต์',
+  },
+  'pattern-double-top': {
+    name: 'Double Top',
+    description: 'รูปตัว M บ่งชี้การกลับตัวเป็นขาลงหลังขาขึ้น',
+  },
+  'pattern-head-shoulders': {
+    name: 'Head & Shoulders',
+    description: 'ยอด 3 จุดตรงกลางสูงสุด สัญญาณกลับตัว',
+  },
+  'pattern-ascending-triangle': {
+    name: 'Ascending Triangle',
+    description: 'แนวต้านราบกับจุดต่ำที่สูงขึ้น — เบรกขึ้น',
+  },
+  'pattern-descending-triangle': {
+    name: 'Descending Triangle',
+    description: 'แนวรับราบกับจุดสูงที่ต่ำลง — เบรกลง',
+  },
+  'pattern-cup-handle': {
+    name: 'Cup & Handle',
+    description: 'ก้นถ้วยโค้งกับหูถ้วย — เบรกขึ้น',
+  },
+  'pattern-bear-flag': {
+    name: 'Bear Flag',
+    description: 'เสาธงร่วงแรง ตามด้วยพักตัว — เบรกลง',
+  },
+  'pattern-falling-wedge': {
+    name: 'Falling Wedge',
+    description: 'จุดต่ำและจุดสูงบรรจบกัน — เบรกขึ้น',
+  },
+  'pattern-double-bottom': {
+    name: 'Double Bottom',
+    description: 'รูปตัว W ก้นคู่ — เบรกขึ้นเหนือ Neckline',
+  },
+  'pattern-rising-wedge': {
+    name: 'Rising Wedge',
+    description: 'จุดสูงและจุดต่ำบรรจบกัน — เบรกลง',
+  },
+  'pattern-pennant': {
+    name: 'Pennant ขาขึ้น',
+    description: 'เสาธงแล้วสามเหลี่ยมสมมาตร — เบรกขึ้น',
+  },
+  'pattern-inverse-hs': {
+    name: 'Inverse Head & Shoulders',
+    description: 'ก้นกลางลึกกว่าสองข้าง — เบรกขึ้นเหนือ Neckline',
+  },
+  'pattern-triple-top': {
+    name: 'Triple Top',
+    description: 'ยอดสามยอดเท่ากัน — เบรกลงใต้ Neckline',
+  },
+  'pattern-triple-bottom': {
+    name: 'Triple Bottom',
+    description: 'ก้นสามก้นเท่ากัน — เบรกขึ้นเหนือ Neckline',
+  },
+  'pattern-rounding-top': {
+    name: 'Rounding Top',
+    description: 'ยอดโค้งรูปโดม — เบรกลงที่ขอบถ้วย',
+  },
+  'pattern-rounding-bottom': {
+    name: 'Rounding Bottom',
+    description: 'ก้นโค้งรูปจานรอง — เบรกขึ้นที่ขอบถ้วย',
+  },
+  'pattern-diamond-top': {
+    name: 'Diamond Top',
+    description: 'ขยายกว้างแล้วแคบลง — เบรกลง',
+  },
+  'pattern-diamond-bottom': {
+    name: 'Diamond Bottom',
+    description: 'ขยายกว้างแล้วแคบลง — เบรกขึ้น',
+  },
+  'pattern-broadening-top': {
+    name: 'Broadening Top',
+    description: 'ปากแตรสวิงกว้างขึ้น — เบรกลง',
+  },
+  'pattern-island-reversal': {
+    name: 'Island Reversal',
+    description: 'แท่งเทียนโดดเดี่ยวคั่นช่องว่าง — กลับตัว',
+  },
+  'pattern-bear-pennant': {
+    name: 'Pennant ขาลง',
+    description: 'เสาธงร่วงแล้วสามเหลี่ยมสมมาตร — เบรกลง',
+  },
+  'pattern-symmetrical-triangle': {
+    name: 'Symmetrical Triangle',
+    description: 'จุดสูงและจุดต่ำบรรจบกัน — เบรกตามเทรนด์',
+  },
+  'pattern-bull-rectangle': {
+    name: 'Bullish Rectangle',
+    description: 'กรอบราคาแนวนอน — เบรกขึ้นเหนือกรอบ',
+  },
+  'pattern-bear-rectangle': {
+    name: 'Bearish Rectangle',
+    description: 'กรอบราคาแนวนอน — เบรกลงใต้กรอบ',
+  },
   bat: {
     name: 'รูปแบบ Bat',
     description: 'โครงสร้างกลับตัวที่ Fibonacci 0.886',
@@ -239,11 +405,24 @@ export const TH_CONCEPTS: Record<string, { name: string; description: string }> 
   distribution: { name: 'การกระจาย', description: 'เม็ดเงินใหญ่ขายในขณะที่ราคาสร้างยอด' },
   utad: { name: 'UTAD', description: 'การดันขึ้นครั้งสุดท้ายหลังการกระจาย — กับดักสุดท้าย' },
   doji: { name: 'โดจิ', description: 'แท่งเทียนที่ไม่มีตัวแท่ง — ความลังเล' },
+  hammer: { name: 'Hammer', description: 'ตัวแท่งเล็ก ไส้ล่างยาว — เกิดที่ก้นขาลง' },
+  'shooting-star': { name: 'Shooting Star', description: 'ตัวแท่งเล็ก ไส้บนยาว — เกิดที่ยอดขาขึ้น' },
   engulfing: { name: 'Engulfing', description: 'แท่งเทียนที่กลืนแท่งก่อนหน้าทั้งแท่ง' },
+  'morning-star': { name: 'Morning Star', description: '3 แท่งที่ก้น: แดงยาว, เล็ก, เขียวยาว' },
+  'evening-star': { name: 'Evening Star', description: '3 แท่งที่ยอด: เขียวยาว, เล็ก, แดงยาว' },
+  harami: { name: 'Harami', description: 'แท่งเล็กอยู่ในตัวแท่งใหญ่ — ลังเล' },
+  'three-soldiers': { name: 'Three White Soldiers', description: 'แท่งเขียวแรง 3 แท่งติดกันหลังก้น' },
+  'three-crows': { name: 'Three Black Crows', description: 'แท่งแดงแรง 3 แท่งติดกันหลังยอด' },
   qml: { name: 'Quasimodo', description: 'Higher High, เบรกแนวคอ, และรีเทสต์' },
   'supply-demand': { name: 'โซน Supply & Demand', description: 'โซนที่สถาบันทิ้งรอยเท้าเอาไว้' },
   'elliott-wave': { name: 'คลื่น Elliott', description: 'คลื่น impulse 5 ลูกและการปรับฐาน 3 ลูก' },
   harmonic: { name: 'รูปแบบฮาร์โมนิก', description: 'รูปแบบ X-A-B-C-D ที่สร้างจาก Fibonacci' },
+  'g-artley': { name: 'Gartley (222)', description: 'ขาขึ้น D ที่ 0.786 ของ XA — คลาสสิก' },
+  butterfly: { name: 'Butterfly', description: 'D ยื่นถึง 1.27 ของ XA — การกลับตัวลึก' },
+  crab: { name: 'Crab', description: 'D ยื่นถึง 1.618 ของ XA — ลึกที่สุด' },
+  cypher: { name: 'Cypher', description: 'C ยื่นเลย A; D ที่ 0.786 ของ XC' },
+  shark: { name: 'Shark', description: 'B เลย A; D ที่ 1.13 ของ XC — ชอร์ต' },
+  abcd: { name: 'AB=CD', description: 'CD ยาวเท่ากับ AB (1:1) — จุด D คือจุดเข้า' },
   vsa: { name: 'Volume Spread Analysis', description: 'อ่านซัปพลาย/ดีมานด์จากวอลุ่มและสเปรด' },
   'volume-profile': { name: 'Volume Profile & POC', description: 'วอลุ่มรายระดับราคา — จุดที่มูลค่าอยู่' },
   ichimoku: { name: 'เมฆ Ichimoku', description: 'Tenkan, Kijun, เมฆ และ Chikou ในระบบเดียว' },

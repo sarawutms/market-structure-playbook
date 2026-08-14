@@ -28,6 +28,9 @@ export type MarkerShape = 'arrowUp' | 'arrowDown' | 'circle' | 'square';
 /** App UI language. */
 export type Language = 'en' | 'th';
 
+/** Chart timeframe — controls the time-axis zoom + intraday time visibility. */
+export type Timeframe = 'm5' | 'm15' | 'h1' | 'h4' | 'd1';
+
 /** A piece of text with both language variants (nested `en` / `th`). */
 export interface LocalizedText {
   en: string;

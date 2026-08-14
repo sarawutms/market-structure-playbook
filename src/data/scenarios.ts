@@ -93,6 +93,7 @@ export const COLORS = {
   cyan: '#22d3ee', // structure / lows
   amber: '#fbbf24', // ranges / equal highs
   violet: '#a78bfa', // fractal / macro swings
+  muted: '#8a94a6', // neutral structure lines
   zoneBull: 'rgba(14, 203, 129, 0.10)',
   zoneBear: 'rgba(246, 70, 93, 0.10)',
   zoneAmber: 'rgba(251, 191, 36, 0.10)',
@@ -865,11 +866,1466 @@ const TURTLE_BARS: Array<[number, number, number, number]> = [
 const TURTLE = toCandles(TURTLE_BARS, '2025-11-10');
 const turtleT = (i: number) => TURTLE[i].time;
 
+const FLAG_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99, 101],
+  [101, 105, 100, 104],
+  [104, 110, 103, 109],
+  [109, 115, 108, 114],
+  [114, 120, 113, 119], // peak 4
+  [119, 120, 117, 118], // 5
+  [118, 119, 115, 116], // 6
+  [116, 117, 114, 115], // 7
+  [115, 118, 113, 114], // 8
+  [114, 116, 112, 113], // 9
+  [113, 118, 112, 117], // 10 breakout
+  [117, 122, 116, 121],
+  [121, 126, 120, 125],
+];
+const FLAG = toCandles(FLAG_BARS, '2024-05-01');
+const flagT = (i: number) => FLAG[i].time;
+
+const DOUBLE_TOP_BARS: Array<[number, number, number, number]> = [
+  [100, 105, 99, 104],
+  [104, 110, 102, 108],
+  [108, 115, 106, 114],
+  [114, 120, 112, 118], // First top start
+  [118, 122, 116, 117], // First peak 4
+  [117, 118, 110, 111],
+  [111, 113, 106, 108], // Neckline 6
+  [108, 115, 107, 114],
+  [114, 121, 112, 119],
+  [119, 123, 115, 117], // Second peak 9
+  [117, 118, 110, 112],
+  [112, 114, 106, 107], // Neckline test 11
+  [107, 110, 100, 102], // Breakout 12
+  [102, 105, 95, 98],
+];
+const DOUBLE_TOP = toCandles(DOUBLE_TOP_BARS, '2024-06-01');
+const dtT = (i: number) => DOUBLE_TOP[i].time;
+
+const HS_BARS: Array<[number, number, number, number]> = [
+  [100, 105, 99, 104],
+  [104, 115, 102, 112], // Left shoulder peak 1
+  [112, 113, 106, 108], // Neckline 2
+  [108, 120, 107, 118],
+  [118, 125, 115, 117], // Head peak 4
+  [117, 118, 107, 109], // Neckline 5
+  [109, 116, 108, 114],
+  [114, 115, 109, 110], // Right shoulder peak 7
+  [110, 111, 105, 106],
+  [106, 108, 98, 100], // Breakout 9
+];
+const HEAD_SHOULDERS = toCandles(HS_BARS, '2024-07-01');
+const hsT = (i: number) => HEAD_SHOULDERS[i].time;
+
+const ASC_TRI_BARS: Array<[number, number, number, number]> = [
+  [100, 103, 99.5, 102.5],
+  [102.5, 105, 102, 104.5],
+  [104.5, 106, 103.5, 105], // H1 = 106 (resistance)
+  [105, 105.5, 103, 103.5], // L1 = 103
+  [103.5, 106, 103.5, 105.5], // H2 = 106 (equal high)
+  [105.5, 106, 104, 104.5], // L2 = 104 (higher low)
+  [104.5, 106, 104.5, 105.5], // H3 = 106 (equal high)
+  [105.5, 106, 105, 105.5], // L3 = 105 (higher low)
+  [105.5, 108.5, 105.5, 108], // Breakout above 106 → entry
+  [108, 111, 107.5, 110.5], // follow-through
+];
+const ASC_TRI = toCandles(ASC_TRI_BARS, '2024-08-01');
+const ascT = (i: number) => ASC_TRI[i].time;
+
+const DESC_TRI_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 111.5, 109, 109.5], // L1 = 109 (support)
+  [109.5, 112, 109.5, 111.5], // H1 = 112
+  [111.5, 111.5, 109, 109.5], // L2 = 109 (equal low)
+  [109.5, 111, 109.5, 110], // H2 = 111 (lower high)
+  [110, 110.5, 109, 109.5], // L3 = 109 (equal low)
+  [109.5, 110.5, 109.5, 110], // H3 = 110.5 (lower high)
+  [110, 110, 108.5, 109], // L4 = 109
+  [109, 109.5, 106, 106.5], // Breakdown below 109 → entry
+  [106.5, 107, 104, 104.5], // follow-through
+];
+const DESC_TRI = toCandles(DESC_TRI_BARS, '2024-08-15');
+const descT = (i: number) => DESC_TRI[i].time;
+
+const CUP_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 104, 101, 103.5],
+  [103.5, 106, 103, 105.5],
+  [105.5, 108, 105, 107.5], // left rim 108 (index 3)
+  [107.5, 108, 105.5, 106], // cup descent starts
+  [106, 106.5, 104, 104.5],
+  [104.5, 105, 102.5, 103],
+  [103, 103.5, 101.5, 102], // cup bottom ~101.5 (index 7)
+  [102, 103.5, 101.5, 103],
+  [103, 105, 102.5, 104.5],
+  [104.5, 106.5, 104, 106], // cup ascent
+  [106, 108, 105.5, 107.5], // right rim 108 (index 11)
+  [107.5, 108, 106, 106.5], // handle starts
+  [106.5, 107, 105, 105.5], // handle low ~105 (index 13)
+  [105.5, 109.5, 105.5, 109], // breakout above 108 (index 14)
+  [109, 112, 108.5, 111.5],
+];
+const CUP = toCandles(CUP_BARS, '2024-09-01');
+const cupT = (i: number) => CUP[i].time;
+
+const WEDGE_BARS: Array<[number, number, number, number]> = [
+  [110, 111, 108.5, 109.5], // H1 = 111 (index 0)
+  [109.5, 110.5, 107, 107.5], // L1 = 107 (index 1)
+  [107.5, 109, 106.5, 108], // H2 = 109 (index 2)
+  [108, 108.5, 105.5, 106], // L2 = 105.5 (index 3)
+  [106, 107.5, 105, 106.5], // H3 = 107.5 (index 4)
+  [106.5, 107, 104, 104.5], // L3 = 104 (index 5)
+  [104.5, 106, 104, 105.5], // H4 = 106 (index 6)
+  [105.5, 106, 102.5, 103], // L4 = 102.5 (index 7)
+  [103, 105, 102.5, 104.5], // H5 = 105 (index 8) — converging
+  [104.5, 108.5, 104, 108], // breakout above upper wedge (index 9)
+  [108, 111, 107.5, 110.5],
+];
+const WEDGE = toCandles(WEDGE_BARS, '2024-09-15');
+const wedgeT = (i: number) => WEDGE[i].time;
+
+const BEAR_FLAG_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 111.5, 108, 108.5], // drop starts
+  [108.5, 109, 105, 105.5],
+  [105.5, 106, 102, 102.5], // pole low ~102 (index 3)
+  [102.5, 105, 102.5, 104.5], // flag rally starts
+  [104.5, 106.5, 104, 106], // flag high 106.5 (index 5)
+  [106, 106.5, 104.5, 105],
+  [105, 106, 104, 104.5], // flag low 104 (index 7)
+  [104.5, 105.5, 103, 103.5],
+  [103.5, 104.5, 101.5, 102], // breakdown below flag (index 9)
+  [102, 102.5, 99, 99.5], // follow-through
+];
+const BEAR_FLAG = toCandles(BEAR_FLAG_BARS, '2024-10-01');
+const bfT = (i: number) => BEAR_FLAG[i].time;
+
+const DBL_BOTTOM_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 111.5, 108, 108.5], // decline begins
+  [108.5, 109, 105, 105.5],
+  [105.5, 106, 102, 102.5], // Bottom 1 = 102 (index 3)
+  [102.5, 105.5, 102.5, 105], // rally to neckline
+  [105, 107, 104.5, 106.5], // neckline test ~106.5
+  [106.5, 107, 104, 104.5], // pullback
+  [104.5, 105, 102, 102.5], // Bottom 2 = 102 (index 7) — equal low
+  [102.5, 106.5, 102.5, 106], // rally back to neckline
+  [106, 109, 105.5, 108.5], // breakout above neckline (index 9)
+  [108.5, 111, 108, 110.5], // follow-through
+  [110.5, 113, 110, 112.5],
+];
+const DBL_BOTTOM = toCandles(DBL_BOTTOM_BARS, '2024-10-15');
+const dbT = (i: number) => DBL_BOTTOM[i].time;
+
+const RISING_WEDGE_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 103.5, 101, 103], // H1 = 103.5 (index 1)
+  [103, 104, 101.5, 102], // L1 = 101.5 (index 2)
+  [102, 105, 102, 104.5], // H2 = 105 (index 3)
+  [104.5, 105.5, 103.5, 104], // L2 = 103.5 (index 4)
+  [104, 106.5, 104, 106], // H3 = 106.5 (index 5)
+  [106, 106.5, 105, 105.5], // L3 = 105 (index 6)
+  [105.5, 107.5, 105.5, 107], // H4 = 107.5 (index 7)
+  [107, 107.5, 104, 104.5], // breakdown below lower line (index 8)
+  [104.5, 105, 101.5, 102], // follow-through
+];
+const RISING_WEDGE = toCandles(RISING_WEDGE_BARS, '2024-11-01');
+const rwT = (i: number) => RISING_WEDGE[i].time;
+
+const PENNANT_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 105, 101, 104.5], // pole up
+  [104.5, 110, 104, 109.5], // pole top 110 (index 2)
+  [109.5, 109.5, 107, 107.5], // flag: lower high 109.5 (index 3)
+  [107.5, 108, 106, 106.5], // flag: higher low 106 (index 4)
+  [106.5, 108.5, 106.5, 108], // flag: lower high 108.5 (index 5)
+  [108, 108.5, 107, 107.5], // flag: higher low 107 (index 6)
+  [107.5, 111, 107.5, 110.5], // breakout above pennant (index 7)
+  [110.5, 113.5, 110, 113], // follow-through
+  [113, 116, 112.5, 115.5],
+];
+const PENNANT = toCandles(PENNANT_BARS, '2024-11-15');
+const pnT = (i: number) => PENNANT[i].time;
+
+const INV_HS_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 112, 108, 108.5], // decline begins
+  [108.5, 109, 104, 104.5], // LS low 104 (index 2)
+  [104.5, 108, 104.5, 107.5], // rally to neckline
+  [107.5, 108, 106, 106.5], // pullback
+  [106.5, 107, 101, 101.5], // Head low 101 (index 5)
+  [101.5, 106.5, 101.5, 106], // rally to neckline
+  [106, 106.5, 104, 104.5], // pullback
+  [104.5, 105.5, 103, 103.5], // RS low 103 (index 8)
+  [103.5, 108.5, 103.5, 108], // breakout above neckline (index 9)
+  [108, 112, 107.5, 111.5], // follow-through
+];
+const INV_HS = toCandles(INV_HS_BARS, '2024-12-01');
+const ihsT = (i: number) => INV_HS[i].time;
+
+const TRIPLE_TOP_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 105, 101, 104.5], // H1 = 105 (index 1)
+  [104.5, 105, 102, 102.5], // pullback to neckline 102
+  [102.5, 104.5, 102.5, 104], // rally
+  [104, 105, 103, 103.5], // H2 = 105 (index 4)
+  [103.5, 104, 102, 102.5], // pullback
+  [102.5, 104.5, 102.5, 104], // rally
+  [104, 105, 103.5, 104], // H3 = 105 (index 7)
+  [104, 104.5, 101.5, 102], // pullback to neckline
+  [102, 102.5, 99, 99.5], // breakdown below neckline (index 9)
+  [99.5, 100, 96, 96.5], // follow-through
+];
+const TRIPLE_TOP = toCandles(TRIPLE_TOP_BARS, '2024-12-15');
+const ttT = (i: number) => TRIPLE_TOP[i].time;
+
+const TRIPLE_BOTTOM_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 102, 98, 98.5], // L1 = 98 (index 1)
+  [98.5, 101, 98.5, 100.5], // rally to neckline 100.5
+  [100.5, 101, 99, 99.5], // pullback
+  [99.5, 100.5, 98, 98.5], // L2 = 98 (index 4)
+  [98.5, 101, 98.5, 100.5], // rally
+  [100.5, 101, 99.5, 100], // pullback
+  [100, 100.5, 98, 98.5], // L3 = 98 (index 7)
+  [98.5, 102, 98.5, 101.5], // breakout above neckline (index 8)
+  [101.5, 105, 101, 104.5], // follow-through
+];
+const TRIPLE_BOTTOM = toCandles(TRIPLE_BOTTOM_BARS, '2025-01-01');
+const tbT = (i: number) => TRIPLE_BOTTOM[i].time;
+
+const ROUND_TOP_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 104, 101, 103.5], // rally
+  [103.5, 106, 103, 105.5], // H1 = 106 (index 2)
+  [105.5, 106.5, 105, 105.5], // H2 = 106.5 — dome top (index 3)
+  [105.5, 106, 104.5, 105], // rounding down begins
+  [105, 105.5, 103.5, 104], // gradual decline
+  [104, 104.5, 102.5, 103], // 
+  [103, 103.5, 101.5, 102], // decline to neckline 101.5
+  [102, 102.5, 100, 100.5], // breakdown below neckline (index 8)
+  [100.5, 101, 98, 98.5], // follow-through
+];
+const ROUND_TOP = toCandles(ROUND_TOP_BARS, '2025-01-15');
+const rTopT = (i: number) => ROUND_TOP[i].time;
+
+const ROUND_BOTTOM_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 102, 99.5, 100], // decline begins
+  [100, 100.5, 98, 98.5], // 
+  [98.5, 99, 96.5, 97], // L1 = 96.5 (index 3)
+  [97, 97.5, 96, 96.5], // L2 = 96 — saucer bottom (index 4)
+  [96.5, 98, 96.5, 97.5], // rounding up begins
+  [97.5, 99.5, 97.5, 99], // gradual rise
+  [99, 101, 98.5, 100.5], // 
+  [100.5, 102, 100, 101.5], // back to neckline 102 (index 8)
+  [101.5, 105, 101.5, 104.5], // breakout above neckline
+];
+const ROUND_BOTTOM = toCandles(ROUND_BOTTOM_BARS, '2025-02-01');
+const rBotT = (i: number) => ROUND_BOTTOM[i].time;
+
+const DIAMOND_TOP_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 104, 101, 103.5], // H1 = 104 (index 1)
+  [103.5, 104, 102, 102.5], // L1 = 102 (index 2)
+  [102.5, 105.5, 102.5, 105], // H2 = 105.5 (index 3) — widening
+  [105, 105.5, 102.5, 103], // L2 = 102.5 (index 4)
+  [103, 104.5, 103, 104], // H3 = 104.5 (index 5) — narrowing
+  [104, 104.5, 102.5, 103], // L3 = 102.5 (index 6)
+  [103, 103.5, 101.5, 102], // L4 = 101.5 (index 7)
+  [102, 102.5, 99.5, 100], // breakdown below 102 (index 8)
+  [100, 100.5, 97.5, 98], // follow-through
+];
+const DIAMOND_TOP = toCandles(DIAMOND_TOP_BARS, '2025-02-15');
+const dTopT = (i: number) => DIAMOND_TOP[i].time;
+
+const DIAMOND_BOTTOM_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 112, 109, 109.5], // L1 = 109 (index 1)
+  [109.5, 110.5, 109, 109.5], // H1 = 110.5 (index 2)
+  [109.5, 109.5, 106.5, 107], // L2 = 106.5 (index 3) — widening
+  [107, 108, 106.5, 107], // H2 = 108 (index 4)
+  [107, 107.5, 105, 105.5], // L3 = 105 (index 5) — narrowing
+  [105.5, 107, 105.5, 106.5], // H3 = 107 (index 6)
+  [106.5, 107, 105.5, 106], // L4 = 105.5 (index 7)
+  [106, 109.5, 106, 109], // breakout above 107 (index 8)
+  [109, 112, 108.5, 111.5], // follow-through
+];
+const DIAMOND_BOTTOM = toCandles(DIAMOND_BOTTOM_BARS, '2025-03-01');
+const dBotT = (i: number) => DIAMOND_BOTTOM[i].time;
+
+const BROADEN_TOP_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 104, 101, 103.5], // H1 = 104 (index 1)
+  [103.5, 104, 101.5, 102], // L1 = 101.5 (index 2)
+  [102, 106, 102, 105.5], // H2 = 106 (index 3) — higher high
+  [105.5, 106, 102.5, 103], // L2 = 102.5 (index 4) — lower low
+  [103, 107.5, 103, 107], // H3 = 107.5 (index 5) — higher high
+  [107, 107.5, 102, 102.5], // L3 = 102 (index 6) — lower low
+  [102.5, 103.5, 99.5, 100], // breakdown below 102 (index 7)
+  [100, 100.5, 97.5, 98], // follow-through
+];
+const BROADEN_TOP = toCandles(BROADEN_TOP_BARS, '2025-03-15');
+const brT = (i: number) => BROADEN_TOP[i].time;
+
+const ISLAND_REV_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 105, 101, 104.5], // rally
+  [104.5, 108, 104, 107.5], // H1 = 108 (index 2) — island top
+  [107.5, 108, 106, 106.5], // island
+  [106.5, 107.5, 105.5, 106], // island (index 4)
+  [106, 107, 105, 105.5], // island L = 105 (index 5)
+  [105.5, 106, 101, 101.5], // gap down — breakdown (index 6)
+  [101.5, 102, 98.5, 99], // follow-through
+  [99, 99.5, 96, 96.5],
+];
+const ISLAND_REV = toCandles(ISLAND_REV_BARS, '2025-04-01');
+const islT = (i: number) => ISLAND_REV[i].time;
+
+const BEAR_PENNANT_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 111.5, 107, 107.5], // pole down
+  [107.5, 108, 103, 103.5], // pole low 103 (index 2)
+  [103.5, 105, 103.5, 104.5], // pennant
+  [104.5, 106, 104, 105.5], // pennant high 106 (index 4)
+  [105.5, 106, 104.5, 105], // pennant low 104.5 (index 5)
+  [105, 105.5, 102.5, 103], // breakdown below pennant (index 6)
+  [103, 103.5, 100, 100.5], // follow-through
+  [100.5, 101, 97.5, 98],
+];
+const BEAR_PENNANT = toCandles(BEAR_PENNANT_BARS, '2025-04-15');
+const bpT = (i: number) => BEAR_PENNANT[i].time;
+
+const SYM_TRI_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 105, 101, 104.5], // H1 = 105 (index 1)
+  [104.5, 105, 101.5, 102], // L1 = 101.5 (index 2)
+  [102, 104, 102, 103.5], // H2 = 104 (index 3) — lower high
+  [103.5, 104, 101.5, 102], // L2 = 101.5 (index 4) — higher low
+  [102, 103.5, 102, 103], // H3 = 103.5 (index 5)
+  [103, 103.5, 101.5, 102], // L3 = 101.5 (index 6)
+  [102, 105.5, 102, 105], // breakout above (index 7)
+  [105, 108, 104.5, 107.5], // follow-through
+];
+const SYM_TRI = toCandles(SYM_TRI_BARS, '2025-05-01');
+const stT = (i: number) => SYM_TRI[i].time;
+
+const BULL_RECT_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 105, 101, 104.5], // H1 = 105 (index 1)
+  [104.5, 105, 101.5, 102], // L1 = 101.5 (index 2)
+  [102, 105, 102, 104.5], // H2 = 105
+  [104.5, 105, 101.5, 102], // L2 = 101.5 (index 4)
+  [102, 105, 102, 104.5], // H3 = 105
+  [104.5, 105, 101.5, 102], // L3 = 101.5 (index 6)
+  [102, 106.5, 102, 106], // breakout above (index 7)
+  [106, 109, 105.5, 108.5], // follow-through
+];
+const BULL_RECT = toCandles(BULL_RECT_BARS, '2025-05-15');
+const bullRctT = (i: number) => BULL_RECT[i].time;
+
+const BEAR_RECT_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 111.5, 108, 108.5], // L1 = 108 (index 1)
+  [108.5, 111, 108.5, 110.5], // H1 = 111
+  [110.5, 111, 108, 108.5], // L2 = 108 (index 3)
+  [108.5, 111, 108.5, 110.5], // H2 = 111
+  [110.5, 111, 108, 108.5], // L3 = 108 (index 5)
+  [108.5, 111, 108.5, 110.5], // H3 = 111
+  [110.5, 111, 107, 107.5], // breakdown below 108 (index 7)
+  [107.5, 108, 104.5, 105], // follow-through
+  [105, 105.5, 102, 102.5],
+];
+const BEAR_RECT = toCandles(BEAR_RECT_BARS, '2025-06-01');
+const bearRctT = (i: number) => BEAR_RECT[i].time;
+
+const HAMMER_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 111.5, 108, 108.5], // decline
+  [108.5, 109, 105, 105.5], // decline
+  [105.5, 106, 102, 102.5], // decline into the bottom
+  [102.5, 104.5, 98, 104], // HAMMER — long lower wick, small body, close near high
+  [104, 107, 103.5, 106.5], // confirmation rally
+];
+const HAMMER = toCandles(HAMMER_BARS, '2025-06-15');
+const hamT = (i: number) => HAMMER[i].time;
+
+const SHOOTING_STAR_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 104, 101, 103.5], // rally
+  [103.5, 106, 103, 105.5], // rally
+  [105.5, 108, 105, 107.5], // rally into the top
+  [107.5, 114, 107.5, 108], // SHOOTING STAR — long upper wick, small body, close near low
+  [108, 108.5, 104, 104.5], // confirmation drop
+];
+const SHOOTING_STAR = toCandles(SHOOTING_STAR_BARS, '2025-07-01');
+const sstarT = (i: number) => SHOOTING_STAR[i].time;
+
+const MORNING_STAR_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 111.5, 108, 108.5], // decline
+  [108.5, 109, 105, 105.5], // decline
+  [105.5, 106, 100, 100.5], // long bearish candle (1)
+  [100.5, 101.5, 99, 100], // small body — the star (2)
+  [100, 104.5, 100, 104.5], // long bullish candle closes above mid (3)
+  [104.5, 107, 104, 106.5], // follow-through
+];
+const MORNING_STAR = toCandles(MORNING_STAR_BARS, '2025-07-15');
+const mstarT = (i: number) => MORNING_STAR[i].time;
+
+const EVENING_STAR_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 104, 101, 103.5], // rally
+  [103.5, 106, 103, 105.5], // rally
+  [105.5, 110, 105.5, 110], // long bullish candle (1)
+  [110, 111, 109, 109.5], // small body — the star (2)
+  [109.5, 109.5, 104, 104.5], // long bearish candle closes below mid (3)
+  [104.5, 105, 101, 101.5], // follow-through
+];
+const EVENING_STAR = toCandles(EVENING_STAR_BARS, '2025-08-01');
+const estarT = (i: number) => EVENING_STAR[i].time;
+
+const HARAMI_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 111.5, 108, 108.5], // decline
+  [108.5, 109, 105, 105.5], // decline
+  [105.5, 106, 100, 100.5], // long bearish candle (mother)
+  [100.5, 103.5, 100.5, 103], // small bullish candle inside the mother — harami
+  [103, 106, 102.5, 105.5], // follow-through
+];
+const HARAMI = toCandles(HARAMI_BARS, '2025-08-15');
+const harT = (i: number) => HARAMI[i].time;
+
+const THREE_SOLDIERS_BARS: Array<[number, number, number, number]> = [
+  [110, 112, 109.5, 111.5],
+  [111.5, 111.5, 108, 108.5], // decline
+  [108.5, 109, 105, 105.5], // decline
+  [105.5, 106, 102, 102.5], // bottom
+  [102.5, 104.5, 102.5, 104.5], // soldier 1
+  [104.5, 106.5, 104, 106.5], // soldier 2
+  [106.5, 109, 106, 109], // soldier 3
+  [109, 110.5, 107.5, 108.5], // slight pullback
+];
+const THREE_SOLDIERS = toCandles(THREE_SOLDIERS_BARS, '2025-09-01');
+const soldiersT = (i: number) => THREE_SOLDIERS[i].time;
+
+const THREE_CROWS_BARS: Array<[number, number, number, number]> = [
+  [100, 102, 99.5, 101.5],
+  [101.5, 104, 101, 103.5], // rally
+  [103.5, 106, 103, 105.5], // rally
+  [105.5, 108, 105, 107.5], // top
+  [107.5, 107.5, 105, 105], // crow 1
+  [105, 105, 102.5, 102.5], // crow 2
+  [102.5, 102.5, 100, 100], // crow 3
+  [100, 101, 97.5, 98], // follow-through
+];
+const THREE_CROWS = toCandles(THREE_CROWS_BARS, '2025-09-15');
+const crowsT = (i: number) => THREE_CROWS[i].time;
+
+/* ── Harmonic datasets (X-A-B-C-D) ─────────────────────────────────────── */
+
+const BUTTERFLY_BARS: Array<[number, number, number, number]> = [
+  [103.4, 103.6, 101.8, 102.2], // lead-in
+  [102.2, 102.6, 100.2, 100.8], // lead-in
+  [100, 100.8, 99.4, 100.6], // X
+  [100.6, 104, 100.4, 103.6], // X→A
+  [103.6, 108, 103.2, 107.6], // A = 108
+  [107.6, 107.8, 104.6, 105], // A→B
+  [105, 105.2, 103, 103.5], // B = 103.5
+  [103.5, 106.8, 103.3, 106.4], // B→C
+  [106.4, 106.8, 104.8, 105.2], // C = 106.8
+  [105.2, 105.4, 101.8, 102.2], // C→D
+  [102.2, 102.4, 92, 92.4], // D = 92 (~1.27 of XA)
+  [92.4, 97, 92.2, 96.6], // reversal up from D
+  [96.6, 99.5, 96.2, 99], // follow-through
+];
+const BUTTERFLY = toCandles(BUTTERFLY_BARS, '2025-10-01');
+const bflyT = (i: number) => BUTTERFLY[i + 2].time;
+
+const CRAB_BARS: Array<[number, number, number, number]> = [
+  [103.4, 103.6, 101.8, 102.2], // lead-in
+  [102.2, 102.6, 100.2, 100.8], // lead-in
+  [100, 100.8, 99.4, 100.6], // X
+  [100.6, 104, 100.4, 103.6], // X→A
+  [103.6, 108, 103.2, 107.6], // A = 108
+  [107.6, 107.8, 104.6, 105], // A→B
+  [105, 105.2, 103, 103.5], // B = 103.5
+  [103.5, 106.8, 103.3, 106.4], // B→C
+  [106.4, 106.8, 104.8, 105.2], // C = 106.8
+  [105.2, 105.4, 101.8, 102.2], // C→D
+  [102.2, 102.4, 88, 88.4], // D = 88 (~1.618 of XA)
+  [88.4, 94, 88.2, 93.6], // reversal up from D
+  [93.6, 97, 93.2, 96.5], // follow-through
+];
+const CRAB = toCandles(CRAB_BARS, '2025-10-15');
+const crabT = (i: number) => CRAB[i + 2].time;
+
+const CYPHER_BARS: Array<[number, number, number, number]> = [
+  [103.4, 103.6, 101.8, 102.2], // lead-in
+  [102.2, 102.6, 100.2, 100.8], // lead-in
+  [100, 100.8, 99.4, 100.6], // X
+  [100.6, 103, 100.4, 102.8], // X→A
+  [102.8, 106, 102.4, 105.6], // A = 106
+  [105.6, 105.8, 103.2, 103.6], // A→B
+  [103.6, 103.8, 102.8, 103.2], // B = 103.2 (~0.618 of XA)
+  [103.2, 107.2, 103, 106.8], // B→C
+  [106.8, 109, 106.4, 108.6], // C = 109 (~1.13 of XA)
+  [108.6, 108.8, 105.4, 105.8], // C→D
+  [105.8, 106, 101.4, 101.8], // D = 101.5 (~0.786 of XC)
+  [101.8, 105, 101.6, 104.6], // reversal up from D
+  [104.6, 107.5, 104.2, 107], // follow-through
+];
+const CYPHER = toCandles(CYPHER_BARS, '2025-11-01');
+const cypherT = (i: number) => CYPHER[i + 2].time;
+
+const SHARK_BARS: Array<[number, number, number, number]> = [
+  [103.4, 103.6, 101.8, 102.2], // lead-in
+  [102.2, 102.6, 100.2, 100.8], // lead-in
+  [100, 100.8, 99.4, 100.6], // X
+  [100.6, 103.4, 100.4, 103], // X→A
+  [103, 104, 102.6, 103.6], // A = 104
+  [103.6, 106.8, 103.4, 106.4], // A→B
+  [106.4, 107, 105.8, 106.2], // B = 107 (~1.618 of XA)
+  [106.2, 106.4, 102.8, 103.2], // B→C
+  [103.2, 103.4, 102, 102.4], // C = 102
+  [102.4, 106.4, 102.2, 106], // C→D
+  [106, 108.5, 105.6, 108.2], // D = 108.5 (~1.13 of XC)
+  [108.2, 108.4, 104.6, 105], // reversal down from D
+  [105, 105.2, 102.2, 102.6], // follow-through
+];
+const SHARK = toCandles(SHARK_BARS, '2025-11-15');
+const sharkT = (i: number) => SHARK[i + 2].time;
+
+const ABCD_BARS: Array<[number, number, number, number]> = [
+  [103.4, 103.6, 101.8, 102.2], // lead-in
+  [102.2, 102.6, 100.2, 100.8], // lead-in
+  [100, 100.8, 99.4, 100.6], // X
+  [100.6, 104.6, 100.4, 104.2], // X→A
+  [104.2, 106, 103.8, 105.6], // A = 106
+  [105.6, 105.8, 103.4, 103.8], // A→B
+  [103.8, 104, 102, 102.4], // B = 102 (AB = 4)
+  [102.4, 105, 102.2, 104.6], // B→C
+  [104.6, 105.4, 104, 104.4], // C = 105.2
+  [104.4, 104.6, 101, 101.4], // C→D
+  [101.4, 101.6, 98, 98.4], // D = 98 (CD = 4 ≈ AB → 1:1)
+  [98.4, 102, 98.2, 101.6], // reversal up from D
+  [101.6, 104.5, 101.2, 104], // follow-through
+];
+const ABCD = toCandles(ABCD_BARS, '2025-12-01');
+const abcdT = (i: number) => ABCD[i + 2].time;
+
 /* ---------------------------------------------------------------------------
  * Scenarios — one per concept. Candles are shared; overlays are tailored.
  * ------------------------------------------------------------------------- */
 
 export const SCENARIOS: Record<string, ConceptScenario> = {
+  'pattern-double-top': {
+    candles: DOUBLE_TOP,
+    title: { en: 'Double Top (M Pattern)', th: 'Double Top (รูปแบบตัว M)' },
+    summary: {
+      en: 'A bearish reversal pattern characterized by two peaks at approximately the same price level. The pattern is confirmed when the price breaks below the neckline (support level).',
+      th: 'รูปแบบการกลับตัวเป็นขาลง (Bearish Reversal) มีลักษณะคล้ายตัว M โดยมีจุดยอดสองจุดที่ระดับราคาใกล้เคียงกัน รูปแบบนี้จะสมบูรณ์เมื่อราคาทะลุแนวรับ (Neckline) ลงมา',
+    },
+    keyPoints: [
+      { en: 'First peak establishes resistance.', th: 'ยอดที่ 1 สร้างระดับแนวต้าน' },
+      { en: 'The pullback establishes the neckline (support).', th: 'การย่อตัวสร้างระดับ Neckline (แนวรับ)' },
+      { en: 'Second peak fails to break higher.', th: 'ยอดที่ 2 ไม่สามารถทำราคาสูงกว่ายอดแรกได้' },
+      { en: 'Entry is triggered on the neckline breakdown.', th: 'จุดเข้าเทรดเกิดขึ้นเมื่อราคาทะลุ Neckline ลงมา' },
+    ],
+    priceLines: [
+      { price: 108, color: COLORS.bear, title: 'Neckline', dashed: true },
+      { price: 122, color: COLORS.cyan, title: 'Resistance', dashed: true },
+    ],
+    trendLines: [
+      { from: { time: dtT(3), price: 112 }, to: { time: dtT(6), price: 108 }, color: COLORS.muted, dashed: false },
+      { from: { time: dtT(6), price: 108 }, to: { time: dtT(9), price: 123 }, color: COLORS.muted, dashed: false },
+      { from: { time: dtT(9), price: 123 }, to: { time: dtT(12), price: 102 }, color: COLORS.bear, dashed: false },
+    ],
+    markers: [
+      { time: dtT(4), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Top 1', th: 'ยอดที่ 1' } },
+      { time: dtT(6), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Neckline', th: 'เส้นคอ (Neckline)' } },
+      { time: dtT(9), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Top 2', th: 'ยอดที่ 2' } },
+      { time: dtT(12), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Breakdown', th: 'ทะลุ Neckline' } },
+    ],
+  },
+  'pattern-head-shoulders': {
+    candles: HEAD_SHOULDERS,
+    title: { en: 'Head & Shoulders', th: 'Head & Shoulders (หัวและไหล่)' },
+    summary: {
+      en: 'A reliable bearish reversal pattern consisting of three peaks: a higher peak (Head) flanked by two lower peaks (Shoulders). It signals the exhaustion of an uptrend.',
+      th: 'รูปแบบการกลับตัวที่แม่นยำสูง ประกอบด้วยยอด 3 จุด: ยอดตรงกลางที่สูงที่สุด (หัว) และยอดที่ต่ำกว่าขนาบข้างซ้ายขวา (ไหล่) เป็นสัญญาณบ่งบอกว่าเทรนด์ขาขึ้นเริ่มหมดแรง',
+    },
+    keyPoints: [
+      { en: 'Left Shoulder forms after a strong advance.', th: 'ไหล่ซ้ายเกิดขึ้นหลังจากราคาขึ้นมาแรง' },
+      { en: 'Head marks the highest point (exhaustion).', th: 'หัวเป็นจุดที่สูงที่สุด (แรงซื้อหมด)' },
+      { en: 'Right Shoulder is a lower high.', th: 'ไหล่ขวาคือจุดยอดที่ต่ำลง (Lower High)' },
+      { en: 'A break of the Neckline confirms the reversal.', th: 'การทะลุ Neckline ยืนยันการเปลี่ยนเทรนด์เป็นขาลง' },
+    ],
+    trendLines: [
+      { from: { time: hsT(2), price: 108 }, to: { time: hsT(5), price: 109 }, color: COLORS.bear, dashed: true }, // Neckline slope
+    ],
+    markers: [
+      { time: hsT(1), position: 'aboveBar', shape: 'arrowDown', color: COLORS.cyan, text: { en: 'Left Shoulder', th: 'ไหล่ซ้าย' } },
+      { time: hsT(4), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Head', th: 'หัว' } },
+      { time: hsT(7), position: 'aboveBar', shape: 'arrowDown', color: COLORS.cyan, text: { en: 'Right Shoulder', th: 'ไหล่ขวา' } },
+      { time: hsT(9), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Neckline Break', th: 'ทะลุ Neckline' } },
+    ],
+  },
+  'pattern-ascending-triangle': {
+    candles: ASC_TRI,
+    title: { en: 'Ascending Triangle', th: 'Ascending Triangle (สามเหลี่ยมขึ้น)' },
+    summary: {
+      en: 'A bullish continuation pattern formed by a flat resistance line and a rising support line. The converging structure squeezes sellers before price breaks out higher.',
+      th: 'รูปแบบการไปต่อฝั่งขาขึ้น เกิดจากเส้นแนวต้านแนวนอน (Flat Resistance) และเส้นแนวรับที่สูงขึ้นเรื่อย ๆ โครงสร้างที่ค่อย ๆ แคบลงบีบผู้ขายก่อนที่ราคาจะเบรกขึ้น',
+    },
+    keyPoints: [
+      { en: 'The flat top represents equal resistance (EQH).', th: 'ด้านบนราบคือแนวต้านที่เท่ากัน (EQH)' },
+      { en: 'Higher lows form an ascending support line.', th: 'จุดต่ำที่สูงขึ้นเรื่อย ๆ สร้างเส้นแนวรับที่สูงขึ้น' },
+      { en: 'A close above the resistance confirms the breakout.', th: 'การปิดเหนือแนวต้านยืนยันการเบรกเอาต์' },
+    ],
+    trendLines: [
+      { from: { time: ascT(2), price: 106 }, to: { time: ascT(7), price: 106 }, color: COLORS.amber, dashed: true },
+      { from: { time: ascT(3), price: 103 }, to: { time: ascT(7), price: 105 }, color: COLORS.cyan, dashed: true },
+    ],
+    markers: [
+      { time: ascT(2), position: 'aboveBar', shape: 'arrowDown', color: COLORS.amber, text: { en: 'Resistance', th: 'แนวต้าน' } },
+      { time: ascT(3), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Higher low', th: 'จุดต่ำที่สูงขึ้น' } },
+      { time: ascT(8), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Breakout → Entry', th: 'เบรกเอาต์ → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Ascending Triangle Breakout', th: 'เบรกเอาต์สามเหลี่ยมขึ้น' },
+      logic: {
+        en: 'Enter on a strong bullish close above the flat resistance. Stop below the last higher low. Target measured by the triangle height projected from the breakout.',
+        th: 'เข้าเทรดเมื่อแท่งปิดเขียวแข็งแรงเหนือแนวต้านราบ วาง Stop ใต้จุดต่ำที่สูงขึ้นล่าสุด เป้าหมายคือความสูงของสามเหลี่ยมฉายจากจุดเบรกเอาต์',
+      },
+      steps: [
+        { n: 1, title: { en: 'Identify the Triangle', th: 'หารูปสามเหลี่ยม' }, description: { en: 'Find a flat resistance with rising lows beneath it.', th: 'หาแนวต้านราบพร้อมจุดต่ำที่สูงขึ้นข้างใต้' } },
+        { n: 2, title: { en: 'Wait for the Breakout', th: 'รอการเบรกเอาต์' }, description: { en: 'Price must close above the flat resistance line.', th: 'ราคาต้องปิดเหนือเส้นแนวต้านราบ' } },
+        { n: 3, title: { en: 'Trade the Projection', th: 'เทรดตามเป้าหมาย' }, description: { en: 'Target the triangle height added to the breakout price.', th: 'ตั้งเป้าเท่ากับความสูงของสามเหลี่ยมบวกจุดเบรกเอาต์' } },
+      ],
+      riskReward: '2.5',
+      entry: { price: 106.5, conditions: { en: 'Close above resistance', th: 'ราคาปิดเหนือแนวต้าน' } },
+      sl: { price: 104, conditions: { en: 'Below last higher low', th: 'ใต้จุดต่ำที่สูงขึ้นล่าสุด' } },
+      tp: { price: 113.5, conditions: { en: 'Height projection (106 + 7.5)', th: 'ความสูงของสามเหลี่ยม (106 + 7.5)' } },
+    },
+  },
+  'pattern-descending-triangle': {
+    candles: DESC_TRI,
+    title: { en: 'Descending Triangle', th: 'Descending Triangle (สามเหลี่ยมลง)' },
+    summary: {
+      en: 'A bearish continuation pattern formed by a flat support line and a falling resistance line. Sellers progressively win before price breaks down.',
+      th: 'รูปแบบการไปต่อฝั่งขาลง เกิดจากเส้นแนวรับแนวนอน (Flat Support) และเส้นแนวต้านที่ต่ำลงเรื่อย ๆ ผู้ขายค่อย ๆ ชนะก่อนที่ราคาจะเบรกลง',
+    },
+    keyPoints: [
+      { en: 'The flat bottom represents equal support (EQL).', th: 'ด้านล่างราบคือแนวรับที่เท่ากัน (EQL)' },
+      { en: 'Lower highs form a falling resistance line.', th: 'จุดสูงที่ต่ำลงเรื่อย ๆ สร้างเส้นแนวต้านที่ต่ำลง' },
+      { en: 'A close below the support confirms the breakdown.', th: 'การปิดใต้แนวรับยืนยันการเบรกลง' },
+    ],
+    trendLines: [
+      { from: { time: descT(0), price: 112 }, to: { time: descT(6), price: 110.5 }, color: COLORS.bear, dashed: true },
+      { from: { time: descT(1), price: 109 }, to: { time: descT(7), price: 109 }, color: COLORS.amber, dashed: true },
+    ],
+    markers: [
+      { time: descT(1), position: 'belowBar', shape: 'arrowUp', color: COLORS.amber, text: { en: 'Support', th: 'แนวรับ' } },
+      { time: descT(4), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Lower high', th: 'จุดสูงที่ต่ำลง' } },
+      { time: descT(8), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Breakdown → Entry', th: 'เบรกลง → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'short',
+      setup: { en: 'Descending Triangle Breakdown', th: 'เบรกลงสามเหลี่ยมลง' },
+      logic: {
+        en: 'Enter on a strong bearish close below the flat support. Stop above the last lower high. Target measured by the triangle height projected from the breakdown.',
+        th: 'เข้าเทรดเมื่อแท่งปิดแดงแข็งแรงใต้แนวรับราบ วาง Stop เหนือจุดสูงที่ต่ำลงล่าสุด เป้าหมายคือความสูงของสามเหลี่ยมฉายจากจุดเบรกลง',
+      },
+      steps: [
+        { n: 1, title: { en: 'Identify the Triangle', th: 'หารูปสามเหลี่ยม' }, description: { en: 'Find a flat support with falling highs above it.', th: 'หาแนวรับราบพร้อมจุดสูงที่ต่ำลงข้างบน' } },
+        { n: 2, title: { en: 'Wait for the Breakdown', th: 'รอการเบรกลง' }, description: { en: 'Price must close below the flat support line.', th: 'ราคาต้องปิดใต้เส้นแนวรับราบ' } },
+        { n: 3, title: { en: 'Trade the Projection', th: 'เทรดตามเป้าหมาย' }, description: { en: 'Target the triangle height subtracted from the breakdown price.', th: 'ตั้งเป้าเท่ากับความสูงของสามเหลี่ยมลบจุดเบรกลง' } },
+      ],
+      riskReward: '2.5',
+      entry: { price: 108.5, conditions: { en: 'Close below support', th: 'ราคาปิดใต้แนวรับ' } },
+      sl: { price: 111, conditions: { en: 'Above last lower high', th: 'เหนือจุดสูงที่ต่ำลงล่าสุด' } },
+      tp: { price: 101, conditions: { en: 'Height projection (109 − 8)', th: 'ความสูงของสามเหลี่ยม (109 − 8)' } },
+    },
+  },
+  'pattern-cup-handle': {
+    candles: CUP,
+    title: { en: 'Cup & Handle', th: 'Cup & Handle (ถ้วยพร้อมหู)' },
+    summary: {
+      en: 'A bullish continuation pattern shaped like a tea cup: a rounded bowl (the cup) followed by a small pullback (the handle) before the breakout to new highs.',
+      th: 'รูปแบบการไปต่อฝั่งขาขึ้นที่มีรูปร่างคล้ายถ้วยชา: ก้นถ้วยกลม (ตัวถ้วย) ตามด้วยการย่อเล็ก ๆ (หูถ้วย) ก่อนเบรกเอาต์ขึ้นทำจุดสูงสุดใหม่',
+    },
+    keyPoints: [
+      { en: 'The cup should be rounded, like a "U", not a "V".', th: 'ก้นถ้วยต้องโค้งกลมแบบตัว U ไม่ใช่ตัว V' },
+      { en: 'The handle is a shallow pullback on the right side.', th: 'หูถ้วยคือการย่อตื้น ๆ ทางด้านขวาของถ้วย' },
+      { en: 'A close above the rim (the handle high) triggers the entry.', th: 'การปิดเหนือขอบถ้วย (จุดสูงของหูถ้วย) เป็นจุดเข้าเทรด' },
+    ],
+    trendLines: [
+      { from: { time: cupT(3), price: 108 }, to: { time: cupT(11), price: 108 }, color: COLORS.amber, dashed: true },
+    ],
+    markers: [
+      { time: cupT(3), position: 'aboveBar', shape: 'arrowDown', color: COLORS.amber, text: { en: 'Left rim', th: 'ขอบถ้วยซ้าย' } },
+      { time: cupT(7), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Cup bottom', th: 'ก้นถ้วย' } },
+      { time: cupT(13), position: 'aboveBar', shape: 'arrowDown', color: COLORS.muted, text: { en: 'Handle low', th: 'จุดต่ำหูถ้วย' } },
+      { time: cupT(14), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Breakout → Entry', th: 'เบรกเอาต์ → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Cup & Handle Breakout', th: 'เบรกเอาต์ Cup & Handle' },
+      logic: {
+        en: 'Enter on a strong bullish close above the cup rim. Stop below the handle low. Target is the cup depth projected above the rim.',
+        th: 'เข้าเทรดเมื่อแท่งปิดเขียวแข็งแรงเหนือขอบถ้วย วาง Stop ใต้จุดต่ำของหูถ้วย เป้าหมายคือความลึกของถ้วยฉายขึ้นจากขอบถ้วย',
+      },
+      steps: [
+        { n: 1, title: { en: 'Spot the Cup', th: 'หาถ้วย' }, description: { en: 'Look for a rounded U-shaped pullback after a rally.', th: 'หาการย่อโค้งรูปตัว U หลังช่วงขาขึ้น' } },
+        { n: 2, title: { en: 'Wait for the Handle', th: 'รอหูถ้วย' }, description: { en: 'A shallow dip forms on the right side of the rim.', th: 'การย่อตื้น ๆ เกิดทางด้านขวาของขอบถ้วย' } },
+        { n: 3, title: { en: 'Trade the Breakout', th: 'เทรดตอนเบรกเอาต์' }, description: { en: 'Buy on the close above the rim; stop below the handle.', th: 'ซื้อเมื่อปิดเหนือขอบถ้วย วาง Stop ใต้หูถ้วย' } },
+      ],
+      riskReward: '2.6',
+      entry: { price: 109, conditions: { en: 'Close above rim (108)', th: 'ราคาปิดเหนือขอบถ้วย (108)' } },
+      sl: { price: 103.5, conditions: { en: 'Below handle low', th: 'ใต้จุดต่ำของหูถ้วย' } },
+      tp: { price: 118, conditions: { en: 'Cup depth projection (108 + 10)', th: 'ความลึกของถ้วยฉาย (108 + 10)' } },
+    },
+  },
+  'pattern-falling-wedge': {
+    candles: WEDGE,
+    title: { en: 'Falling Wedge', th: 'Falling Wedge (ลิ่มตก)' },
+    summary: {
+      en: 'A bullish reversal pattern: price carves lower highs and lower lows inside two converging trendlines, then breaks out upward once selling pressure fades.',
+      th: 'รูปแบบกลับตัวฝั่งขาขึ้น: ราคาทำจุดสูงและจุดต่ำที่ลดลงเรื่อย ๆ ภายในเส้นแนวโน้มสองเส้นที่ค่อย ๆ บรรจบกัน แล้วเบรกขึ้นเมื่อแรงขายหมดลง',
+    },
+    keyPoints: [
+      { en: 'Both trendlines slope down, but the lower one falls faster.', th: 'เส้นแนวโน้มทั้งสองเอียงลง แต่เส้นล่างลาดชันกว่า' },
+      { en: 'The tightening range signals fading selling pressure.', th: 'กรอบที่แคบลงบ่งบอกว่าแรงขายกำลังหมด' },
+      { en: 'A close above the upper trendline confirms the breakout.', th: 'การปิดเหนือเส้นแนวโน้มบนยืนยันการเบรกเอาต์' },
+    ],
+    trendLines: [
+      { from: { time: wedgeT(0), price: 111 }, to: { time: wedgeT(8), price: 105 }, color: COLORS.bear, dashed: true },
+      { from: { time: wedgeT(1), price: 107 }, to: { time: wedgeT(7), price: 102.5 }, color: COLORS.cyan, dashed: true },
+    ],
+    markers: [
+      { time: wedgeT(5), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Lower low', th: 'จุดต่ำที่ต่ำลง' } },
+      { time: wedgeT(8), position: 'aboveBar', shape: 'arrowDown', color: COLORS.muted, text: { en: 'Converging lines', th: 'เส้นบรรจบกัน' } },
+      { time: wedgeT(9), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Breakout → Entry', th: 'เบรกเอาต์ → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Falling Wedge Breakout', th: 'เบรกเอาต์ลิ่มตก' },
+      logic: {
+        en: 'Enter on a strong bullish close above the upper trendline. Stop below the last low. Target is the wedge height projected from the breakout.',
+        th: 'เข้าเทรดเมื่อแท่งปิดเขียวแข็งแรงเหนือเส้นแนวโน้มบน วาง Stop ใต้จุดต่ำสุดล่าสุด เป้าหมายคือความสูงของลิ่มฉายจากจุดเบรกเอาต์',
+      },
+      steps: [
+        { n: 1, title: { en: 'Draw the Wedge', th: 'วาดลิ่ม' }, description: { en: 'Connect the descending highs and lows — they must converge.', th: 'ลากเส้นเชื่อมจุดสูงและจุดต่ำที่ลดลง — ต้องบรรจบกัน' } },
+        { n: 2, title: { en: 'Wait for the Breakout', th: 'รอการเบรกเอาต์' }, description: { en: 'Price must close above the upper trendline.', th: 'ราคาต้องปิดเหนือเส้นแนวโน้มบน' } },
+        { n: 3, title: { en: 'Trade the Reversal', th: 'เทรดการกลับตัว' }, description: { en: 'Buy the breakout with a stop below the wedge low.', th: 'ซื้อตอนเบรกเอาต์ วาง Stop ใต้จุดต่ำของลิ่ม' } },
+      ],
+      riskReward: '2.4',
+      entry: { price: 106, conditions: { en: 'Close above upper line', th: 'ราคาปิดเหนือเส้นแนวโน้มบน' } },
+      sl: { price: 101.5, conditions: { en: 'Below last low', th: 'ใต้จุดต่ำสุดล่าสุด' } },
+      tp: { price: 114, conditions: { en: 'Wedge height projection (106 + 8)', th: 'ความสูงของลิ่มฉาย (106 + 8)' } },
+    },
+  },
+  'pattern-bear-flag': {
+    candles: BEAR_FLAG,
+    title: { en: 'Bear Flag', th: 'Bear Flag (ธงหมี)' },
+    summary: {
+      en: 'A bearish continuation pattern: a sharp drop (the pole) followed by a small upward-sloping consolidation (the flag), then a breakdown to continue lower.',
+      th: 'รูปแบบการไปต่อฝั่งขาลง: การร่วงแรง (เสาธง) ตามด้วยการพักตัวเฉียงขึ้นเล็กน้อย (ตัวธง) แล้วเบรกลงเพื่อไปต่อในทิศทางเดิม',
+    },
+    keyPoints: [
+      { en: 'The pole is a strong, impulsive move downward.', th: 'เสาธงคือช่วงที่ราคาร่วงแรงและเร็ว' },
+      { en: 'The flag pulls back against the downtrend.', th: 'ตัวธงย่อสวนทางกับเทรนด์ขาลง' },
+      { en: 'A close below the flag support triggers the entry.', th: 'การปิดใต้แนวรับของธงเป็นจุดเข้าเทรด' },
+    ],
+    trendLines: [
+      { from: { time: bfT(3), price: 102 }, to: { time: bfT(7), price: 104 }, color: COLORS.accent, dashed: true },
+      { from: { time: bfT(4), price: 105 }, to: { time: bfT(8), price: 104.5 }, color: COLORS.accent, dashed: true },
+      { from: { time: bfT(0), price: 112 }, to: { time: bfT(3), price: 102 }, color: COLORS.bear, dashed: false },
+    ],
+    markers: [
+      { time: bfT(0), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: '① Flag Pole', th: '① เสาธง' } },
+      { time: bfT(5), position: 'aboveBar', shape: 'arrowUp', color: COLORS.accent, text: { en: '② Consolidation (Flag)', th: '② การพักตัว (ตัวธง)' } },
+      { time: bfT(9), position: 'belowBar', shape: 'arrowDown', color: COLORS.bear, text: { en: '③ Breakdown → Entry', th: '③ เบรกลง → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'short',
+      setup: { en: 'Bear Flag Breakdown', th: 'เบรกลง Bear Flag' },
+      logic: {
+        en: 'Enter on the close of a strong bearish candle breaking the flag support. Stop is above the flag high. Target is the length of the pole.',
+        th: 'เข้าเทรดเมื่อแท่งเทียนปิดทะลุแนวรับของธงด้วยแรงขายที่แข็งแกร่ง ตั้ง Stop ไว้เหนือจุดสูงสุดของธง เป้าหมายคือความยาวของเสาธง',
+      },
+      steps: [
+        { n: 1, title: { en: 'Identify the Pole', th: 'หาเสาธง' }, description: { en: 'Find a strong impulsive move downward.', th: 'หาการร่วงลงอย่างรุนแรง' } },
+        { n: 2, title: { en: 'Draw the Flag', th: 'วาดกรอบธง' }, description: { en: 'Connect the rising lows of the pullback.', th: 'ตีเส้นเชื่อมจุดต่ำที่สูงขึ้นของการย่อตัว' } },
+        { n: 3, title: { en: 'Trade the Breakdown', th: 'เทรดตอนเบรกลง' }, description: { en: 'Wait for price to close below the flag support.', th: 'รอราคาปิดทะลุเส้นแนวรับของธง' } },
+      ],
+      riskReward: '2.2',
+      entry: { price: 101.5, conditions: { en: 'Close below flag support', th: 'ราคาปิดทะลุแนวรับธง' } },
+      sl: { price: 107, conditions: { en: 'Above flag structure', th: 'เหนือโครงสร้างของธง' } },
+      tp: { price: 90.5, conditions: { en: 'Pole projection (101.5 − 11)', th: 'ระยะความยาวของเสาธง (101.5 − 11)' } },
+    },
+  },
+  'pattern-double-bottom': {
+    candles: DBL_BOTTOM,
+    title: { en: 'Double Bottom', th: 'Double Bottom (ก้นคู่)' },
+    summary: {
+      en: 'A bullish reversal pattern shaped like a "W": two troughs at roughly the same price level, with the second one failing to break lower before price breaks above the neckline.',
+      th: 'รูปแบบกลับตัวฝั่งขาขึ้นที่มีรูปร่างคล้ายตัว W: ก้นสองจุดที่ระดับราคาใกล้เคียงกัน โดยก้นที่สองไม่สามารถทำราคาต่ำลงได้ ก่อนที่ราคาจะเบรกขึ้นเหนือ Neckline',
+    },
+    keyPoints: [
+      { en: 'The two bottoms form at the same support level.', th: 'ก้นทั้งสองอยู่ที่ระดับแนวรับเดียวกัน' },
+      { en: 'The rally between them creates the neckline (resistance).', th: 'การดีดระหว่างก้นทั้งสองสร้าง Neckline (แนวต้าน)' },
+      { en: 'A close above the neckline confirms the reversal.', th: 'การปิดเหนือ Neckline ยืนยันการกลับตัวเป็นขาขึ้น' },
+    ],
+    priceLines: [{ price: 106.5, color: COLORS.amber, title: 'Neckline', dashed: true }],
+    trendLines: [
+      { from: { time: dbT(3), price: 102 }, to: { time: dbT(7), price: 102 }, color: COLORS.cyan, dashed: true },
+    ],
+    markers: [
+      { time: dbT(3), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Bottom 1', th: 'ก้นที่ 1' } },
+      { time: dbT(5), position: 'aboveBar', shape: 'arrowDown', color: COLORS.amber, text: { en: 'Neckline', th: 'เส้นคอ (Neckline)' } },
+      { time: dbT(7), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Bottom 2', th: 'ก้นที่ 2' } },
+      { time: dbT(9), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Breakout → Entry', th: 'เบรกขึ้น → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Double Bottom Breakout', th: 'เบรกขึ้นก้นคู่' },
+      logic: {
+        en: 'Enter on a strong bullish close above the neckline. Stop below the twin bottoms. Target is the distance from the bottoms to the neckline projected above it.',
+        th: 'เข้าเทรดเมื่อแท่งปิดเขียวแข็งแรงเหนือ Neckline วาง Stop ใต้ก้นคู่ เป้าหมายคือระยะจากก้นถึง Neckline ฉายขึ้นด้านบน',
+      },
+      steps: [
+        { n: 1, title: { en: 'Find the W', th: 'หาตัว W' }, description: { en: 'Look for two equal lows after a decline.', th: 'หาจุดต่ำที่เท่ากันสองจุดหลังช่วงขาลง' } },
+        { n: 2, title: { en: 'Draw the Neckline', th: 'ลากเส้น Neckline' }, description: { en: 'Connect the high between the two bottoms.', th: 'ลากเส้นเชื่อมจุดสูงระหว่างก้นทั้งสอง' } },
+        { n: 3, title: { en: 'Trade the Breakout', th: 'เทรดตอนเบรกขึ้น' }, description: { en: 'Buy on the close above the neckline; stop below the lows.', th: 'ซื้อเมื่อปิดเหนือ Neckline วาง Stop ใต้ก้น' } },
+      ],
+      riskReward: '2.0',
+      entry: { price: 107.5, conditions: { en: 'Close above neckline (106.5)', th: 'ราคาปิดเหนือ Neckline (106.5)' } },
+      sl: { price: 101.5, conditions: { en: 'Below twin bottoms', th: 'ใต้ก้นคู่' } },
+      tp: { price: 115.5, conditions: { en: 'Height projection (106.5 + 9)', th: 'ความสูงฉายขึ้น (106.5 + 9)' } },
+    },
+  },
+  'pattern-rising-wedge': {
+    candles: RISING_WEDGE,
+    title: { en: 'Rising Wedge', th: 'Rising Wedge (ลิ่มขึ้น)' },
+    summary: {
+      en: 'A bearish reversal pattern: price carves higher highs and higher lows inside two converging trendlines, then breaks down once buying pressure fades.',
+      th: 'รูปแบบกลับตัวฝั่งขาลง: ราคาทำจุดสูงและจุดต่ำที่สูงขึ้นเรื่อย ๆ ภายในเส้นแนวโน้มสองเส้นที่ค่อย ๆ บรรจบกัน แล้วเบรกลงเมื่อแรงซื้อหมดลง',
+    },
+    keyPoints: [
+      { en: 'Both trendlines slope up, but the upper one is steeper.', th: 'เส้นแนวโน้มทั้งสองเอียงขึ้น แต่เส้นบนชันกว่า' },
+      { en: 'The tightening range signals fading buying pressure.', th: 'กรอบที่แคบลงบ่งบอกว่าแรงซื้อกำลังหมด' },
+      { en: 'A close below the lower trendline confirms the breakdown.', th: 'การปิดใต้เส้นแนวโน้มล่างยืนยันการเบรกลง' },
+    ],
+    trendLines: [
+      { from: { time: rwT(1), price: 103.5 }, to: { time: rwT(7), price: 107.5 }, color: COLORS.bear, dashed: true },
+      { from: { time: rwT(2), price: 101.5 }, to: { time: rwT(6), price: 105 }, color: COLORS.amber, dashed: true },
+    ],
+    markers: [
+      { time: rwT(3), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Higher high', th: 'จุดสูงที่สูงขึ้น' } },
+      { time: rwT(6), position: 'belowBar', shape: 'arrowUp', color: COLORS.amber, text: { en: 'Converging lines', th: 'เส้นบรรจบกัน' } },
+      { time: rwT(8), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Breakdown → Entry', th: 'เบรกลง → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'short',
+      setup: { en: 'Rising Wedge Breakdown', th: 'เบรกลงลิ่มขึ้น' },
+      logic: {
+        en: 'Enter on a strong bearish close below the lower trendline. Stop above the last high. Target is the wedge height projected from the breakdown.',
+        th: 'เข้าเทรดเมื่อแท่งปิดแดงแข็งแรงใต้เส้นแนวโน้มล่าง วาง Stop เหนือจุดสูงสุดล่าสุด เป้าหมายคือความสูงของลิ่มฉายจากจุดเบรกลง',
+      },
+      steps: [
+        { n: 1, title: { en: 'Draw the Wedge', th: 'วาดลิ่ม' }, description: { en: 'Connect the rising highs and lows — they must converge.', th: 'ลากเส้นเชื่อมจุดสูงและจุดต่ำที่สูงขึ้น — ต้องบรรจบกัน' } },
+        { n: 2, title: { en: 'Wait for the Breakdown', th: 'รอการเบรกลง' }, description: { en: 'Price must close below the lower trendline.', th: 'ราคาต้องปิดใต้เส้นแนวโน้มล่าง' } },
+        { n: 3, title: { en: 'Trade the Reversal', th: 'เทรดการกลับตัว' }, description: { en: 'Short the breakdown with a stop above the wedge high.', th: 'ชอร์ตตอนเบรกลง วาง Stop เหนือจุดสูงของลิ่ม' } },
+      ],
+      riskReward: '2.4',
+      entry: { price: 104, conditions: { en: 'Close below lower line', th: 'ราคาปิดใต้เส้นแนวโน้มล่าง' } },
+      sl: { price: 108, conditions: { en: 'Above last high', th: 'เหนือจุดสูงสุดล่าสุด' } },
+      tp: { price: 96, conditions: { en: 'Wedge height projection (104 − 8)', th: 'ความสูงของลิ่มฉาย (104 − 8)' } },
+    },
+  },
+  'pattern-pennant': {
+    candles: PENNANT,
+    title: { en: 'Bullish Pennant', th: 'Pennant ขาขึ้น' },
+    summary: {
+      en: 'A bullish continuation pattern: a sharp rally (the pole) followed by a small symmetric triangle (the pennant), then a breakout to continue the uptrend.',
+      th: 'รูปแบบการไปต่อฝั่งขาขึ้น: การพุ่งแรง (เสาธง) ตามด้วยสามเหลี่ยมเล็ก ๆ สมมาตร (ตัวธง) แล้วเบรกขึ้นเพื่อไปต่อในเทรนด์เดิม',
+    },
+    keyPoints: [
+      { en: 'The pole is a strong, impulsive move upward.', th: 'เสาธงคือช่วงที่ราคาพุ่งแรงและเร็ว' },
+      { en: 'The pennant is a tight, symmetric consolidation.', th: 'ตัวธงคือการพักตัวที่แน่นและสมมาตร' },
+      { en: 'A close above the pennant triggers the entry.', th: 'การปิดเหนือตัวธงเป็นจุดเข้าเทรด' },
+    ],
+    trendLines: [
+      { from: { time: pnT(3), price: 109.5 }, to: { time: pnT(5), price: 108.5 }, color: COLORS.accent, dashed: true },
+      { from: { time: pnT(4), price: 106 }, to: { time: pnT(6), price: 107 }, color: COLORS.accent, dashed: true },
+      { from: { time: pnT(0), price: 100 }, to: { time: pnT(2), price: 110 }, color: COLORS.bull, dashed: false },
+    ],
+    markers: [
+      { time: pnT(2), position: 'aboveBar', shape: 'arrowUp', color: COLORS.bull, text: { en: '① Flag Pole', th: '① เสาธง' } },
+      { time: pnT(4), position: 'belowBar', shape: 'arrowDown', color: COLORS.accent, text: { en: '② Pennant', th: '② ตัวธง' } },
+      { time: pnT(7), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: '③ Breakout → Entry', th: '③ เบรกขึ้น → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Pennant Breakout', th: 'เบรกขึ้น Pennant' },
+      logic: {
+        en: 'Enter on the close of a strong bullish candle breaking the pennant. Stop is below the pennant low. Target is the length of the pole projected from the breakout.',
+        th: 'เข้าเทรดเมื่อแท่งเทียนปิดทะลุตัวธงด้วยแรงซื้อที่แข็งแกร่ง ตั้ง Stop ไว้ใต้จุดต่ำสุดของตัวธง เป้าหมายคือความยาวของเสาธงฉายจากจุดเบรกขึ้น',
+      },
+      steps: [
+        { n: 1, title: { en: 'Identify the Pole', th: 'หาเสาธง' }, description: { en: 'Find a strong impulsive move upward.', th: 'หาการพุ่งขึ้นอย่างรุนแรง' } },
+        { n: 2, title: { en: 'Spot the Pennant', th: 'หาตัวธง' }, description: { en: 'Price coils into a small symmetric triangle.', th: 'ราคาสะสมตัวเป็นสามเหลี่ยมสมมาตรเล็ก ๆ' } },
+        { n: 3, title: { en: 'Trade the Breakout', th: 'เทรดตอนเบรกขึ้น' }, description: { en: 'Wait for price to close above the pennant.', th: 'รอราคาปิดทะลุตัวธง' } },
+      ],
+      riskReward: '2.6',
+      entry: { price: 110, conditions: { en: 'Close above pennant', th: 'ราคาปิดทะลุตัวธง' } },
+      sl: { price: 105.5, conditions: { en: 'Below pennant structure', th: 'ใต้โครงสร้างตัวธง' } },
+      tp: { price: 120, conditions: { en: 'Pole projection (110 + 10)', th: 'ระยะความยาวของเสาธง (110 + 10)' } },
+    },
+  },
+  'pattern-inverse-hs': {
+    candles: INV_HS,
+    title: { en: 'Inverse Head & Shoulders', th: 'Inverse Head & Shoulders (หัวและไหล่กลับด้าน)' },
+    summary: {
+      en: 'A bullish reversal pattern: a lower trough (Head) between two shallower troughs (Shoulders). The breakout above the neckline signals the start of an uptrend.',
+      th: 'รูปแบบกลับตัวฝั่งขาขึ้น: ก้นที่ลึกกว่า (หัว) คั่นกลางระหว่างก้นที่ตื้นกว่าสองข้าง (ไหล่) การเบรกขึ้นเหนือ Neckline ส่งสัญญาณเริ่มต้นเทรนด์ขาขึ้น',
+    },
+    keyPoints: [
+      { en: 'The Head is the deepest low; Shoulders sit higher on both sides.', th: 'หัวเป็นจุดต่ำสุดที่ลึกที่สุด ไหล่ทั้งสองข้างอยู่สูงกว่า' },
+      { en: 'The neckline connects the two recovery highs.', th: 'Neckline เชื่อมจุดสูงของการดีดทั้งสองครั้ง' },
+      { en: 'A close above the neckline confirms the reversal.', th: 'การปิดเหนือ Neckline ยืนยันการกลับตัวเป็นขาขึ้น' },
+    ],
+    priceLines: [{ price: 108, color: COLORS.amber, title: 'Neckline', dashed: true }],
+    markers: [
+      { time: ihsT(2), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Left Shoulder', th: 'ไหล่ซ้าย' } },
+      { time: ihsT(5), position: 'belowBar', shape: 'arrowUp', color: COLORS.bear, text: { en: 'Head', th: 'หัว' } },
+      { time: ihsT(8), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Right Shoulder', th: 'ไหล่ขวา' } },
+      { time: ihsT(9), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Breakout → Entry', th: 'เบรกขึ้น → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Inverse H&S Breakout', th: 'เบรกขึ้นหัวและไหล่กลับด้าน' },
+      logic: {
+        en: 'Enter on a strong bullish close above the neckline. Stop below the Head. Target is the Head-to-neckline distance projected above the neckline.',
+        th: 'เข้าเทรดเมื่อแท่งปิดเขียวแข็งแรงเหนือ Neckline วาง Stop ใต้หัว เป้าหมายคือระยะจากหัวถึง Neckline ฉายขึ้นจาก Neckline',
+      },
+      steps: [
+        { n: 1, title: { en: 'Spot the Three Troughs', th: 'หาก้นสามจุด' }, description: { en: 'A deeper middle low between two shallower lows.', th: 'ก้นกลางลึกกว่าก้นสองข้าง' } },
+        { n: 2, title: { en: 'Draw the Neckline', th: 'ลากเส้น Neckline' }, description: { en: 'Connect the highs between the troughs.', th: 'ลากเส้นเชื่อมจุดสูงระหว่างก้น' } },
+        { n: 3, title: { en: 'Trade the Breakout', th: 'เทรดตอนเบรกขึ้น' }, description: { en: 'Buy on the close above the neckline.', th: 'ซื้อเมื่อปิดเหนือ Neckline' } },
+      ],
+      riskReward: '2.0',
+      entry: { price: 108.5, conditions: { en: 'Close above neckline (108)', th: 'ราคาปิดเหนือ Neckline (108)' } },
+      sl: { price: 100.5, conditions: { en: 'Below the Head', th: 'ใต้หัว' } },
+      tp: { price: 115.5, conditions: { en: 'Height projection (108 + 7.5)', th: 'ความสูงฉายขึ้น (108 + 7.5)' } },
+    },
+  },
+  'pattern-triple-top': {
+    candles: TRIPLE_TOP,
+    title: { en: 'Triple Top', th: 'Triple Top (ยอดสามยอด)' },
+    summary: {
+      en: 'A bearish reversal pattern with three peaks at roughly the same level. The pattern is confirmed when price breaks below the neckline (support).',
+      th: 'รูปแบบกลับตัวฝั่งขาลง ประกอบด้วยยอดสามยอดในระดับใกล้เคียงกัน รูปแบบสมบูรณ์เมื่อราคาเบรกใต้แนวรับ (Neckline)',
+    },
+    keyPoints: [
+      { en: 'Three peaks form at the same resistance level.', th: 'ยอดทั้งสามอยู่ที่ระดับแนวต้านเดียวกัน' },
+      { en: 'The pullbacks between them create the neckline.', th: 'การย่อระหว่างยอดสร้างเส้น Neckline' },
+      { en: 'A close below the neckline confirms the breakdown.', th: 'การปิดใต้ Neckline ยืนยันการเบรกลง' },
+    ],
+    priceLines: [{ price: 102, color: COLORS.amber, title: 'Neckline', dashed: true }],
+    trendLines: [
+      { from: { time: ttT(1), price: 105 }, to: { time: ttT(7), price: 105 }, color: COLORS.bear, dashed: true },
+    ],
+    markers: [
+      { time: ttT(1), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Top 1', th: 'ยอดที่ 1' } },
+      { time: ttT(4), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Top 2', th: 'ยอดที่ 2' } },
+      { time: ttT(7), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Top 3', th: 'ยอดที่ 3' } },
+      { time: ttT(9), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Breakdown → Entry', th: 'เบรกลง → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'short',
+      setup: { en: 'Triple Top Breakdown', th: 'เบรกลงยอดสามยอด' },
+      logic: {
+        en: 'Enter on a strong bearish close below the neckline. Stop above the tops. Target is the pattern height projected below the neckline.',
+        th: 'เข้าเทรดเมื่อแท่งปิดแดงแข็งแรงใต้ Neckline วาง Stop เหนือยอด เป้าหมายคือความสูงของรูปแบบฉายลงจาก Neckline',
+      },
+      steps: [
+        { n: 1, title: { en: 'Count the Tops', th: 'นับยอด' }, description: { en: 'Find three peaks at the same level.', th: 'หายอดสามยอดในระดับเดียวกัน' } },
+        { n: 2, title: { en: 'Draw the Neckline', th: 'ลากเส้น Neckline' }, description: { en: 'Connect the lows between the peaks.', th: 'ลากเส้นเชื่อมจุดต่ำระหว่างยอด' } },
+        { n: 3, title: { en: 'Trade the Breakdown', th: 'เทรดตอนเบรกลง' }, description: { en: 'Short on the close below the neckline.', th: 'ชอร์ตเมื่อปิดใต้ Neckline' } },
+      ],
+      riskReward: '1.6',
+      entry: { price: 101.5, conditions: { en: 'Close below neckline (102)', th: 'ราคาปิดใต้ Neckline (102)' } },
+      sl: { price: 105.5, conditions: { en: 'Above the tops', th: 'เหนือยอด' } },
+      tp: { price: 96.5, conditions: { en: 'Height projection (102 − 5.5)', th: 'ความสูงฉายลง (102 − 5.5)' } },
+    },
+  },
+  'pattern-triple-bottom': {
+    candles: TRIPLE_BOTTOM,
+    title: { en: 'Triple Bottom', th: 'Triple Bottom (ก้นสามก้น)' },
+    summary: {
+      en: 'A bullish reversal pattern with three troughs at roughly the same level. The pattern is confirmed when price breaks above the neckline (resistance).',
+      th: 'รูปแบบกลับตัวฝั่งขาขึ้น ประกอบด้วยก้นสามก้นในระดับใกล้เคียงกัน รูปแบบสมบูรณ์เมื่อราคาเบรกเหนือแนวต้าน (Neckline)',
+    },
+    keyPoints: [
+      { en: 'Three troughs form at the same support level.', th: 'ก้นทั้งสามอยู่ที่ระดับแนวรับเดียวกัน' },
+      { en: 'The rallies between them create the neckline.', th: 'การดีดระหว่างก้นสร้างเส้น Neckline' },
+      { en: 'A close above the neckline confirms the breakout.', th: 'การปิดเหนือ Neckline ยืนยันการเบรกขึ้น' },
+    ],
+    priceLines: [{ price: 100.5, color: COLORS.amber, title: 'Neckline', dashed: true }],
+    trendLines: [
+      { from: { time: tbT(1), price: 98 }, to: { time: tbT(7), price: 98 }, color: COLORS.cyan, dashed: true },
+    ],
+    markers: [
+      { time: tbT(1), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Bottom 1', th: 'ก้นที่ 1' } },
+      { time: tbT(4), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Bottom 2', th: 'ก้นที่ 2' } },
+      { time: tbT(7), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Bottom 3', th: 'ก้นที่ 3' } },
+      { time: tbT(8), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Breakout → Entry', th: 'เบรกขึ้น → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Triple Bottom Breakout', th: 'เบรกขึ้นก้นสามก้น' },
+      logic: {
+        en: 'Enter on a strong bullish close above the neckline. Stop below the bottoms. Target is the pattern height projected above the neckline.',
+        th: 'เข้าเทรดเมื่อแท่งปิดเขียวแข็งแรงเหนือ Neckline วาง Stop ใต้ก้น เป้าหมายคือความสูงของรูปแบบฉายขึ้นจาก Neckline',
+      },
+      steps: [
+        { n: 1, title: { en: 'Count the Bottoms', th: 'นับก้น' }, description: { en: 'Find three troughs at the same level.', th: 'หาก้นสามก้นในระดับเดียวกัน' } },
+        { n: 2, title: { en: 'Draw the Neckline', th: 'ลากเส้น Neckline' }, description: { en: 'Connect the highs between the troughs.', th: 'ลากเส้นเชื่อมจุดสูงระหว่างก้น' } },
+        { n: 3, title: { en: 'Trade the Breakout', th: 'เทรดตอนเบรกขึ้น' }, description: { en: 'Buy on the close above the neckline.', th: 'ซื้อเมื่อปิดเหนือ Neckline' } },
+      ],
+      riskReward: '2.0',
+      entry: { price: 101, conditions: { en: 'Close above neckline (100.5)', th: 'ราคาปิดเหนือ Neckline (100.5)' } },
+      sl: { price: 97.5, conditions: { en: 'Below the bottoms', th: 'ใต้ก้น' } },
+      tp: { price: 106.5, conditions: { en: 'Height projection (100.5 + 6)', th: 'ความสูงฉายขึ้น (100.5 + 6)' } },
+    },
+  },
+  'pattern-rounding-top': {
+    candles: ROUND_TOP,
+    title: { en: 'Rounding Top', th: 'Rounding Top (ยอดโค้ง)' },
+    summary: {
+      en: 'A slow, dome-shaped top that signals a gradual shift from buyers to sellers. Confirmation comes when price breaks below the neckline at the rim.',
+      th: 'ยอดรูปโดมที่ค่อย ๆ เกิดขึ้น ส่งสัญญาณการเปลี่ยนจากฝั่งซื้อไปฝั่งขายอย่างช้า ๆ ยืนยันเมื่อราคาเบรกใต้ Neckline ที่ขอบถ้วย',
+    },
+    keyPoints: [
+      { en: 'The rounding action is gradual — the dome takes many bars.', th: 'การโค้งเกิดขึ้นช้า ๆ — โดมต้องใช้หลายแท่ง' },
+      { en: 'Volume often fades as the dome rounds over.', th: 'วอลุ่มมักลดลงขณะโดมโค้งผ่านยอด' },
+      { en: 'A close below the rim support confirms the reversal.', th: 'การปิดใต้แนวรับขอบถ้วยยืนยันการกลับตัว' },
+    ],
+    priceLines: [{ price: 101.5, color: COLORS.amber, title: 'Neckline', dashed: true }],
+    markers: [
+      { time: rTopT(2), position: 'aboveBar', shape: 'arrowDown', color: COLORS.cyan, text: { en: 'Left rim', th: 'ขอบซ้าย' } },
+      { time: rTopT(3), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Dome top', th: 'ยอดโดม' } },
+      { time: rTopT(8), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Breakdown → Entry', th: 'เบรกลง → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'short',
+      setup: { en: 'Rounding Top Breakdown', th: 'เบรกลงยอดโค้ง' },
+      logic: {
+        en: 'Enter on a strong bearish close below the rim support. Stop above the dome. Target is the dome height projected below the neckline.',
+        th: 'เข้าเทรดเมื่อแท่งปิดแดงแข็งแรงใต้แนวรับขอบถ้วย วาง Stop เหนือโดม เป้าหมายคือความสูงของโดมฉายลงจาก Neckline',
+      },
+      steps: [
+        { n: 1, title: { en: 'See the Dome', th: 'เห็นโดม' }, description: { en: 'Price rounds over slowly after an advance.', th: 'ราคาโค้งลงอย่างช้า ๆ หลังช่วงขาขึ้น' } },
+        { n: 2, title: { en: 'Mark the Rim', th: 'ทำเครื่องหมายขอบถ้วย' }, description: { en: 'The neckline sits at the level where the rounding began.', th: 'Neckline อยู่ที่ระดับที่การโค้งเริ่มต้น' } },
+        { n: 3, title: { en: 'Trade the Breakdown', th: 'เทรดตอนเบรกลง' }, description: { en: 'Short on the close below the rim.', th: 'ชอร์ตเมื่อปิดใต้ขอบถ้วย' } },
+      ],
+      riskReward: '1.4',
+      entry: { price: 101, conditions: { en: 'Close below neckline (101.5)', th: 'ราคาปิดใต้ Neckline (101.5)' } },
+      sl: { price: 104.5, conditions: { en: 'Above the dome', th: 'เหนือโดม' } },
+      tp: { price: 96, conditions: { en: 'Height projection (101.5 − 5.5)', th: 'ความสูงฉายลง (101.5 − 5.5)' } },
+    },
+  },
+  'pattern-rounding-bottom': {
+    candles: ROUND_BOTTOM,
+    title: { en: 'Rounding Bottom', th: 'Rounding Bottom (ก้นโค้ง)' },
+    summary: {
+      en: 'A slow, saucer-shaped bottom that signals a gradual shift from sellers to buyers. Confirmation comes when price breaks above the neckline at the rim.',
+      th: 'ก้นรูปจานรองที่ค่อย ๆ เกิดขึ้น ส่งสัญญาณการเปลี่ยนจากฝั่งขายไปฝั่งซื้ออย่างช้า ๆ ยืนยันเมื่อราคาเบรกเหนือ Neckline ที่ขอบถ้วย',
+    },
+    keyPoints: [
+      { en: 'The rounding action is gradual — the saucer takes many bars.', th: 'การโค้งเกิดขึ้นช้า ๆ — จานรองต้องใช้หลายแท่ง' },
+      { en: 'Volume often expands as the saucer completes.', th: 'วอลุ่มมักเพิ่มขึ้นเมื่อจานรองใกล้สมบูรณ์' },
+      { en: 'A close above the rim resistance confirms the breakout.', th: 'การปิดเหนือแนวต้านขอบถ้วยยืนยันการเบรกขึ้น' },
+    ],
+    priceLines: [{ price: 102, color: COLORS.amber, title: 'Neckline', dashed: true }],
+    markers: [
+      { time: rBotT(2), position: 'aboveBar', shape: 'arrowDown', color: COLORS.cyan, text: { en: 'Left rim', th: 'ขอบซ้าย' } },
+      { time: rBotT(4), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Saucer bottom', th: 'ก้นจานรอง' } },
+      { time: rBotT(8), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Breakout → Entry', th: 'เบรกขึ้น → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Rounding Bottom Breakout', th: 'เบรกขึ้นก้นโค้ง' },
+      logic: {
+        en: 'Enter on a strong bullish close above the rim resistance. Stop below the saucer. Target is the saucer depth projected above the neckline.',
+        th: 'เข้าเทรดเมื่อแท่งปิดเขียวแข็งแรงเหนือแนวต้านขอบถ้วย วาง Stop ใต้จานรอง เป้าหมายคือความลึกของจานรองฉายขึ้นจาก Neckline',
+      },
+      steps: [
+        { n: 1, title: { en: 'See the Saucer', th: 'เห็นจานรอง' }, description: { en: 'Price rounds up slowly after a decline.', th: 'ราคาโค้งขึ้นอย่างช้า ๆ หลังช่วงขาลง' } },
+        { n: 2, title: { en: 'Mark the Rim', th: 'ทำเครื่องหมายขอบถ้วย' }, description: { en: 'The neckline sits at the level where the rounding began.', th: 'Neckline อยู่ที่ระดับที่การโค้งเริ่มต้น' } },
+        { n: 3, title: { en: 'Trade the Breakout', th: 'เทรดตอนเบรกขึ้น' }, description: { en: 'Buy on the close above the rim.', th: 'ซื้อเมื่อปิดเหนือขอบถ้วย' } },
+      ],
+      riskReward: '1.7',
+      entry: { price: 102.5, conditions: { en: 'Close above neckline (102)', th: 'ราคาปิดเหนือ Neckline (102)' } },
+      sl: { price: 99, conditions: { en: 'Below the saucer', th: 'ใต้จานรอง' } },
+      tp: { price: 108, conditions: { en: 'Depth projection (102 + 6)', th: 'ความลึกฉายขึ้น (102 + 6)' } },
+    },
+  },
+  'pattern-diamond-top': {
+    candles: DIAMOND_TOP,
+    title: { en: 'Diamond Top', th: 'Diamond Top (เพชรยอด)' },
+    summary: {
+      en: 'A bearish reversal pattern shaped like a diamond: price widens into higher highs and lower lows, then narrows before breaking down below the pattern.',
+      th: 'รูปแบบกลับตัวฝั่งขาลงรูปทรงเพชร: ราคาขยายกว้างเป็นจุดสูงที่สูงขึ้นและจุดต่ำที่ต่ำลง จากนั้นแคบลงก่อนเบรกลงใต้รูปแบบ',
+    },
+    keyPoints: [
+      { en: 'The diamond broadens first, then narrows.', th: 'เพชรขยายกว้างก่อน แล้วค่อยแคบลง' },
+      { en: 'The widening phase traps trend traders on both sides.', th: 'ช่วงขยายกว้างดักเทรดเดอร์ทั้งสองฝั่ง' },
+      { en: 'A close below the final low confirms the breakdown.', th: 'การปิดใต้จุดต่ำสุดท้ายยืนยันการเบรกลง' },
+    ],
+    trendLines: [
+      { from: { time: dTopT(1), price: 104 }, to: { time: dTopT(3), price: 105.5 }, color: COLORS.bear, dashed: true },
+      { from: { time: dTopT(2), price: 102 }, to: { time: dTopT(4), price: 102.5 }, color: COLORS.cyan, dashed: true },
+    ],
+    markers: [
+      { time: dTopT(3), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Widening', th: 'ขยายกว้าง' } },
+      { time: dTopT(6), position: 'aboveBar', shape: 'arrowDown', color: COLORS.cyan, text: { en: 'Narrowing', th: 'แคบลง' } },
+      { time: dTopT(8), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Breakdown → Entry', th: 'เบรกลง → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'short',
+      setup: { en: 'Diamond Top Breakdown', th: 'เบรกลงเพชรยอด' },
+      logic: {
+        en: 'Enter on a strong bearish close below the final low. Stop above the right side of the diamond. Target is the pattern height projected below.',
+        th: 'เข้าเทรดเมื่อแท่งปิดแดงแข็งแรงใต้จุดต่ำสุดท้าย วาง Stop เหนือด้านขวาของเพชร เป้าหมายคือความสูงของรูปแบบฉายลง',
+      },
+      steps: [
+        { n: 1, title: { en: 'Spot the Diamond', th: 'เห็นเพชร' }, description: { en: 'Price widens then narrows into a diamond shape.', th: 'ราคาขยายกว้างแล้วแคบลงเป็นรูปเพชร' } },
+        { n: 2, title: { en: 'Watch the Final Low', th: 'ดูจุดต่ำสุดท้าย' }, description: { en: 'The breakdown happens below the last low.', th: 'การเบรกลงเกิดขึ้นใต้จุดต่ำสุดท้าย' } },
+        { n: 3, title: { en: 'Trade the Breakdown', th: 'เทรดตอนเบรกลง' }, description: { en: 'Short on the close below the diamond.', th: 'ชอร์ตเมื่อปิดใต้เพชร' } },
+      ],
+      riskReward: '1.6',
+      entry: { price: 101, conditions: { en: 'Close below final low (102)', th: 'ราคาปิดใต้จุดต่ำสุดท้าย (102)' } },
+      sl: { price: 104.5, conditions: { en: 'Above the right side', th: 'เหนือด้านขวาของเพชร' } },
+      tp: { price: 96.5, conditions: { en: 'Height projection (102 − 5.5)', th: 'ความสูงฉายลง (102 − 5.5)' } },
+    },
+  },
+  'pattern-diamond-bottom': {
+    candles: DIAMOND_BOTTOM,
+    title: { en: 'Diamond Bottom', th: 'Diamond Bottom (เพชรก้น)' },
+    summary: {
+      en: 'A bullish reversal pattern shaped like a diamond: price widens into lower lows and higher highs, then narrows before breaking out above the pattern.',
+      th: 'รูปแบบกลับตัวฝั่งขาขึ้นรูปทรงเพชร: ราคาขยายกว้างเป็นจุดต่ำที่ต่ำลงและจุดสูงที่สูงขึ้น จากนั้นแคบลงก่อนเบรกขึ้นเหนือรูปแบบ',
+    },
+    keyPoints: [
+      { en: 'The diamond broadens first, then narrows.', th: 'เพชรขยายกว้างก่อน แล้วค่อยแคบลง' },
+      { en: 'The widening phase shakes out late sellers.', th: 'ช่วงขยายกว้างเขย่าผู้ขายที่เข้าช้า' },
+      { en: 'A close above the final high confirms the breakout.', th: 'การปิดเหนือจุดสูงสุดท้ายยืนยันการเบรกขึ้น' },
+    ],
+    trendLines: [
+      { from: { time: dBotT(1), price: 109 }, to: { time: dBotT(3), price: 106.5 }, color: COLORS.cyan, dashed: true },
+      { from: { time: dBotT(2), price: 110.5 }, to: { time: dBotT(4), price: 108 }, color: COLORS.bull, dashed: true },
+    ],
+    markers: [
+      { time: dBotT(3), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Widening', th: 'ขยายกว้าง' } },
+      { time: dBotT(6), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Narrowing', th: 'แคบลง' } },
+      { time: dBotT(8), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Breakout → Entry', th: 'เบรกขึ้น → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Diamond Bottom Breakout', th: 'เบรกขึ้นเพชรก้น' },
+      logic: {
+        en: 'Enter on a strong bullish close above the final high. Stop below the right side of the diamond. Target is the pattern height projected above.',
+        th: 'เข้าเทรดเมื่อแท่งปิดเขียวแข็งแรงเหนือจุดสูงสุดท้าย วาง Stop ใต้ด้านขวาของเพชร เป้าหมายคือความสูงของรูปแบบฉายขึ้น',
+      },
+      steps: [
+        { n: 1, title: { en: 'Spot the Diamond', th: 'เห็นเพชร' }, description: { en: 'Price widens then narrows into a diamond shape.', th: 'ราคาขยายกว้างแล้วแคบลงเป็นรูปเพชร' } },
+        { n: 2, title: { en: 'Watch the Final High', th: 'ดูจุดสูงสุดท้าย' }, description: { en: 'The breakout happens above the last high.', th: 'การเบรกขึ้นเกิดขึ้นเหนือจุดสูงสุดท้าย' } },
+        { n: 3, title: { en: 'Trade the Breakout', th: 'เทรดตอนเบรกขึ้น' }, description: { en: 'Buy on the close above the diamond.', th: 'ซื้อเมื่อปิดเหนือเพชร' } },
+      ],
+      riskReward: '1.7',
+      entry: { price: 108, conditions: { en: 'Close above final high (107)', th: 'ราคาปิดเหนือจุดสูงสุดท้าย (107)' } },
+      sl: { price: 104.5, conditions: { en: 'Below the right side', th: 'ใต้ด้านขวาของเพชร' } },
+      tp: { price: 114.5, conditions: { en: 'Height projection (107 + 7.5)', th: 'ความสูงฉายขึ้น (107 + 7.5)' } },
+    },
+  },
+  'pattern-broadening-top': {
+    candles: BROADEN_TOP,
+    title: { en: 'Broadening Top (Megaphone)', th: 'Broadening Top (ปากแตร)' },
+    summary: {
+      en: 'A bearish pattern with expanding highs and lows, shaped like a megaphone. Each swing is more volatile than the last, and price eventually breaks down.',
+      th: 'รูปแบบขาลงที่จุดสูงและจุดต่ำขยายกว้างขึ้นเรื่อย ๆ รูปทรงปากแตร ความผันผวนเพิ่มขึ้นทุกสวิง และสุดท้ายราคาเบรกลง',
+    },
+    keyPoints: [
+      { en: 'Higher highs and lower lows widen the range.', th: 'จุดสูงที่สูงขึ้นและจุดต่ำที่ต่ำลงขยายกรอบราคา' },
+      { en: 'The widening shows emotional, two-sided trading.', th: 'การขยายกว้างบ่งบอกถึงการเทรดสองฝั่งที่ขาดเหตุผล' },
+      { en: 'A close below the latest low confirms the breakdown.', th: 'การปิดใต้จุดต่ำล่าสุดยืนยันการเบรกลง' },
+    ],
+    trendLines: [
+      { from: { time: brT(1), price: 104 }, to: { time: brT(5), price: 107.5 }, color: COLORS.bear, dashed: true },
+      { from: { time: brT(2), price: 101.5 }, to: { time: brT(6), price: 102 }, color: COLORS.cyan, dashed: true },
+    ],
+    markers: [
+      { time: brT(3), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Higher high', th: 'จุดสูงที่สูงขึ้น' } },
+      { time: brT(4), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Lower low', th: 'จุดต่ำที่ต่ำลง' } },
+      { time: brT(7), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Breakdown → Entry', th: 'เบรกลง → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'short',
+      setup: { en: 'Broadening Top Breakdown', th: 'เบรกลงปากแตร' },
+      logic: {
+        en: 'Enter on a strong bearish close below the latest low. Stop above the last high. Target is the height of the megaphone projected below.',
+        th: 'เข้าเทรดเมื่อแท่งปิดแดงแข็งแรงใต้จุดต่ำล่าสุด วาง Stop เหนือจุดสูงสุดท้าย เป้าหมายคือความสูงของปากแตรฉายลง',
+      },
+      steps: [
+        { n: 1, title: { en: 'See the Megaphone', th: 'เห็นปากแตร' }, description: { en: 'Price swings widen in both directions.', th: 'ราคาแกว่งกว้างขึ้นทั้งสองทิศทาง' } },
+        { n: 2, title: { en: 'Wait for the Break', th: 'รอการเบรก' }, description: { en: 'The breakdown comes below the latest low.', th: 'การเบรกลงเกิดใต้จุดต่ำล่าสุด' } },
+        { n: 3, title: { en: 'Trade the Breakdown', th: 'เทรดตอนเบรกลง' }, description: { en: 'Short on the close below the pattern.', th: 'ชอร์ตเมื่อปิดใต้รูปแบบ' } },
+      ],
+      riskReward: '1.5',
+      entry: { price: 101.5, conditions: { en: 'Close below latest low (102)', th: 'ราคาปิดใต้จุดต่ำล่าสุด (102)' } },
+      sl: { price: 104.5, conditions: { en: 'Above the last high', th: 'เหนือจุดสูงสุดท้าย' } },
+      tp: { price: 97, conditions: { en: 'Height projection (102 − 5)', th: 'ความสูงฉายลง (102 − 5)' } },
+    },
+  },
+  'pattern-island-reversal': {
+    candles: ISLAND_REV,
+    title: { en: 'Island Reversal', th: 'Island Reversal (เกาะกลับตัว)' },
+    summary: {
+      en: 'A bearish reversal: an isolated cluster of candles separated by gaps on both sides. The gap down after the island traps late buyers and signals a trend change.',
+      th: 'รูปแบบกลับตัวฝั่งขาลง: กลุ่มแท่งเทียนที่โดดเดี่ยว คั่นด้วยช่องว่างทั้งสองด้าน ช่องว่างที่เกิดหลังเกาะดักผู้ซื้อที่เข้าช้าและส่งสัญญาณเปลี่ยนเทรนด์',
+    },
+    keyPoints: [
+      { en: 'The island is surrounded by gaps on both sides.', th: 'เกาะถูกล้อมรอบด้วยช่องว่างทั้งสองด้าน' },
+      { en: 'The pattern traps buyers who chased the breakout.', th: 'รูปแบบดักผู้ซื้อที่ไล่ตามการเบรก' },
+      { en: 'The gap down confirms the reversal to the downside.', th: 'ช่องว่างที่เกิดขาลงยืนยันการกลับตัว' },
+    ],
+    markers: [
+      { time: islT(2), position: 'aboveBar', shape: 'arrowDown', color: COLORS.cyan, text: { en: 'Gap up', th: 'ช่องว่างขึ้น' } },
+      { time: islT(5), position: 'belowBar', shape: 'arrowUp', color: COLORS.bear, text: { en: 'Island', th: 'เกาะ' } },
+      { time: islT(6), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Gap down → Entry', th: 'ช่องว่างลง → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'short',
+      setup: { en: 'Island Reversal Short', th: 'ชอร์ตเกาะกลับตัว' },
+      logic: {
+        en: 'Enter on the bearish close that leaves the gap down from the island. Stop above the island high. Target is the island height projected below.',
+        th: 'เข้าเทรดเมื่อแท่งปิดแดงที่สร้างช่องว่างลงจากเกาะ วาง Stop เหนือจุดสูงของเกาะ เป้าหมายคือความสูงของเกาะฉายลง',
+      },
+      steps: [
+        { n: 1, title: { en: 'Find the Island', th: 'หาเกาะ' }, description: { en: 'A cluster of candles isolated by gaps.', th: 'กลุ่มแท่งเทียนที่โดดเดี่ยวด้วยช่องว่าง' } },
+        { n: 2, title: { en: 'Watch for the Gap Down', th: 'รอช่องว่างลง' }, description: { en: 'Price gaps away from the island to the downside.', th: 'ราคาสร้างช่องว่างลงห่างจากเกาะ' } },
+        { n: 3, title: { en: 'Trade the Reversal', th: 'เทรดการกลับตัว' }, description: { en: 'Short on the gap-down close.', th: 'ชอร์ตเมื่อปิดแท่งช่องว่างลง' } },
+      ],
+      riskReward: '1.8',
+      entry: { price: 104, conditions: { en: 'Gap-down close below island', th: 'ปิดแท่งช่องว่างลงใต้เกาะ' } },
+      sl: { price: 108.5, conditions: { en: 'Above island high', th: 'เหนือจุดสูงของเกาะ' } },
+      tp: { price: 98, conditions: { en: 'Island height projection (104 − 6)', th: 'ความสูงของเกาะฉายลง (104 − 6)' } },
+    },
+  },
+  'pattern-bear-pennant': {
+    candles: BEAR_PENNANT,
+    title: { en: 'Bearish Pennant', th: 'Pennant ขาลง' },
+    summary: {
+      en: 'A bearish continuation pattern: a sharp decline (the pole) followed by a small symmetric triangle (the pennant), then a breakdown to continue the downtrend.',
+      th: 'รูปแบบการไปต่อฝั่งขาลง: การร่วงแรง (เสาธง) ตามด้วยสามเหลี่ยมเล็ก ๆ สมมาตร (ตัวธง) แล้วเบรกลงเพื่อไปต่อในเทรนด์เดิม',
+    },
+    keyPoints: [
+      { en: 'The pole is a strong, impulsive move downward.', th: 'เสาธงคือช่วงที่ราคาร่วงแรงและเร็ว' },
+      { en: 'The pennant is a tight, symmetric consolidation.', th: 'ตัวธงคือการพักตัวที่แน่นและสมมาตร' },
+      { en: 'A close below the pennant triggers the entry.', th: 'การปิดใต้ตัวธงเป็นจุดเข้าเทรด' },
+    ],
+    trendLines: [
+      { from: { time: bpT(3), price: 105 }, to: { time: bpT(4), price: 106 }, color: COLORS.accent, dashed: true },
+      { from: { time: bpT(2), price: 103 }, to: { time: bpT(5), price: 104.5 }, color: COLORS.accent, dashed: true },
+      { from: { time: bpT(0), price: 112 }, to: { time: bpT(2), price: 103 }, color: COLORS.bear, dashed: false },
+    ],
+    markers: [
+      { time: bpT(2), position: 'belowBar', shape: 'arrowDown', color: COLORS.bear, text: { en: '① Flag Pole', th: '① เสาธง' } },
+      { time: bpT(4), position: 'aboveBar', shape: 'arrowUp', color: COLORS.accent, text: { en: '② Pennant', th: '② ตัวธง' } },
+      { time: bpT(6), position: 'belowBar', shape: 'arrowDown', color: COLORS.bear, text: { en: '③ Breakdown → Entry', th: '③ เบรกลง → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'short',
+      setup: { en: 'Bear Pennant Breakdown', th: 'เบรกลง Pennant' },
+      logic: {
+        en: 'Enter on the close of a strong bearish candle breaking the pennant. Stop is above the pennant high. Target is the length of the pole projected from the breakdown.',
+        th: 'เข้าเทรดเมื่อแท่งเทียนปิดทะลุตัวธงด้วยแรงขายที่แข็งแกร่ง ตั้ง Stop ไว้เหนือจุดสูงสุดของตัวธง เป้าหมายคือความยาวของเสาธงฉายจากจุดเบรกลง',
+      },
+      steps: [
+        { n: 1, title: { en: 'Identify the Pole', th: 'หาเสาธง' }, description: { en: 'Find a strong impulsive move downward.', th: 'หาการร่วงลงอย่างรุนแรง' } },
+        { n: 2, title: { en: 'Spot the Pennant', th: 'หาตัวธง' }, description: { en: 'Price coils into a small symmetric triangle.', th: 'ราคาสะสมตัวเป็นสามเหลี่ยมสมมาตรเล็ก ๆ' } },
+        { n: 3, title: { en: 'Trade the Breakdown', th: 'เทรดตอนเบรกลง' }, description: { en: 'Wait for price to close below the pennant.', th: 'รอราคาปิดทะลุตัวธง' } },
+      ],
+      riskReward: '2.6',
+      entry: { price: 104, conditions: { en: 'Close below pennant', th: 'ราคาปิดทะลุตัวธง' } },
+      sl: { price: 106.5, conditions: { en: 'Above pennant structure', th: 'เหนือโครงสร้างตัวธง' } },
+      tp: { price: 95, conditions: { en: 'Pole projection (104 − 9)', th: 'ระยะความยาวของเสาธง (104 − 9)' } },
+    },
+  },
+  'pattern-symmetrical-triangle': {
+    candles: SYM_TRI,
+    title: { en: 'Symmetrical Triangle', th: 'Symmetrical Triangle (สามเหลี่ยมสมมาตร)' },
+    summary: {
+      en: 'A neutral continuation pattern: lower highs and higher lows converge into a tightening triangle. A breakout in either direction, here upward, continues the trend.',
+      th: 'รูปแบบการไปต่อที่เป็นกลาง: จุดสูงที่ต่ำลงและจุดต่ำที่สูงขึ้นบรรจบเป็นสามเหลี่ยมที่แคบลง การเบรกทั้งสองทิศทาง — ในที่นี้คือขึ้น — เดินต่อตามเทรนด์',
+    },
+    keyPoints: [
+      { en: 'Both trendlines converge toward an apex.', th: 'เส้นแนวโน้มทั้งสองบรรจบเข้าหาจุดยอด' },
+      { en: 'The triangle is a pause, not a reversal.', th: 'สามเหลี่ยมคือการพักตัว ไม่ใช่การกลับตัว' },
+      { en: 'Trade the direction of the breakout close.', th: 'เทรดตามทิศทางของการปิดเบรก' },
+    ],
+    trendLines: [
+      { from: { time: stT(1), price: 105 }, to: { time: stT(5), price: 103.5 }, color: COLORS.bear, dashed: true },
+      { from: { time: stT(2), price: 101.5 }, to: { time: stT(6), price: 101.5 }, color: COLORS.cyan, dashed: true },
+    ],
+    markers: [
+      { time: stT(1), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Lower high', th: 'จุดสูงที่ต่ำลง' } },
+      { time: stT(4), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Higher low', th: 'จุดต่ำที่สูงขึ้น' } },
+      { time: stT(7), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Breakout → Entry', th: 'เบรกขึ้น → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Symmetrical Triangle Breakout', th: 'เบรกขึ้นสามเหลี่ยมสมมาตร' },
+      logic: {
+        en: 'Enter on the close in the breakout direction. Stop on the opposite side of the triangle. Target is the triangle height projected from the breakout.',
+        th: 'เข้าเทรดเมื่อปิดแท่งเบรกตามทิศทาง วาง Stop ฝั่งตรงข้ามของสามเหลี่ยม เป้าหมายคือความสูงของสามเหลี่ยมฉายจากจุดเบรก',
+      },
+      steps: [
+        { n: 1, title: { en: 'Draw the Triangle', th: 'วาดสามเหลี่ยม' }, description: { en: 'Connect the converging highs and lows.', th: 'ลากเส้นเชื่อมจุดสูงและจุดต่ำที่บรรจบกัน' } },
+        { n: 2, title: { en: 'Wait for the Breakout', th: 'รอการเบรก' }, description: { en: 'Price must close outside the triangle.', th: 'ราคาต้องปิดออกนอกสามเหลี่ยม' } },
+        { n: 3, title: { en: 'Trade the Direction', th: 'เทรดตามทิศทาง' }, description: { en: 'Follow the breakout close direction.', th: 'ตามทิศทางของแท่งปิดเบรก' } },
+      ],
+      riskReward: '2.0',
+      entry: { price: 105.5, conditions: { en: 'Close above upper line', th: 'ราคาปิดเหนือเส้นบน' } },
+      sl: { price: 101, conditions: { en: 'Below lower line', th: 'ใต้เส้นล่าง' } },
+      tp: { price: 109.5, conditions: { en: 'Height projection (105.5 + 4)', th: 'ความสูงฉายขึ้น (105.5 + 4)' } },
+    },
+  },
+  'pattern-bull-rectangle': {
+    candles: BULL_RECT,
+    title: { en: 'Bullish Rectangle', th: 'Bullish Rectangle (กรอบขาขึ้น)' },
+    summary: {
+      en: 'A bullish continuation pattern: price trades sideways between parallel support and resistance, then breaks out above the range to continue the uptrend.',
+      th: 'รูปแบบการไปต่อฝั่งขาขึ้น: ราคาแกว่งด้านข้างระหว่างแนวรับและแนวต้านขนานกัน แล้วเบรกขึ้นเหนือกรอบเพื่อไปต่อเทรนด์ขาขึ้น',
+    },
+    keyPoints: [
+      { en: 'Price oscillates between two parallel lines.', th: 'ราคาแกว่งระหว่างเส้นขนานสองเส้น' },
+      { en: 'Each touch of support and resistance tests the range.', th: 'ทุกการแตะแนวรับและแนวต้านทดสอบกรอบราคา' },
+      { en: 'A close above the range high triggers the entry.', th: 'การปิดเหนือจุดสูงของกรอบเป็นจุดเข้าเทรด' },
+    ],
+    priceLines: [
+      { price: 105, color: COLORS.amber, title: 'Resistance', dashed: true },
+      { price: 101.5, color: COLORS.cyan, title: 'Support', dashed: true },
+    ],
+    markers: [
+      { time: bullRctT(1), position: 'aboveBar', shape: 'arrowDown', color: COLORS.amber, text: { en: 'Resistance', th: 'แนวต้าน' } },
+      { time: bullRctT(2), position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'Support', th: 'แนวรับ' } },
+      { time: bullRctT(7), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Breakout → Entry', th: 'เบรกขึ้น → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Bullish Rectangle Breakout', th: 'เบรกขึ้นกรอบขาขึ้น' },
+      logic: {
+        en: 'Enter on a strong bullish close above the range high. Stop below the range low. Target is the range height projected above the breakout.',
+        th: 'เข้าเทรดเมื่อแท่งปิดเขียวแข็งแรงเหนือจุดสูงของกรอบ วาง Stop ใต้จุดต่ำของกรอบ เป้าหมายคือความสูงของกรอบฉายขึ้นจากจุดเบรก',
+      },
+      steps: [
+        { n: 1, title: { en: 'See the Box', th: 'เห็นกรอบ' }, description: { en: 'Price ranges between two parallel levels.', th: 'ราคาแกว่งระหว่างเส้นขนานสองระดับ' } },
+        { n: 2, title: { en: 'Wait for the Breakout', th: 'รอการเบรกขึ้น' }, description: { en: 'Price must close above the range high.', th: 'ราคาต้องปิดเหนือจุดสูงของกรอบ' } },
+        { n: 3, title: { en: 'Trade the Projection', th: 'เทรดตามเป้าหมาย' }, description: { en: 'Target the range height above the breakout.', th: 'ตั้งเป้าเท่ากับความสูงของกรอบเหนือจุดเบรก' } },
+      ],
+      riskReward: '2.2',
+      entry: { price: 105.5, conditions: { en: 'Close above range high (105)', th: 'ราคาปิดเหนือจุดสูงของกรอบ (105)' } },
+      sl: { price: 101, conditions: { en: 'Below range low', th: 'ใต้จุดต่ำของกรอบ' } },
+      tp: { price: 109.5, conditions: { en: 'Height projection (105 + 4.5)', th: 'ความสูงของกรอบฉาย (105 + 4.5)' } },
+    },
+  },
+  'pattern-bear-rectangle': {
+    candles: BEAR_RECT,
+    title: { en: 'Bearish Rectangle', th: 'Bearish Rectangle (กรอบขาลง)' },
+    summary: {
+      en: 'A bearish continuation pattern: price trades sideways between parallel support and resistance, then breaks out below the range to continue the downtrend.',
+      th: 'รูปแบบการไปต่อฝั่งขาลง: ราคาแกว่งด้านข้างระหว่างแนวรับและแนวต้านขนานกัน แล้วเบรกลงใต้กรอบเพื่อไปต่อเทรนด์ขาลง',
+    },
+    keyPoints: [
+      { en: 'Price oscillates between two parallel lines.', th: 'ราคาแกว่งระหว่างเส้นขนานสองเส้น' },
+      { en: 'Each touch of support and resistance tests the range.', th: 'ทุกการแตะแนวรับและแนวต้านทดสอบกรอบราคา' },
+      { en: 'A close below the range low triggers the entry.', th: 'การปิดใต้จุดต่ำของกรอบเป็นจุดเข้าเทรด' },
+    ],
+    priceLines: [
+      { price: 111, color: COLORS.bear, title: 'Resistance', dashed: true },
+      { price: 108, color: COLORS.amber, title: 'Support', dashed: true },
+    ],
+    markers: [
+      { time: bearRctT(1), position: 'belowBar', shape: 'arrowUp', color: COLORS.amber, text: { en: 'Support', th: 'แนวรับ' } },
+      { time: bearRctT(2), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Resistance', th: 'แนวต้าน' } },
+      { time: bearRctT(7), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Breakdown → Entry', th: 'เบรกลง → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'short',
+      setup: { en: 'Bearish Rectangle Breakdown', th: 'เบรกลงกรอบขาลง' },
+      logic: {
+        en: 'Enter on a strong bearish close below the range low. Stop above the range high. Target is the range height projected below the breakdown.',
+        th: 'เข้าเทรดเมื่อแท่งปิดแดงแข็งแรงใต้จุดต่ำของกรอบ วาง Stop เหนือจุดสูงของกรอบ เป้าหมายคือความสูงของกรอบฉายลงจากจุดเบรกลง',
+      },
+      steps: [
+        { n: 1, title: { en: 'See the Box', th: 'เห็นกรอบ' }, description: { en: 'Price ranges between two parallel levels.', th: 'ราคาแกว่งระหว่างเส้นขนานสองระดับ' } },
+        { n: 2, title: { en: 'Wait for the Breakdown', th: 'รอการเบรกลง' }, description: { en: 'Price must close below the range low.', th: 'ราคาต้องปิดใต้จุดต่ำของกรอบ' } },
+        { n: 3, title: { en: 'Trade the Projection', th: 'เทรดตามเป้าหมาย' }, description: { en: 'Target the range height below the breakdown.', th: 'ตั้งเป้าเท่ากับความสูงของกรอบใต้จุดเบรกลง' } },
+      ],
+      riskReward: '2.2',
+      entry: { price: 107.5, conditions: { en: 'Close below range low (108)', th: 'ราคาปิดใต้จุดต่ำของกรอบ (108)' } },
+      sl: { price: 111.5, conditions: { en: 'Above range high', th: 'เหนือจุดสูงของกรอบ' } },
+      tp: { price: 104, conditions: { en: 'Height projection (108 − 4)', th: 'ความสูงของกรอบฉาย (108 − 4)' } },
+    },
+  },
+  'playbook-trendline': {
+    candles: FLAG,
+    title: { en: 'Bull Flag Pattern Breakout', th: 'การเบรกเอาต์รูปแบบ Bull Flag' },
+    summary: {
+      en: 'A trend continuation pattern featuring an impulsive flag pole, a downward-sloping consolidation channel (the flag), and a decisive breakout.',
+      th: 'รูปแบบการไปต่อของเทรนด์ ประกอบด้วยช่วงราคาวิ่งแรง (เสาธง) การพักตัวแบบเฉียงลง (ตัวธง) และการเบรกเอาต์อย่างชัดเจนเพื่อไปต่อ',
+    },
+    keyPoints: [
+      { en: 'The impulsive move creates the flag pole.', th: 'การพุ่งแรงของราคา สร้าง "เสาธง"' },
+      { en: 'The consolidation forms a downward sloping channel.', th: 'การพักตัวสร้างกรอบราคา (Channel) ที่เฉียงลง' },
+      { en: 'A breakout above the upper trendline triggers the entry.', th: 'การทะลุผ่านเส้น Trendline ด้านบน เป็นจุดเข้าเทรด' },
+    ],
+    trendLines: [
+      { from: { time: flagT(4), price: 120 }, to: { time: flagT(9), price: 116 }, color: COLORS.accent, dashed: true },
+      { from: { time: flagT(5), price: 117 }, to: { time: flagT(9), price: 112 }, color: COLORS.accent, dashed: true },
+      { from: { time: flagT(0), price: 100 }, to: { time: flagT(4), price: 120 }, color: COLORS.bull, dashed: false },
+    ],
+    markers: [
+      { time: flagT(2), position: 'aboveBar', shape: 'arrowUp', color: COLORS.bull, text: { en: '① Flag Pole', th: '① เสาธง' } },
+      { time: flagT(7), position: 'aboveBar', shape: 'arrowDown', color: COLORS.accent, text: { en: '② Consolidation (Flag)', th: '② การพักตัว (ตัวธง)' } },
+      { time: flagT(10), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: '③ Breakout → Entry', th: '③ เบรกเอาต์ → จุดเข้า' } },
+    ],
+    trade: {
+      direction: 'long',
+      setup: { en: 'Bull Flag Breakout', th: 'เบรกเอาต์ Bull Flag' },
+      logic: {
+        en: 'Enter upon the close of a strong bullish candle breaking the upper flag resistance. Stop loss is below the flag low. Target is the length of the pole.',
+        th: 'เข้าเทรดเมื่อแท่งเทียนปิดทะลุเส้นแนวต้านด้านบนของธงด้วยแรงซื้อที่แข็งแกร่ง ตั้ง Stop loss ไว้ใต้จุดต่ำสุดของธง เป้าหมายคือความยาวของเสาธง',
+      },
+      steps: [
+        { n: 1, title: { en: 'Identify the Pole', th: 'หาเสาธง' }, description: { en: 'Find a strong impulsive move upward.', th: 'หาการพุ่งขึ้นอย่างรุนแรง' } },
+        { n: 2, title: { en: 'Draw the Flag', th: 'วาดกรอบธง' }, description: { en: 'Connect the lower highs and lower lows of the pullback.', th: 'ตีเส้นเชื่อมจุดยอดที่ต่ำลงและจุดต่ำที่ต่ำลงของการย่อตัว' } },
+        { n: 3, title: { en: 'Trade the Breakout', th: 'เทรดตอนเบรกเอาต์' }, description: { en: 'Wait for price to close above the upper trendline.', th: 'รอราคาปิดทะลุเส้น Trendline ด้านบน' } },
+      ],
+      riskReward: '3.0',
+      entry: { price: 118, conditions: { en: 'Close above flag resistance', th: 'ราคาปิดทะลุแนวต้านธง' } },
+      sl: { price: 111, conditions: { en: 'Below flag structure', th: 'ใต้โครงสร้างของธง' } },
+      tp: { price: 139, conditions: { en: 'Pole projection', th: 'ระยะความยาวของเสาธง' } },
+    }
+  },
+
   /* ========================== Basic Structure ============================= */
 
   high: {
@@ -1645,6 +3101,306 @@ export const SCENARIOS: Record<string, ConceptScenario> = {
     legend: [
       { label: 'Bearish engulfing', color: COLORS.bear },
       { label: 'Bullish engulfing', color: COLORS.bull },
+    ],
+  },
+
+  hammer: {
+    candles: HAMMER,
+    title: { en: 'Hammer', th: 'Hammer (ค้อน)' },
+    summary: {
+      en: 'A bullish reversal candle that appears at the bottom of a downtrend: a small body at the top with a long lower wick, showing sellers were rejected and buyers took over.',
+      th: 'แท่งเทียนกลับตัวขาขึ้นที่เกิดที่ก้นของเทรนด์ขาลง: ตัวแท่งเล็กอยู่ด้านบน มีไส้ล่างยาว แสดงว่าผู้ขายถูกปฏิเสธและผู้ซื้อเข้ามาแทน',
+    },
+    keyPoints: [
+      { en: 'The lower wick is at least twice the body — rejection of sellers.', th: 'ไส้ล่างยาวอย่างน้อย 2 เท่าของตัวแท่ง — การปฏิเสธผู้ขาย' },
+      { en: 'The body sits at the top of the range.', th: 'ตัวแท่งอยู่ด้านบนของช่วงราคา' },
+      { en: 'Confirmation is a bullish close on the next candle.', th: 'การยืนยันคือแท่งถัดไปปิดเขียว' },
+    ],
+    zones: [{ startTime: hamT(3), endTime: hamT(4), topPrice: 104.5, bottomPrice: 98, color: COLORS.zoneBull }],
+    markers: [
+      { time: hamT(4), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Hammer', th: 'ค้อน' } },
+      { time: hamT(5), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Confirmation', th: 'การยืนยัน' } },
+    ],
+  },
+
+  'shooting-star': {
+    candles: SHOOTING_STAR,
+    title: { en: 'Shooting Star', th: 'Shooting Star (ดาวตก)' },
+    summary: {
+      en: 'A bearish reversal candle at the top of an uptrend: a small body at the bottom with a long upper wick, showing buyers were rejected and sellers took over.',
+      th: 'แท่งเทียนกลับตัวขาลงที่ยอดของเทรนด์ขาขึ้น: ตัวแท่งเล็กอยู่ด้านล่าง มีไส้บนยาว แสดงว่าผู้ซื้อถูกปฏิเสธและผู้ขายเข้ามาแทน',
+    },
+    keyPoints: [
+      { en: 'The upper wick is at least twice the body — rejection of buyers.', th: 'ไส้บนยาวอย่างน้อย 2 เท่าของตัวแท่ง — การปฏิเสธผู้ซื้อ' },
+      { en: 'The body sits at the bottom of the range.', th: 'ตัวแท่งอยู่ด้านล่างของช่วงราคา' },
+      { en: 'Confirmation is a bearish close on the next candle.', th: 'การยืนยันคือแท่งถัดไปปิดแดง' },
+    ],
+    zones: [{ startTime: sstarT(3), endTime: sstarT(4), topPrice: 114, bottomPrice: 107.5, color: COLORS.zoneBear }],
+    markers: [
+      { time: sstarT(4), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Shooting Star', th: 'ดาวตก' } },
+      { time: sstarT(5), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Confirmation', th: 'การยืนยัน' } },
+    ],
+  },
+
+  'morning-star': {
+    candles: MORNING_STAR,
+    title: { en: 'Morning Star', th: 'Morning Star (ดาวรุ่ง)' },
+    summary: {
+      en: 'A bullish three-candle reversal at a downtrend bottom: a long bearish candle, a small indecisive body (the star), and a long bullish candle that recovers the losses.',
+      th: 'รูปแบบกลับตัวขาขึ้น 3 แท่งที่ก้นของเทรนด์ขาลง: แท่งแดงยาว, แท่งเล็กที่ลังเล (ดาว), และแท่งเขียวยาวที่กู้คืนการขาดทุน',
+    },
+    keyPoints: [
+      { en: 'Candle 1 is long and bearish — momentum down.', th: 'แท่งที่ 1 ยาวและแดง — โมเมนตัมลง' },
+      { en: 'Candle 2 gaps down into a small body — indecision.', th: 'แท่งที่ 2 เป็นแท่งเล็ก — ความลังเล' },
+      { en: 'Candle 3 is long and bullish, closing above the middle.', th: 'แท่งที่ 3 ยาวและเขียว ปิดเหนือกึ่งกลาง' },
+    ],
+    markers: [
+      { time: mstarT(3), position: 'belowBar', shape: 'arrowDown', color: COLORS.bear, text: { en: '① Bearish', th: '① ขาลง' } },
+      { time: mstarT(4), position: 'belowBar', shape: 'circle', color: COLORS.amber, text: { en: '② Star', th: '② ดาว' } },
+      { time: mstarT(5), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: '③ Bullish', th: '③ ขาขึ้น' } },
+    ],
+  },
+
+  'evening-star': {
+    candles: EVENING_STAR,
+    title: { en: 'Evening Star', th: 'Evening Star (ดาวดับ)' },
+    summary: {
+      en: 'A bearish three-candle reversal at an uptrend top: a long bullish candle, a small indecisive body (the star), and a long bearish candle that gives back the gains.',
+      th: 'รูปแบบกลับตัวขาลง 3 แท่งที่ยอดของเทรนด์ขาขึ้น: แท่งเขียวยาว, แท่งเล็กที่ลังเล (ดาว), และแท่งแดงยาวที่คืนกำไรทั้งหมด',
+    },
+    keyPoints: [
+      { en: 'Candle 1 is long and bullish — momentum up.', th: 'แท่งที่ 1 ยาวและเขียว — โมเมนตัมขึ้น' },
+      { en: 'Candle 2 gaps up into a small body — indecision.', th: 'แท่งที่ 2 เป็นแท่งเล็ก — ความลังเล' },
+      { en: 'Candle 3 is long and bearish, closing below the middle.', th: 'แท่งที่ 3 ยาวและแดง ปิดใต้กึ่งกลาง' },
+    ],
+    markers: [
+      { time: estarT(3), position: 'aboveBar', shape: 'arrowUp', color: COLORS.bull, text: { en: '① Bullish', th: '① ขาขึ้น' } },
+      { time: estarT(4), position: 'aboveBar', shape: 'circle', color: COLORS.amber, text: { en: '② Star', th: '② ดาว' } },
+      { time: estarT(5), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: '③ Bearish', th: '③ ขาลง' } },
+    ],
+  },
+
+  harami: {
+    candles: HARAMI,
+    title: { en: 'Harami', th: 'Harami (ฮารามิ)' },
+    summary: {
+      en: 'A two-candle reversal hint: a large "mother" candle followed by a small "baby" candle entirely inside its body. It signals the prior momentum is losing steam.',
+      th: 'สัญญาณกลับตัว 2 แท่ง: แท่ง "แม่" ใหญ่ตามด้วยแท่ง "ลูก" เล็กที่อยู่ภายในตัวแท่งทั้งหมด บ่งชี้ว่าโมเมนตัมเดิมกำลังหมดแรง',
+    },
+    keyPoints: [
+      { en: 'The baby candle sits fully inside the mother’s body.', th: 'แท่งลูกอยู่ภายในตัวแท่งแม่ทั้งหมด' },
+      { en: 'The smaller range shows hesitation after a strong move.', th: 'ช่วงราคาที่เล็กลงแสดงความลังเลหลังการเคลื่อนไหวแรง' },
+      { en: 'More reliable at support/resistance with confirmation.', th: 'เชื่อถือได้มากขึ้นที่แนวรับ/แนวต้านพร้อมการยืนยัน' },
+    ],
+    markers: [
+      { time: harT(3), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Mother', th: 'แท่งแม่' } },
+      { time: harT(4), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Baby', th: 'แท่งลูก' } },
+    ],
+  },
+
+  'three-soldiers': {
+    candles: THREE_SOLDIERS,
+    title: { en: 'Three White Soldiers', th: 'Three White Soldiers (ทหารสามนาย)' },
+    summary: {
+      en: 'A bullish continuation pattern: three consecutive strong bullish candles that open within the prior body and close near their highs, confirming buyers are in control.',
+      th: 'รูปแบบไปต่อขาขึ้น: แท่งเขียวแข็งแรง 3 แท่งติดต่อกัน เปิดภายในตัวแท่งก่อนหน้าและปิดใกล้จุดสูง ยืนยันว่าผู้ซื้อควบคุมตลาด',
+    },
+    keyPoints: [
+      { en: 'Each candle opens inside the previous body.', th: 'แต่ละแท่งเปิดภายในตัวแท่งก่อนหน้า' },
+      { en: 'Each closes near its high — strong buying.', th: 'แต่ละแท่งปิดใกล้จุดสูง — การซื้อที่แข็งแรง' },
+      { en: 'Shrinking bodies toward the end warn of exhaustion.', th: 'ตัวแท่งที่เล็กลงท้าย ๆ เตือนถึงความอ่อนล้า' },
+    ],
+    markers: [
+      { time: soldiersT(4), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Soldier 1', th: 'นายที่ 1' } },
+      { time: soldiersT(5), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Soldier 2', th: 'นายที่ 2' } },
+      { time: soldiersT(6), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Soldier 3', th: 'นายที่ 3' } },
+    ],
+  },
+
+  'three-crows': {
+    candles: THREE_CROWS,
+    title: { en: 'Three Black Crows', th: 'Three Black Crows (อีกาสามตัว)' },
+    summary: {
+      en: 'A bearish continuation pattern: three consecutive strong bearish candles that open within the prior body and close near their lows, confirming sellers are in control.',
+      th: 'รูปแบบไปต่อขาลง: แท่งแดงแข็งแรง 3 แท่งติดต่อกัน เปิดภายในตัวแท่งก่อนหน้าและปิดใกล้จุดต่ำ ยืนยันว่าผู้ขายควบคุมตลาด',
+    },
+    keyPoints: [
+      { en: 'Each candle opens inside the previous body.', th: 'แต่ละแท่งเปิดภายในตัวแท่งก่อนหน้า' },
+      { en: 'Each closes near its low — strong selling.', th: 'แต่ละแท่งปิดใกล้จุดต่ำ — การขายที่แข็งแรง' },
+      { en: 'Often follows a rally top and confirms the reversal.', th: 'มักเกิดหลังยอดขาขึ้นและยืนยันการกลับตัว' },
+    ],
+    markers: [
+      { time: crowsT(4), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Crow 1', th: 'ตัวที่ 1' } },
+      { time: crowsT(5), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Crow 2', th: 'ตัวที่ 2' } },
+      { time: crowsT(6), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Crow 3', th: 'ตัวที่ 3' } },
+    ],
+  },
+
+  'g-artley': {
+    candles: HARM,
+    title: { en: 'Gartley (222)', th: 'Gartley (222)' },
+    summary: {
+      en: 'The classic bullish harmonic: X-A-B-C-D where B retraces 0.618 of XA, and D completes near the 0.786 retracement — the Potential Reversal Zone to buy.',
+      th: 'ฮาร์โมนิกขาขึ้นคลาสสิก: X-A-B-C-D โดย B ย่อ 0.618 ของ XA และ D จบใกล้ระดับ 0.786 — โซนกลับตัวที่อาจเกิดขึ้นสำหรับการซื้อ',
+    },
+    keyPoints: [
+      { en: 'AB = 0.618 of XA — the first retracement.', th: 'AB = 0.618 ของ XA — การย่อครั้งแรก' },
+      { en: 'BC retraces 0.382–0.886 of AB.', th: 'BC ย่อ 0.382–0.886 ของ AB' },
+      { en: 'D lands at 0.786 of XA — the buy zone.', th: 'D จบที่ 0.786 ของ XA — โซนซื้อ' },
+    ],
+    zones: [{ startTime: harmT(8), endTime: harmT(10), topPrice: 103.5, bottomPrice: 102.0, color: COLORS.zoneBull }],
+    trendLines: [
+      { from: { time: harmT(0), price: 99.4 }, to: { time: harmT(3), price: 112.2 }, color: COLORS.violet },
+      { from: { time: harmT(3), price: 112.2 }, to: { time: harmT(5), price: 106.6 }, color: COLORS.violet },
+      { from: { time: harmT(5), price: 106.6 }, to: { time: harmT(7), price: 110.6 }, color: COLORS.violet },
+      { from: { time: harmT(7), price: 110.6 }, to: { time: harmT(9), price: 102.4 }, color: COLORS.violet },
+    ],
+    markers: [
+      { time: harmT(0), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'X' },
+      { time: harmT(3), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'A' },
+      { time: harmT(5), position: 'belowBar', shape: 'square', color: COLORS.violet, text: 'B' },
+      { time: harmT(7), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'C' },
+      { time: harmT(9), position: 'belowBar', shape: 'square', color: COLORS.amber, text: 'D' },
+    ],
+  },
+
+  butterfly: {
+    candles: BUTTERFLY,
+    title: { en: 'Butterfly', th: 'Butterfly (ผีเสื้อ)' },
+    summary: {
+      en: 'A bullish harmonic where D extends beyond X to 1.27 of XA — a deep, high-probability reversal zone for buyers at the extreme.',
+      th: 'ฮาร์โมนิกขาขึ้นที่ D ยื่นเลย X ไปถึง 1.27 ของ XA — โซนกลับตัวที่ลึกและความน่าจะเป็นสูงสำหรับผู้ซื้อที่จุดสุดขั้ว',
+    },
+    keyPoints: [
+      { en: 'B retraces 0.786 of XA — deeper than the Gartley.', th: 'B ย่อ 0.786 ของ XA — ลึกกว่า Gartley' },
+      { en: 'D completes at 1.27 of XA, beyond point X.', th: 'D จบที่ 1.27 ของ XA เลยจุด X ไป' },
+      { en: 'The extension creates an extreme price zone to buy.', th: 'การยื่นเกินสร้างโซนราคาที่สุดขั้วสำหรับการซื้อ' },
+    ],
+    zones: [{ startTime: bflyT(9), endTime: bflyT(10), topPrice: 94, bottomPrice: 88, color: COLORS.zoneBull }],
+    trendLines: [
+      { from: { time: bflyT(0), price: 99.4 }, to: { time: bflyT(3), price: 108 }, color: COLORS.violet },
+      { from: { time: bflyT(3), price: 108 }, to: { time: bflyT(5), price: 103 }, color: COLORS.violet },
+      { from: { time: bflyT(5), price: 103 }, to: { time: bflyT(7), price: 106.8 }, color: COLORS.violet },
+      { from: { time: bflyT(7), price: 106.8 }, to: { time: bflyT(10), price: 92 }, color: COLORS.violet },
+    ],
+    markers: [
+      { time: bflyT(0), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'X' },
+      { time: bflyT(3), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'A' },
+      { time: bflyT(5), position: 'belowBar', shape: 'square', color: COLORS.violet, text: 'B' },
+      { time: bflyT(7), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'C' },
+      { time: bflyT(10), position: 'belowBar', shape: 'square', color: COLORS.amber, text: 'D' },
+    ],
+  },
+
+  crab: {
+    candles: CRAB,
+    title: { en: 'Crab', th: 'Crab (ปู)' },
+    summary: {
+      en: 'A bullish harmonic where D extends to 1.618 of XA — the deepest extension pattern, marking an extreme price zone where reversals are often sharp.',
+      th: 'ฮาร์โมนิกขาขึ้นที่ D ยื่นถึง 1.618 ของ XA — รูปแบบการยื่นที่ลึกที่สุด ทำเครื่องหมายโซนราคาที่สุดขั้วซึ่งมักเกิดการกลับตัวอย่างรุนแรง',
+    },
+    keyPoints: [
+      { en: 'D completes at 1.618 of XA — beyond the Butterfly.', th: 'D จบที่ 1.618 ของ XA — ลึกกว่า Butterfly' },
+      { en: 'The 1.618 extension is the defining Crab ratio.', th: 'การยื่น 1.618 คืออัตราส่วนเฉพาะของ Crab' },
+      { en: 'Reversals from the PRZ tend to be fast and sharp.', th: 'การกลับตัวจาก PRZ มักเร็วและรุนแรง' },
+    ],
+    zones: [{ startTime: crabT(9), endTime: crabT(10), topPrice: 90, bottomPrice: 84, color: COLORS.zoneBull }],
+    trendLines: [
+      { from: { time: crabT(0), price: 99.4 }, to: { time: crabT(3), price: 108 }, color: COLORS.violet },
+      { from: { time: crabT(3), price: 108 }, to: { time: crabT(5), price: 103 }, color: COLORS.violet },
+      { from: { time: crabT(5), price: 103 }, to: { time: crabT(7), price: 106.8 }, color: COLORS.violet },
+      { from: { time: crabT(7), price: 106.8 }, to: { time: crabT(10), price: 88 }, color: COLORS.violet },
+    ],
+    markers: [
+      { time: crabT(0), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'X' },
+      { time: crabT(3), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'A' },
+      { time: crabT(5), position: 'belowBar', shape: 'square', color: COLORS.violet, text: 'B' },
+      { time: crabT(7), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'C' },
+      { time: crabT(10), position: 'belowBar', shape: 'square', color: COLORS.amber, text: 'D' },
+    ],
+  },
+
+  cypher: {
+    candles: CYPHER,
+    title: { en: 'Cypher', th: 'Cypher (ไซเฟอร์)' },
+    summary: {
+      en: 'A bullish harmonic where B retraces 0.382–0.618 of XA, C extends past A to 1.13–1.414 of XA, and D completes at the 0.786 retracement of XC — a deep entry zone.',
+      th: 'ฮาร์โมนิกขาขึ้นที่ B ย่อ 0.382–0.618 ของ XA, C ยื่นเลย A ไปที่ 1.13–1.414 ของ XA และ D จบที่ระดับ 0.786 ของ XC — โซนเข้าที่ลึก',
+    },
+    keyPoints: [
+      { en: 'C extends beyond A — the defining Cypher leg.', th: 'C ยื่นเลย A ไป — ขาที่กำหนดรูปแบบ Cypher' },
+      { en: 'D completes at 0.786 of the X-C range.', th: 'D จบที่ 0.786 ของช่วง X-C' },
+      { en: 'The PRZ sits deep, giving a wide target to the upside.', th: 'PRZ อยู่ลึก ให้เป้าหมายขาขึ้นที่กว้าง' },
+    ],
+    zones: [{ startTime: cypherT(9), endTime: cypherT(10), topPrice: 103, bottomPrice: 100, color: COLORS.zoneBull }],
+    trendLines: [
+      { from: { time: cypherT(0), price: 99.4 }, to: { time: cypherT(3), price: 106 }, color: COLORS.violet },
+      { from: { time: cypherT(3), price: 106 }, to: { time: cypherT(5), price: 103.2 }, color: COLORS.violet },
+      { from: { time: cypherT(5), price: 103.2 }, to: { time: cypherT(7), price: 109 }, color: COLORS.violet },
+      { from: { time: cypherT(7), price: 109 }, to: { time: cypherT(10), price: 101.5 }, color: COLORS.violet },
+    ],
+    markers: [
+      { time: cypherT(0), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'X' },
+      { time: cypherT(3), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'A' },
+      { time: cypherT(5), position: 'belowBar', shape: 'square', color: COLORS.violet, text: 'B' },
+      { time: cypherT(7), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'C' },
+      { time: cypherT(10), position: 'belowBar', shape: 'square', color: COLORS.amber, text: 'D' },
+    ],
+  },
+
+  shark: {
+    candles: SHARK,
+    title: { en: 'Shark', th: 'Shark (ฉลาม)' },
+    summary: {
+      en: 'A bearish harmonic where B extends beyond A to 1.13–1.618 of XA, C pulls back, and D completes at 1.13 of XC — an extreme high-probability short zone.',
+      th: 'ฮาร์โมนิกขาลงที่ B ยื่นเลย A ไปที่ 1.13–1.618 ของ XA, C ย่อกลับ และ D จบที่ 1.13 ของ XC — โซนชอร์ตความน่าจะเป็นสูงที่จุดสุดขั้ว',
+    },
+    keyPoints: [
+      { en: 'B extends beyond A — momentum overshoot.', th: 'B ยื่นเลย A — โมเมนตัมที่ยิงเกิน' },
+      { en: 'D completes at the 1.13 extension of XC.', th: 'D จบที่การยื่น 1.13 ของ XC' },
+      { en: 'The extension marks an extreme zone to short.', th: 'การยื่นเกินทำเครื่องหมายโซนสุดขั้วสำหรับการชอร์ต' },
+    ],
+    zones: [{ startTime: sharkT(9), endTime: sharkT(10), topPrice: 108.5, bottomPrice: 106, color: COLORS.zoneBear }],
+    trendLines: [
+      { from: { time: sharkT(0), price: 99.4 }, to: { time: sharkT(3), price: 104 }, color: COLORS.violet },
+      { from: { time: sharkT(3), price: 104 }, to: { time: sharkT(5), price: 107 }, color: COLORS.violet },
+      { from: { time: sharkT(5), price: 107 }, to: { time: sharkT(7), price: 102 }, color: COLORS.violet },
+      { from: { time: sharkT(7), price: 102 }, to: { time: sharkT(10), price: 108.5 }, color: COLORS.violet },
+    ],
+    markers: [
+      { time: sharkT(0), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'X' },
+      { time: sharkT(3), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'A' },
+      { time: sharkT(5), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'B' },
+      { time: sharkT(7), position: 'belowBar', shape: 'square', color: COLORS.violet, text: 'C' },
+      { time: sharkT(10), position: 'aboveBar', shape: 'square', color: COLORS.amber, text: 'D' },
+    ],
+  },
+
+  abcd: {
+    candles: ABCD,
+    title: { en: 'AB=CD', th: 'AB=CD' },
+    summary: {
+      en: 'The simplest harmonic: an impulsive leg X-A, a retracement A-B, a smaller retracement B-C, then a final leg C-D that matches A-B in length (the 1:1). D is the reversal entry.',
+      th: 'ฮาร์โมนิกที่ง่ายที่สุด: ขาพุ่ง X-A, การย่อ A-B, การย่อเล็กกว่า B-C, แล้วขาสุดท้าย C-D ที่ยาวเท่ากับ A-B (1:1) — จุด D คือจุดเข้าเทรด',
+    },
+    keyPoints: [
+      { en: 'CD mirrors AB in length — the 1:1 balance.', th: 'CD ยาวเท่ากับ AB — ความสมดุล 1:1' },
+      { en: 'BC retraces AB before the final leg.', th: 'BC ย่อ AB ก่อนขาสุดท้าย' },
+      { en: 'D completes the pattern — trade the reversal.', th: 'D ทำให้รูปแบบสมบูรณ์ — เทรดการกลับตัว' },
+    ],
+    zones: [{ startTime: abcdT(9), endTime: abcdT(10), topPrice: 99.5, bottomPrice: 97.5, color: COLORS.zoneBull }],
+    trendLines: [
+      { from: { time: abcdT(0), price: 99.4 }, to: { time: abcdT(3), price: 106 }, color: COLORS.violet },
+      { from: { time: abcdT(3), price: 106 }, to: { time: abcdT(5), price: 102 }, color: COLORS.violet },
+      { from: { time: abcdT(5), price: 102 }, to: { time: abcdT(7), price: 105.2 }, color: COLORS.violet },
+      { from: { time: abcdT(7), price: 105.2 }, to: { time: abcdT(10), price: 98 }, color: COLORS.violet },
+    ],
+    markers: [
+      { time: abcdT(0), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'X' },
+      { time: abcdT(3), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'A' },
+      { time: abcdT(5), position: 'belowBar', shape: 'square', color: COLORS.violet, text: 'B' },
+      { time: abcdT(7), position: 'aboveBar', shape: 'square', color: COLORS.violet, text: 'C' },
+      { time: abcdT(10), position: 'belowBar', shape: 'square', color: COLORS.amber, text: 'D' },
     ],
   },
 
