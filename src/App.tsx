@@ -451,7 +451,7 @@ export default function App() {
         </div>
 
         <div className="flex min-h-[50vh] shrink-0 lg:shrink min-w-0 lg:flex-1 flex-col relative z-0">
-          <ChartPanel scenario={scenario} lang={lang} theme={theme} tf={tf} onTfChange={setTf} />
+          <ChartPanel scenario={scenario} lang={lang} theme={theme} tf={tf} onTfChange={setTf} scenarioId={concept.scenarioId} />
         </div>
 
         {/* Right Sidebar: Explanation Card */}

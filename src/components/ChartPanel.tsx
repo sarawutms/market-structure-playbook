@@ -32,6 +32,12 @@ interface ChartPanelProps {
   tf?: Timeframe;
   /** Fired when the user picks a timeframe in the chart's TF control. */
   onTfChange?: (tf: Timeframe) => void;
+  /**
+   * Scenario key of the selected concept — lets the panel distinguish a
+   * concept change (full replay/draft reset) from a timeframe-only change
+   * (keep the draft order and stay in replay).
+   */
+  scenarioId?: string;
 }
 
 /** Timeframe buttons shown on the chart — label + i18n key for the tooltip. */
@@ -103,7 +109,7 @@ function createIndicatorPlugin(
  * instance once, then re-applies data + overlays whenever the scenario
  * changes (concept click in the Learning Hub).
  */
-export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChange }: ChartPanelProps) {
+export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChange, scenarioId }: ChartPanelProps) {
   const [showAnalysis, setShowAnalysis] = useState(true);
   const [isReplay, setIsReplay] = useState(false);
   const [replayIndex, setReplayIndex] = useState(0);
@@ -148,14 +154,32 @@ export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChan
     return () => window.removeEventListener('click', closeContextMenu);
   }, []);
 
-  // Reset replay and position state when scenario changes
+  // Track the last scenario key so we can tell a concept change (full reset)
+  // apart from a timeframe-only change (keep replay + draft order).
+  const prevScenarioIdRef = useRef<string | undefined>(scenarioId);
+
+  // Reset replay and position state when the scenario changes.
+  // Switching timeframes re-derives the candle set but keeps the same
+  // concept, so the user can change TF while setting Entry/SL/TP points
+  // without losing their draft order or exiting replay mode.
   useEffect(() => {
-    setIsReplay(false);
-    setPosition(null);
-    setDraftOrder(null);
-    setEditTarget(null);
+    const prevId = prevScenarioIdRef.current;
+    prevScenarioIdRef.current = scenarioId;
+
+    if (prevId !== scenarioId) {
+      // A different concept was selected — clear everything.
+      setIsReplay(false);
+      setPosition(null);
+      setDraftOrder(null);
+      setEditTarget(null);
+    } else {
+      // Timeframe-only change — drop any open simulated position (the candle
+      // set changed) but keep the draft order and stay in replay.
+      setPosition(null);
+    }
+
     setReplayIndex(Math.floor(scenario.candles.length * 0.45)); // Start at 45% of the chart
-  }, [scenario]);
+  }, [scenario, scenarioId]);
 
   // Sync ref so the event listeners can read the latest target without re-binding
   useEffect(() => {
@@ -174,9 +198,21 @@ export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChan
     seriesRef.current = series;
 
     // --- Attach Interaction Handlers (Drag & Drop Trade Lines) ---
+    // While the pointer is pressed the user is panning the chart, so the
+    // draft line must NOT follow the crosshair (subscribeCrosshairMove also
+    // fires during drag). The line only follows on hover, and a plain click
+    // (without dragging) places the point.
+    let pointerDown = false;
+    const onPointerDown = () => { pointerDown = true; };
+    // Listen on window so releasing the pointer outside the container
+    // (after a long pan) still resets the flag.
+    const onPointerUp = () => { pointerDown = false; };
+    container.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointerup', onPointerUp);
+
     const moveHandler = (param: MouseEventParams) => {
       const target = editTargetRef.current;
-      if (!target || !param.point) return;
+      if (!target || pointerDown || !param.point) return;
       const price = series.coordinateToPrice(param.point.y);
       if (price !== null) {
         // Smoothly move the line natively
@@ -205,6 +241,8 @@ export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChan
     // manual ResizeObserver is needed here.
 
     return () => {
+      container.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointerup', onPointerUp);
       chart.unsubscribeCrosshairMove(moveHandler);
       chart.unsubscribeClick(clickHandler);
       chart.remove();
