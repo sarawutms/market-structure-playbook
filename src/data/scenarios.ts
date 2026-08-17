@@ -4346,11 +4346,11 @@ export const SCENARIOS: Record<string, ConceptScenario> = {
       { en: 'Enter on the FVG return.', th: 'เข้าเทรดที่ FVG' }
     ],
     zones: [
-      { startTime: KZ[10].time, endTime: KZ[14].time, color: COLORS.zoneBull },
+      { startTime: KZ[6].time, endTime: KZ[10].time, color: COLORS.zoneBull },
     ],
     markers: [
-      { time: KZ[9].time, position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Liquidity Sweep', th: 'กวาด Liquidity' } },
-      { time: KZ[12].time, position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'FVG Entry (Silver Bullet Window)', th: 'จุดเข้า FVG ในช่วงเวลา Silver Bullet' } },
+      { time: KZ[5].time, position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Liquidity Sweep', th: 'กวาด Liquidity' } },
+      { time: KZ[8].time, position: 'belowBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: 'FVG Entry (Silver Bullet Window)', th: 'จุดเข้า FVG ในช่วงเวลา Silver Bullet' } },
     ],
     legend: [
       { label: 'Silver Bullet Window (Time)', color: COLORS.zoneBull },
@@ -4449,7 +4449,7 @@ export const SCENARIOS: Record<string, ConceptScenario> = {
     ],
     markers: [
       { time: downT(5), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Bearish Cross (Sell)', th: 'เส้นตัดลง (จุดขาย)' } },
-      { time: downT(15), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Bullish Cross (Buy)', th: 'เส้นตัดขึ้น (จุดซื้อ)' } },
+      { time: downT(14), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Bullish Cross (Buy)', th: 'เส้นตัดขึ้น (จุดซื้อ)' } },
     ],
     legend: [
       { label: 'Bearish Signal', color: COLORS.bear },
