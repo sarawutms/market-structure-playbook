@@ -30,8 +30,8 @@ export function LanguageToggle({ lang, onChange }: LanguageToggleProps) {
             type="button"
             onClick={() => onChange(opt.value)}
             aria-pressed={active}
-            className={`rounded-md px-2.5 py-1 font-mono text-[11px] font-bold tracking-wider transition-colors ${
-              active ? 'bg-accent text-main' : 'text-dim hover:text-muted'
+            className={`rounded-md px-2.5 py-1 font-mono text-[11px] font-bold tracking-wider transition-all active:scale-95 ${
+              active ? 'bg-accent text-main shadow-sm' : 'text-dim hover:text-main hover:bg-panel'
             }`}
           >
             {opt.label}

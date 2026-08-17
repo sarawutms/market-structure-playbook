@@ -101,16 +101,38 @@ button:focus-visible, input:focus-visible {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-dim-val) transparent;
+  scrollbar-color: rgba(113, 113, 122, 0.4) transparent;
 }
-*::-webkit-scrollbar { width: 6px; height: 6px; }
-*::-webkit-scrollbar-thumb { background: var(--color-dim-val); border-radius: 6px; }
+*::-webkit-scrollbar { width: 5px; height: 5px; }
+*::-webkit-scrollbar-thumb { 
+  background: rgba(113, 113, 122, 0.4); 
+  border-radius: 10px; 
+  transition: background 0.2s ease;
+}
+*::-webkit-scrollbar-thumb:hover { 
+  background: rgba(113, 113, 122, 0.8); 
+}
 *::-webkit-scrollbar-track { background: transparent; }
+
+.theme-light * {
+  scrollbar-color: rgba(161, 161, 170, 0.4) transparent;
+}
+.theme-light *::-webkit-scrollbar-thumb { 
+  background: rgba(161, 161, 170, 0.4); 
+}
+.theme-light *::-webkit-scrollbar-thumb:hover { 
+  background: rgba(161, 161, 170, 0.8); 
+}
 
 /* Utility classes for glass panels */
 .glass-panel {
   background-color: var(--color-panel-val);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--color-edge-val);
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.theme-light .glass-panel {
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
 }
