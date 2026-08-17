@@ -279,6 +279,10 @@ export const TH_CATEGORIES: Record<string, string> = {
   'Wave & Harmonics': 'ทฤษฎีคลื่นและฮาร์โมนิก',
   'Harmonic Patterns': 'รูปแบบฮาร์โมนิก',
   'Volume & Systematic': 'ปริมาณการซื้อขายและระบบเทรด',
+  'Theories & Frameworks': 'ทฤษฎีและกรอบแนวคิด',
+  'Price Action': 'Price Action',
+  'Risk Management': 'การบริหารความเสี่ยง',
+  'Trading Styles': 'สไตล์การเทรด',
 };
 
 export const TH_GROUPS: Record<string, string> = {
@@ -303,6 +307,16 @@ export const TH_GROUPS: Record<string, string> = {
   Ichimoku: 'Ichimoku',
   'Trend Following': 'การเทรดตามเทรนด์',
   'Mean Reversion': 'การกลับสู่ค่าเฉลี่ย',
+  'Advanced ICT': 'ICT ขั้นสูง',
+  Volatility: 'ความผันผวน',
+  Volume: 'ปริมาณการซื้อขาย',
+  'Pivot Levels': 'ระดับ Pivot',
+  'Market Theory': 'ทฤษฎีตลาด',
+  'Reversal Setups': 'เซ็ตอัปกลับตัว',
+  'Continuation Setups': 'เซ็ตอัปต่อเนื่อง',
+  'Sizing & Stops': 'ขนาดออเดอร์และ Stop',
+  'Metrics & Process': 'เมตริกและกระบวนการ',
+  Styles: 'สไตล์',
 };
 
 /** Thai concept names + descriptions, keyed by concept id. */
@@ -492,6 +506,474 @@ export const TH_CONCEPTS: Record<string, { name: string; description: string }> 
   'volume-profile': { name: 'Volume Profile & POC', description: 'วอลุ่มรายระดับราคา — จุดที่มูลค่าอยู่' },
   ichimoku: { name: 'เมฆ Ichimoku', description: 'Tenkan, Kijun, เมฆ และ Chikou ในระบบเดียว' },
   'mean-reversion': { name: 'การกลับสู่ค่าเฉลี่ย', description: 'เทรดการย่อกลับเข้าหาค่าเฉลี่ย (BB)' },
+  'ict-silver-bullet': {
+    name: 'ICT Silver Bullet',
+    description: 'เทรด FVG ในช่วงเวลาที่กำหนดของวัน',
+  },
+  'ict-amd': {
+    name: 'ICT AMD (Power of 3)',
+    description: 'รอบ Accumulation, Manipulation, Distribution',
+  },
+  'fibonacci-golden-zone': {
+    name: 'Fibonacci Golden Zone',
+    description: 'กลับตัวที่ระดับ 61.8% ถึง 78.6%',
+  },
+  'rsi-divergence': {
+    name: 'RSI Divergence',
+    description: 'ราคาทำ High ใหม่ แต่ RSI ทำ High ต่ำลง',
+  },
+  'macd-crossover': {
+    name: 'MACD Crossover',
+    description: 'เส้น MACD ตัดเส้น Signal',
+  },
+  'candle-hanging-man': {
+    name: 'Hanging Man',
+    description: 'แท่งกลับตัวขาลงที่ยอดขาขึ้น',
+  },
+  'candle-inverted-hammer': {
+    name: 'Inverted Hammer',
+    description: 'แท่งขาขึ้นไส้บนยาวที่ก้นขาลง',
+  },
+  'candle-spinning-top': {
+    name: 'Spinning Top',
+    description: 'ตัวแท่งเล็ก ไส้สองข้าง — ตลาดลังเล',
+  },
+  'candle-dragonfly-doji': {
+    name: 'Dragonfly Doji',
+    description: 'โดจิไส้ล่างยาว — ขาขึ้นที่ก้น',
+  },
+  'candle-gravestone-doji': {
+    name: 'Gravestone Doji',
+    description: 'โดจิไส้บนยาว — ขาลงที่ยอด',
+  },
+  'candle-long-legged-doji': {
+    name: 'Long-Legged Doji',
+    description: 'โดจิไส้ยาวสองข้าง — ลังเลมาก',
+  },
+  'candle-tweezer-top': {
+    name: 'Tweezer Top',
+    description: 'สองแท่งถูกปฏิเสธที่ High เท่ากัน',
+  },
+  'candle-tweezer-bottom': {
+    name: 'Tweezer Bottom',
+    description: 'สองแท่งถูกป้องกันที่ Low เท่ากัน',
+  },
+  'candle-piercing-line': {
+    name: 'Piercing Line',
+    description: 'ปิดเหนือกึ่งกลางแท่งแดงก่อนหน้า',
+  },
+  'candle-dark-cloud-cover': {
+    name: 'Dark Cloud Cover',
+    description: 'ปิดใต้กึ่งกลางแท่งเขียวก่อนหน้า',
+  },
+  'candle-kicker': {
+    name: 'Kicker',
+    description: 'ช่องว่างสวนเทรนด์ + แท่งตรงข้ามแรง',
+  },
+  'candle-belt-hold': {
+    name: 'Belt Hold (Yokozuna)',
+    description: 'แท่งเดียวเด็ดขาดที่เปิดที่ปลายสุด',
+  },
+  'candle-homing-pigeon': {
+    name: 'Homing Pigeon',
+    description: 'แท่งแดงลูกที่สองซ้อนในลูกแรก',
+  },
+  'candle-matching-low': {
+    name: 'Matching Low',
+    description: 'แท่งแดงสองแท่งปิดที่ Low เท่ากัน',
+  },
+  'candle-in-neck': {
+    name: 'In-Neck Line',
+    description: 'ดีดอ่อนปิดใกล้ Low เดิม — ขาลงต่อ',
+  },
+  'candle-on-neck': {
+    name: 'On-Neck Line',
+    description: 'ดีดปิดที่ Low เดิมพอดี',
+  },
+  'candle-thrusting': {
+    name: 'Thrusting',
+    description: 'ปิดเขียวในครึ่งล่างแท่งแดงก่อนหน้า',
+  },
+  'candle-three-inside-up': {
+    name: 'Three Inside Up',
+    description: 'Harami + ปิดเขียวแรง — กลับตัว 3 แท่ง',
+  },
+  'candle-three-inside-down': {
+    name: 'Three Inside Down',
+    description: 'Harami ขาลง + ปิดแดงแรง — กลับตัว',
+  },
+  'candle-three-outside-up': {
+    name: 'Three Outside Up',
+    description: 'Engulfing เขียว + ต่อเนื่อง — แรง',
+  },
+  'candle-three-outside-down': {
+    name: 'Three Outside Down',
+    description: 'Engulfing แดง + ต่อเนื่อง — แรง',
+  },
+  'candle-doji-star': {
+    name: 'Doji Star',
+    description: 'โดจิที่มีช่องว่างจากแท่งก่อนหน้า',
+  },
+  'candle-abandoned-baby': {
+    name: 'Abandoned Baby',
+    description: 'โดจิโดดเดี่ยวคั่นช่องว่างสองข้าง',
+  },
+  'candle-two-crows': {
+    name: 'Two Crows',
+    description: 'แท่งแดงสองแท่งกินเนื้อแท่งเขียวก่อนหน้า',
+  },
+  'candle-upside-gap-two-crows': {
+    name: 'Upside Gap Two Crows',
+    description: 'Gap ขึ้นแล้วแท่งแดงล้มเหลวสองแท่ง',
+  },
+  'candle-stick-sandwich': {
+    name: 'Stick Sandwich',
+    description: 'แดง-เขียว-แดง ปิดระดับเดียวกัน',
+  },
+  'candle-advance-block': {
+    name: 'Advance Block',
+    description: 'แท่งเขียวอ่อนแรงสามแท่งที่ยอด',
+  },
+  'candle-deliberation': {
+    name: 'Deliberation',
+    description: 'เขียวแรงสองแท่งแล้วแท่งเล็กชะงัก',
+  },
+  'candle-rising-three-methods': {
+    name: 'Rising Three Methods',
+    description: 'ย่อตื้นสามแท่งแล้วเบรกขึ้น',
+  },
+  'candle-falling-three-methods': {
+    name: 'Falling Three Methods',
+    description: 'ดีดตื้นสามแท่งแล้วเบรกลง',
+  },
+  'candle-tasuki-gap-up': {
+    name: 'Upside Tasuki Gap',
+    description: 'Gap ขึ้น ย่อแต่ไม่เติมช่องว่าง',
+  },
+  'candle-tasuki-gap-down': {
+    name: 'Downside Tasuki Gap',
+    description: 'Gap ลง ดีดแต่ไม่เติมช่องว่าง',
+  },
+  'candle-mat-hold': {
+    name: 'Mat Hold',
+    description: 'ย่อตื้นสี่แท่งแล้วเบรกขึ้นแรง',
+  },
+  'candle-separating-lines': {
+    name: 'Separating Lines',
+    description: 'สองแท่งสีเดียวกันเปิดที่ราคาเดียวกัน',
+  },
+  'pattern-channel-up': {
+    name: 'Rising Channel',
+    description: 'เส้นแนวโน้มขนานสองเส้นชันขึ้น',
+  },
+  'pattern-channel-down': {
+    name: 'Falling Channel',
+    description: 'เส้นแนวโน้มขนานสองเส้นชันลง',
+  },
+  'pattern-scallop-bottom': {
+    name: 'Scallop Bottom (Bowl)',
+    description: 'ก้นกลมยาวรูปตัว U',
+  },
+  'pattern-scallop-top': {
+    name: 'Inverted Scallop (Top)',
+    description: 'ยอดกลมยาวรูปโดม',
+  },
+  'pattern-bump-and-run': {
+    name: 'Bump-and-Run Reversal',
+    description: 'พุ่งชันแล้วเบรกกลับเส้น lead-in',
+  },
+  'pattern-hook-reversal': {
+    name: 'Hook Reversal',
+    description: 'ตะขอสวนเทรนด์ปลายขา',
+  },
+  'pattern-pipe-top': {
+    name: 'Pipe Top',
+    description: 'สองแท่ง High เท่ากันที่ยอด',
+  },
+  'pattern-pipe-bottom': {
+    name: 'Pipe Bottom',
+    description: 'สองแท่ง Low เท่ากันที่ก้น',
+  },
+  'pattern-v-top': {
+    name: 'V-Top (Spike Top)',
+    description: 'พุ่งตั้งฉากแล้วกลับตัวรุนแรง',
+  },
+  'pattern-v-bottom': {
+    name: 'V-Bottom (Spike Bottom)',
+    description: 'ร่วงตั้งฉากแล้วกลับตัวรุนแรง',
+  },
+  'pattern-dead-cat-bounce': {
+    name: 'Dead Cat Bounce',
+    description: 'ดีดอ่อนในขาลงแล้วร่วงต่อ',
+  },
+  'pattern-measured-move': {
+    name: 'Measured Move',
+    description: 'สองขาเท่ากันคั่นด้วยธง',
+  },
+  'pattern-gap-breakaway': {
+    name: 'Breakaway Gap',
+    description: 'ช่องว่างเบรกกรอบ เริ่มเทรนด์',
+  },
+  'pattern-gap-runaway': {
+    name: 'Runaway Gap',
+    description: 'ช่องว่างกลางเทรนด์ วัดระยะทาง',
+  },
+  'pattern-gap-exhaustion': {
+    name: 'Exhaustion Gap',
+    description: 'ช่องว่างสุดท้ายปลายเทรนด์ — เตือนกลับตัว',
+  },
+  'pattern-failed-breakout': {
+    name: 'Failed Breakout (Headfake)',
+    description: 'เบรกเอาท์ล้มเหลวแล้วพลิกกลับแรง',
+  },
+  'ict-ote': {
+    name: 'ICT OTE (จุดเข้าที่ดีที่สุด)',
+    description: 'โซนเข้าเทรดที่ดีที่สุดที่ 61.8–79.6%',
+  },
+  'ict-power-of-3': {
+    name: 'ICT Power of 3 (P.O.3)',
+    description: 'รอบรายวัน Accumulate / Manipulate / Distribute',
+  },
+  'ict-judas-swing': {
+    name: 'ICT Judas Swing (จูดาส์สวิง)',
+    description: 'ขาแรกสวนเทรนด์ก่อนขาจริง',
+  },
+  'ict-mitigation-block': {
+    name: 'ICT Mitigation Block',
+    description: 'Order Block ที่ถูกเติมเต็มแล้วพลิก',
+  },
+  'ict-reclaim-block': {
+    name: 'ICT Reclaim Block (ยึดคืน)',
+    description: 'ระดับที่เบรกแล้วราคากลับมายึดคืน',
+  },
+  'ict-premium-discount': {
+    name: 'ICT Premium / Discount (แพง-ถูก)',
+    description: 'Equilibrium แบ่งโซนถูก (ซื้อ) / แพง (ขาย)',
+  },
+  'ict-dealing-range': {
+    name: 'ICT Dealing Range (ช่วงราคาหลัก)',
+    description: 'กรอบระหว่างสภาพคล่องฝั่งซื้อและขาย',
+  },
+  'ict-orb': {
+    name: 'ORB (เบรกกรอบเปิดตลาด)',
+    description: 'เทรดการเบรกกรอบเปิดตลาดครั้งแรก',
+  },
+  'ict-liquidity-void': {
+    name: 'ICT Liquidity Void (ช่องว่างราคา)',
+    description: 'ช่องว่างราคาไร้การซื้อขาย — แม่เหล็ก',
+  },
+  'ict-buyside-liquidity': {
+    name: 'ICT Buy-Side Liquidity',
+    description: 'Stop order ที่ค้างเหนือ Swing High',
+  },
+  'ict-sellside-liquidity': {
+    name: 'ICT Sell-Side Liquidity',
+    description: 'Stop order ที่ค้างใต้ Swing Low',
+  },
+  'ict-inverse-fvg': {
+    name: 'Inverse FVG (ช่องขาลง)',
+    description: 'ความไม่สมดุลขาลงจากการพุ่งลง',
+  },
+  'ict-concealed-fvg': {
+    name: 'Concealed FVG (ช่องซ่อน)',
+    description: 'ความไม่สมดุลเล็กที่ไส้เทียนซ่อน',
+  },
+  'ict-displacement': {
+    name: 'ICT Displacement (การพุ่งแรง)',
+    description: 'ขาพุ่งแรงที่ขับเคลื่อนเทรนด์',
+  },
+  'ict-turtle-soup': {
+    name: 'ICT Turtle Soup (กับดักเต่า)',
+    description: 'เทรดกลับตัวหลังการกวาด Stop',
+  },
+  'ict-point-of-interest': {
+    name: 'ICT POI (จุดสนใจ)',
+    description: 'โซนบรรจบของเครื่องมือ ICT หลายตัว',
+  },
+  'ict-order-flow': {
+    name: 'ICT Order Flow (กระแสออเดอร์)',
+    description: 'อ่าน Absorption และ Expansion ใน tape',
+  },
+  'ict-htf-bias': {
+    name: 'ICT HTF Bias (ไบแอสไทม์เฟรมใหญ่)',
+    description: 'ทิศทางที่ไทม์เฟรมใหญ่แนะนำ',
+  },
+  'ict-asia-range': {
+    name: 'Asia Range (กรอบเอเชีย)',
+    description: 'กรอบข้ามคืนที่ลอนดอนเบรก',
+  },
+  'ict-consolidation': {
+    name: 'การสะสมกำลัง (Consolidation)',
+    description: 'ช่วงขดตัวก่อนการขยายตัว',
+  },
+  'ind-sma-ema': {
+    name: 'Moving Average Crossover (ตัดเส้น)',
+    description: 'Golden cross / death cross ของ MA',
+  },
+  'ind-adx': {
+    name: 'ADX (ความแรงของเทรนด์)',
+    description: 'วัดความแข็งแรงของเทรนด์ ไม่ใช่ทิศทาง',
+  },
+  'ind-stochastic': {
+    name: 'Stochastic Oscillator',
+    description: 'Overbought / oversold เทียบกรอบล่าสุด',
+  },
+  'ind-atr': {
+    name: 'ATR (ความผันผวน)',
+    description: 'Average True Range — ความผันผวน',
+  },
+  'ind-super-trend': {
+    name: 'SuperTrend',
+    description: 'Trailing stop แบบ ATR พลิกตามเทรนด์',
+  },
+  'ind-keltner': {
+    name: 'Keltner Channel',
+    description: 'EMA ในแถบความผันผวนแบบ ATR',
+  },
+  'ind-vwap': {
+    name: 'VWAP (ราคาเฉลี่ยถ่วงวอลุ่ม)',
+    description: 'ราคาเฉลี่ยถ่วงวอลุ่ม — มาตรฐานสถาบัน',
+  },
+  'ind-obv': {
+    name: 'OBV (วอลุ่มสะสม)',
+    description: 'วอลุ่มสะสมที่ยืนยันหรือ Divergence กับราคา',
+  },
+  'ind-mfi': {
+    name: 'MFI (ดัชนีกระแสเงิน)',
+    description: 'RSI ถ่วงวอลุ่ม overbought เกิน 80',
+  },
+  'ind-pivot-points': {
+    name: 'Pivot Points (จุดหมุน)',
+    description: 'แนวรับ/ต้านคลาสสิกจากช่วงก่อนหน้า',
+  },
+  'ind-bollinger-squeeze': {
+    name: 'Bollinger Squeeze (บีบตัว)',
+    description: 'แถบบีบอัด — เตรียมการขยายตัว',
+  },
+  'ind-parabolic-sar': {
+    name: 'Parabolic SAR',
+    description: 'จุดไล่ตามที่พลิกเมื่อเทรนด์เปลี่ยน',
+  },
+  'ind-cci': {
+    name: 'CCI (ดัชนีช่องสินค้า)',
+    description: 'ราคาเทียบเบี่ยงเบนจากค่าเฉลี่ย ±100',
+  },
+  'ind-williams-r': {
+    name: 'Williams %R',
+    description: 'โมเมนตัมนำ −20 / −80',
+  },
+  'ind-aroon': {
+    name: 'Aroon',
+    description: 'เวลาตั้งแต่ High/Low ล่าสุด — ความสดของเทรนด์',
+  },
+  'harm-deep-crab': {
+    name: 'Deep Crab (ปูดำน้ำลึก)',
+    description: 'ฮาร์โมนิกที่ D ยื่นต่ำกว่า X',
+  },
+  'harm-5-0': {
+    name: 'รูปแบบ 5-0',
+    description: 'ห้าจุด X-A-B-C-D ที่ B เลย X',
+  },
+  'harm-three-drives': {
+    name: 'Three Drives (สามจังหวะ)',
+    description: 'สามขาที่หมดแรงที่ขาที่สาม',
+  },
+  'harm-nenstar': {
+    name: 'Nenstar',
+    description: 'ฮาร์โมนิกที่ D จบใกล้ X',
+  },
+  'harm-alternate-bat': {
+    name: 'Alternate Bat (ค้างคาวพิเศษ)',
+    description: 'ฮาร์โมนิกที่ D ดันเลย A',
+  },
+  'harm-anti-butterfly': {
+    name: 'Anti-Butterfly',
+    description: 'Butterfly ที่ D ~2.0 ของ XA',
+  },
+  'ew-zigzag': {
+    name: 'Elliott Zigzag (ซิกแซก)',
+    description: 'การปรับฐาน 5-3-5 ที่คม',
+  },
+  'ew-flat': {
+    name: 'Elliott Flat (แบนราบ)',
+    description: 'การปรับฐาน 3-3-5 แนวราบ',
+  },
+  'ew-triangle': {
+    name: 'Elliott Triangle (สามเหลี่ยม)',
+    description: 'การปรับฐาน 3-3-3-3-3 หดแคบ',
+  },
+  'ew-diagonal': {
+    name: 'Elliott Diagonal (เส้นทแยง)',
+    description: 'ลิ่มซ้อนทับ จบด้วยการกลับตัว',
+  },
+  'ew-extension': {
+    name: 'Elliott Wave 3 (ขยายตัว)',
+    description: 'คลื่น 3 ยาวและแรงที่สุด',
+  },
+  'ew-wxy': {
+    name: 'Elliott WXY (ซิกแซกคู่)',
+    description: 'Zigzag สองลูกเชื่อมด้วย X',
+  },
+  'dow-theory': {
+    name: 'Dow Theory (ทฤษฎีดาว)',
+    description: 'เทรนด์ Primary / secondary / minor',
+  },
+  'gann-angles': {
+    name: 'Gann Angles (มุมแกนน์)',
+    description: 'เส้นมุมเฉพาะ; 1×1 (45°) สำคัญ',
+  },
+  'market-profile': {
+    name: 'Market Profile (TPO)',
+    description: 'เวลาต่อราคา value area และ POC',
+  },
+  'auction-market-theory': {
+    name: 'Auction Market Theory (ทฤษฎีประมูล)',
+    description: 'สมดุลและไม่สมดุล — กลไกราคา',
+  },
+  'pa-inside-bar': {
+    name: 'Inside Bar (แท่งใน)',
+    description: 'บีบอัดในแท่งแม่แล้วเบรกเอาต์',
+  },
+  'pa-outside-bar': {
+    name: 'Outside Bar (แท่งนอก)',
+    description: 'ขยายตัวกลืนแท่งก่อนหน้า',
+  },
+  'pa-fakey': {
+    name: 'Fakey (หลอกทะลุ)',
+    description: 'เบรกหลอกที่เด้งกลับเข้ากรอบ',
+  },
+  'pa-123-reversal': {
+    name: '1-2-3 Reversal (กลับตัว 1-2-3)',
+    description: 'จุดสุดขั้ว ขาสวน HL สูงขึ้น แล้วยืนยัน',
+  },
+  'pa-pin-bar': {
+    name: 'Pin Bar (แท่งเข็ม)',
+    description: 'ไส้เทียนยาวปฏิเสธ — สัญญาณกลับตัว',
+  },
+  'risk-position-sizing': {
+    name: 'การคำนวณขนาดออเดอร์',
+    description: 'เสี่ยง % ของทุน ขนาดตามระยะ Stop',
+  },
+  'risk-stop-placement': {
+    name: 'การวาง Stop Loss',
+    description: 'Stop เลยโครงสร้างเผื่อ Noise',
+  },
+  'risk-r-multiple': {
+    name: 'R-Multiples (ผลตอบแทนเทียบเสี่ยง)',
+    description: 'แสดงผลลัพธ์เป็น R และวัด Edge',
+  },
+  'trading-journal': {
+    name: 'Trading Journal & Metrics',
+    description: 'จดทุกเทรดและทบทวนข้อมูล',
+  },
+  'strategy-swing-trading': {
+    name: 'Swing Trading',
+    description: 'ถือออเดอร์หลายวันถึงหลายสัปดาห์',
+  },
+  'strategy-scalping': {
+    name: 'Scalping',
+    description: 'กำไรเล็ก เร็ว ความถี่สูง',
+  },
 };
 
 /** Resolves a category display name for the current language. */

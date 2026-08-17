@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Concept, ConceptScenario, Language, Localizable, TradeDirection } from '../data/types';
-import { TH_SCENARIOS } from '../i18n/scenarios';
+import { TH_LEGENDS, TH_SCENARIOS } from '../i18n/scenarios';
 import { UI, pickLang, stepMark } from '../i18n/ui';
 import { PatternDiagramSection } from './PatternDiagram';
 
@@ -41,7 +41,7 @@ function scenarioKeyPoints(scenario: ConceptScenario, scenarioId: string, lang: 
 function legendLabel(label: Localizable, scenarioId: string, lang: Language): string {
   if (typeof label === 'object') return pickLang(label, lang);
   if (lang === 'th') {
-    const th = TH_SCENARIOS[scenarioId]?.legend?.[label];
+    const th = TH_SCENARIOS[scenarioId]?.legend?.[label] ?? TH_LEGENDS[scenarioId]?.[label];
     if (th) return th;
   }
   return label;

@@ -1,6 +1,7 @@
 import type { UTCTimestamp } from 'lightweight-charts';
 import { bollingerBands, computeVolumeProfile } from './indicators';
 import type { Candle, ConceptScenario, MarkerSpec } from './types';
+import { EXTRA_SCENARIOS } from './scenarios-extra';
 
 /* ---------------------------------------------------------------------------
  * Helpers
@@ -4371,7 +4372,7 @@ export const SCENARIOS: Record<string, ConceptScenario> = {
     zones: [
       { startTime: sideT(0), endTime: sideT(8), topPrice: 106, bottomPrice: 99, color: COLORS.zoneAmber },
       { startTime: sideT(9), endTime: sideT(12), topPrice: 99, bottomPrice: 94, color: COLORS.zoneBear },
-      { startTime: sideT(13), endTime: sideT(20), topPrice: 115, bottomPrice: 100, color: COLORS.zoneBull },
+      { startTime: sideT(13), endTime: sideT(18), topPrice: 115, bottomPrice: 100, color: COLORS.zoneBull },
     ],
     markers: [
       { time: sideT(4), position: 'aboveBar', shape: 'arrowDown', color: COLORS.amber, text: { en: 'Accumulation', th: 'A - สะสม' } },
@@ -4458,3 +4459,7 @@ export const SCENARIOS: Record<string, ConceptScenario> = {
   },
 
 };
+
+// Merge the extended scenario library (chart patterns, candles, ICT, indicators…)
+// into the exported map so the whole app sees a single SCENARIOS record.
+Object.assign(SCENARIOS, EXTRA_SCENARIOS);

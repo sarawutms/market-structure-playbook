@@ -14,14 +14,21 @@ An interactive educational web application designed for learning **Price Action*
   - Includes translated concept names, detailed explanations, legends, and trade plans.
   - Uses the **Prompt** font family for perfect Latin and Thai typography.
 - 📖 **Ultimate Master Index**
-  - A fully searchable hub containing **91 trading concepts** organized into 9 distinct categories:
+  - A fully searchable hub containing **203 trading concepts** organized into 14 distinct categories:
     1. *Trading Playbook* (Featured setups)
     2. *Basic Structure* (HH/HL, BOS, CHoCH, etc.)
-    3. *SMC & ICT* (Order Blocks, FVG, Liquidity Sweeps)
-    4. *Wyckoff Logic* (Accumulation, Distribution, Spring)
-    5. *Advanced PA* (Quasimodo, Supply/Demand)
-    6. *Wave & Harmonics* (Elliott Wave, Harmonic Patterns)
-    7. *Volume & Systematic* (VSA, Volume Profile, Ichimoku, Bollinger)
+    3. *Chart Patterns* (H&S, Triangles, Wedges, Channels, Gaps)
+    4. *Candlestick Patterns* (Hanging Man, Tweezer, Kicker, 3 Methods)
+    5. *SMC & ICT* (Order Blocks, FVG, Liquidity Sweeps, OTE, P.O.3)
+    6. *Wyckoff Logic* (Accumulation, Distribution, Spring)
+    7. *Advanced PA* (Quasimodo, Supply/Demand)
+    8. *Wave & Harmonics* (Elliott Wave, Zigzag, Flat, Diagonal)
+    9. *Harmonic Patterns* (Gartley, Bat, Crab, Deep Crab, 5-0)
+    10. *Volume & Systematic* (VSA, Volume Profile, Ichimoku, ADX, VWAP, SuperTrend)
+    11. *Theories & Frameworks* (Dow Theory, Gann, Market Profile)
+    12. *Price Action* (Inside/Outside Bar, Fakey, Pin Bar, 1-2-3)
+    13. *Risk Management* (Position Sizing, R-Multiples, Stops, Journal)
+    14. *Trading Styles* (Swing Trading, Scalping)
 - 📊 **Interactive Simulated Charts**
   - Powered by **TradingView's lightweight-charts**.
   - Dynamic Overlays: Custom structure-break dashed lines, shaded zones, volume profiles (right-edge), Ichimoku clouds, and Bollinger bands.
@@ -39,9 +46,12 @@ An interactive educational web application designed for learning **Price Action*
 src/
 ├── data/
 │   ├── types.ts                 # Core type definitions (Candle, MarkerSpec, etc.)
-│   ├── concepts.ts              # 47 Concept definitions & category groupings
+│   ├── concepts.ts              # 203 Concept definitions & category groupings
 │   ├── indicators.ts            # Pure math functions (Volume Profile, BB)
-│   └── scenarios.ts             # Simulated datasets + indicator overlays
+│   ├── scenarios.ts             # Core simulated datasets + indicator overlays
+│   └── scenarios-extra.ts       # Extended library: candles, patterns, ICT, indicators, theories
+├── scripts/
+│   └── validate-data.cjs        # Data integrity checker (out-of-bounds, TF transforms)
 ├── chart/
 │   ├── theme.ts                 # Chart UI styling & color palettes
 │   ├── TrendLinesPlugin.ts      # Custom plugin: Sloped trend lines
