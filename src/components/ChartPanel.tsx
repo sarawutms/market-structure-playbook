@@ -111,6 +111,9 @@ function createIndicatorPlugin(
  */
 export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChange, scenarioId }: ChartPanelProps) {
   const [showAnalysis, setShowAnalysis] = useState(true);
+  // Lets the user collapse the top-right control buttons so the price
+  // scale isn't permanently covered (drag the axis to zoom freely).
+  const [controlsVisible, setControlsVisible] = useState(true);
   const [isReplay, setIsReplay] = useState(false);
   const [replayIndex, setReplayIndex] = useState(0);
   
@@ -547,75 +550,99 @@ export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChan
             </button>
           ))}
         </div>
-        {/* Zoom & Toggle controls */}
-        <div className="absolute right-5 top-5 flex flex-col overflow-hidden rounded-lg border border-edge bg-panel-2/95 shadow-lg backdrop-blur z-10">
+        {/* Zoom & Toggle controls — collapsible so the price scale stays reachable */}
+        <div className="absolute right-5 top-5 z-10 flex flex-col overflow-hidden rounded-lg border border-edge bg-panel-2/95 shadow-lg backdrop-blur">
+          {/* Collapse / expand toggle */}
           <button
             type="button"
-            aria-label={pickLang({ en: 'Toggle Analysis', th: 'เปิด/ปิด การวิเคราะห์' }, lang)}
-            title={pickLang({ en: 'Toggle Analysis', th: 'เปิด/ปิด การวิเคราะห์' }, lang)}
-            onClick={() => setShowAnalysis(!showAnalysis)}
-            className={`flex h-8 w-8 items-center justify-center text-sm transition-colors hover:bg-panel-1 hover:text-main active:scale-95 ${showAnalysis ? 'text-accent' : 'text-muted'}`}
+            aria-label={pickLang(controlsVisible ? { en: 'Hide controls', th: 'ซ่อนปุ่มควบคุม' } : { en: 'Show controls', th: 'แสดงปุ่มควบคุม' }, lang)}
+            title={pickLang(controlsVisible ? { en: 'Hide controls', th: 'ซ่อนปุ่มควบคุม' } : { en: 'Show controls', th: 'แสดงปุ่มควบคุม' }, lang)}
+            onClick={() => setControlsVisible(!controlsVisible)}
+            className={`flex h-8 w-8 items-center justify-center transition-colors hover:bg-panel-1 hover:text-main active:scale-95 ${controlsVisible ? 'text-accent' : 'text-muted'}`}
           >
-            {showAnalysis ? (
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
+            {controlsVisible ? (
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m9 18 6-6-6-6" />
+              </svg>
             ) : (
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" /><line x1="1" y1="1" x2="23" y2="23" /></svg>
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m15 18-6-6 6-6" />
+              </svg>
             )}
           </button>
-          <div className="mx-1.5 h-px bg-edge" />
-          <button
-            type="button"
-            aria-label={pickLang(UI.zoomIn, lang)}
-            title={pickLang(UI.zoomIn, lang)}
-            onClick={() => zoomChart(chartRef.current, 0.5)}
-            className="flex h-8 w-8 items-center justify-center text-muted transition-colors hover:bg-panel-1 hover:text-main active:scale-95"
-          >
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M12 5v14" />
-            </svg>
-          </button>
-          <div className="mx-1.5 h-px bg-edge" />
-          <button
-            type="button"
-            aria-label={pickLang(UI.zoomOut, lang)}
-            title={pickLang(UI.zoomOut, lang)}
-            onClick={() => zoomChart(chartRef.current, 2)}
-            className="flex h-8 w-8 items-center justify-center text-muted transition-colors hover:bg-panel-1 hover:text-main active:scale-95"
-          >
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14" />
-            </svg>
-          </button>
-          <div className="mx-1.5 h-px bg-edge" />
-          <button
-            type="button"
-            aria-label={pickLang(isReplay ? UI.exitReplay : UI.replayMode, lang)}
-            title={pickLang(isReplay ? UI.exitReplay : UI.replayMode, lang)}
-            onClick={() => setIsReplay(!isReplay)}
-            className={`flex h-8 w-8 items-center justify-center transition-colors active:scale-95 ${isReplay ? 'bg-accent text-main' : 'text-muted hover:bg-panel-1 hover:text-main'}`}
-          >
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="5 3 19 12 5 21 5 3" />
-            </svg>
-          </button>
-          <div className="mx-1.5 h-px bg-edge" />
-          <button
-            type="button"
-            aria-label={pickLang(UI.zoomReset, lang)}
-            title={pickLang(UI.zoomReset, lang)}
-            onClick={() => {
-              if (chartRef.current) {
-                chartRef.current.priceScale('right').applyOptions({ autoScale: true });
-                chartRef.current.timeScale().fitContent();
-              }
-            }}
-            className="flex h-8 w-8 items-center justify-center text-muted transition-colors hover:bg-panel-1 hover:text-main active:scale-95"
-          >
-            <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-              <path d="M3 3v5h5" />
-            </svg>
-          </button>
+
+          {controlsVisible && (
+            <>
+              <div className="mx-1.5 h-px bg-edge" />
+              <button
+                type="button"
+                aria-label={pickLang({ en: 'Toggle Analysis', th: 'เปิด/ปิด การวิเคราะห์' }, lang)}
+                title={pickLang({ en: 'Toggle Analysis', th: 'เปิด/ปิด การวิเคราะห์' }, lang)}
+                onClick={() => setShowAnalysis(!showAnalysis)}
+                className={`flex h-8 w-8 items-center justify-center text-sm transition-colors hover:bg-panel-1 hover:text-main active:scale-95 ${showAnalysis ? 'text-accent' : 'text-muted'}`}
+              >
+                {showAnalysis ? (
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
+                ) : (
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" /><line x1="1" y1="1" x2="23" y2="23" /></svg>
+                )}
+              </button>
+              <div className="mx-1.5 h-px bg-edge" />
+              <button
+                type="button"
+                aria-label={pickLang(UI.zoomIn, lang)}
+                title={pickLang(UI.zoomIn, lang)}
+                onClick={() => zoomChart(chartRef.current, 0.5)}
+                className="flex h-8 w-8 items-center justify-center text-muted transition-colors hover:bg-panel-1 hover:text-main active:scale-95"
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5v14" />
+                </svg>
+              </button>
+              <div className="mx-1.5 h-px bg-edge" />
+              <button
+                type="button"
+                aria-label={pickLang(UI.zoomOut, lang)}
+                title={pickLang(UI.zoomOut, lang)}
+                onClick={() => zoomChart(chartRef.current, 2)}
+                className="flex h-8 w-8 items-center justify-center text-muted transition-colors hover:bg-panel-1 hover:text-main active:scale-95"
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14" />
+                </svg>
+              </button>
+              <div className="mx-1.5 h-px bg-edge" />
+              <button
+                type="button"
+                aria-label={pickLang(isReplay ? UI.exitReplay : UI.replayMode, lang)}
+                title={pickLang(isReplay ? UI.exitReplay : UI.replayMode, lang)}
+                onClick={() => setIsReplay(!isReplay)}
+                className={`flex h-8 w-8 items-center justify-center transition-colors active:scale-95 ${isReplay ? 'bg-accent text-main' : 'text-muted hover:bg-panel-1 hover:text-main'}`}
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+              </button>
+              <div className="mx-1.5 h-px bg-edge" />
+              <button
+                type="button"
+                aria-label={pickLang(UI.zoomReset, lang)}
+                title={pickLang(UI.zoomReset, lang)}
+                onClick={() => {
+                  if (chartRef.current) {
+                    chartRef.current.priceScale('right').applyOptions({ autoScale: true });
+                    chartRef.current.timeScale().fitContent();
+                  }
+                }}
+                className="flex h-8 w-8 items-center justify-center text-muted transition-colors hover:bg-panel-1 hover:text-main active:scale-95"
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                  <path d="M3 3v5h5" />
+                </svg>
+              </button>
+            </>
+          )}
         </div>
         {/* Replay Controls or Hint bar */}
         {isReplay ? (
