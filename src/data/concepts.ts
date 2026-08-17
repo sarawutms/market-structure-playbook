@@ -799,6 +799,53 @@ export const CONCEPTS: Concept[] = [
     category: 'Volume & Systematic',
     description: 'Trading the pull back to the average (BB).',
   },
+
+  {
+    id: 'ict-silver-bullet',
+    name: 'ICT Silver Bullet',
+    tag: 'ICT·SB',
+    scenarioId: 'ict-silver-bullet',
+    group: 'Advanced ICT',
+    category: 'SMC & ICT',
+    description: 'Trading the FVG during a specific time window.',
+  },
+  {
+    id: 'ict-amd',
+    name: 'ICT AMD (Power of 3)',
+    tag: 'ICT·AMD',
+    scenarioId: 'ict-amd',
+    group: 'Advanced ICT',
+    category: 'SMC & ICT',
+    description: 'Accumulation, Manipulation, Distribution cycle.',
+  },
+  {
+    id: 'fibonacci-golden-zone',
+    name: 'Fibonacci Golden Zone',
+    tag: 'FIB·618',
+    scenarioId: 'fibonacci-golden-zone',
+    group: 'Harmonics',
+    category: 'Wave & Harmonics',
+    description: 'Reversal at the 61.8% to 78.6% retracement level.',
+  },
+  {
+    id: 'rsi-divergence',
+    name: 'RSI Divergence',
+    tag: 'RSI·DIV',
+    scenarioId: 'rsi-divergence',
+    group: 'Mean Reversion',
+    category: 'Volume & Systematic',
+    description: 'Price makes a new high, RSI makes a lower high.',
+  },
+  {
+    id: 'macd-crossover',
+    name: 'MACD Crossover',
+    tag: 'MACD·X',
+    scenarioId: 'macd-crossover',
+    group: 'Trend Following',
+    category: 'Volume & Systematic',
+    description: 'MACD line crosses the signal line.',
+  },
+
 ];
 
 /** Top-level accordion categories in display order. */
