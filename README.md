@@ -1,115 +1,98 @@
-# Market Structure Playbook
+# 📈 Market Structure Playbook
 
-> **Live demo:** https://sarawutms.github.io/market-structure-playbook/
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge&logo=github)](https://sarawutms.github.io/market-structure-playbook/)
+[![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](#)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)](#)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-38B2AC?style=for-the-badge&logo=tailwind-css)](#)
 
-An interactive educational web app for learning **price action** and
-**Smart Money Concepts (SMC)**, plus Wyckoff, ICT, volume analysis and more —
-all visualized on simulated candlestick charts.
+An interactive educational web application designed for learning **Price Action**, **Smart Money Concepts (SMC)**, **Wyckoff**, **ICT**, and **Volume Analysis**. It features highly customizable, simulated candlestick charts that visualize trading setups and theories step-by-step.
 
-Built with **React**, **TailwindCSS**, and **lightweight-charts** (TradingView).
-Static site output (`dist/`) that deploys anywhere.
+## ✨ Key Features
 
-## Features
+- 🌐 **Bilingual UI (TH / EN)**
+  - Instantly toggle between Thai and English across the entire application.
+  - Includes translated concept names, detailed explanations, legends, and trade plans.
+  - Uses the **Prompt** font family for perfect Latin and Thai typography.
+- 📖 **Ultimate Master Index**
+  - A fully searchable hub containing **47 trading concepts** organized into 7 distinct categories:
+    1. *Trading Playbook* (Featured setups)
+    2. *Basic Structure* (HH/HL, BOS, CHoCH, etc.)
+    3. *SMC & ICT* (Order Blocks, FVG, Liquidity Sweeps)
+    4. *Wyckoff Logic* (Accumulation, Distribution, Spring)
+    5. *Advanced PA* (Quasimodo, Supply/Demand)
+    6. *Wave & Harmonics* (Elliott Wave, Harmonic Patterns)
+    7. *Volume & Systematic* (VSA, Volume Profile, Ichimoku, Bollinger)
+- 📊 **Interactive Simulated Charts**
+  - Powered by **TradingView's lightweight-charts**.
+  - Dynamic Overlays: Custom structure-break dashed lines, shaded zones, volume profiles (right-edge), Ichimoku clouds, and Bollinger bands.
+  - Interactive **Replay Mode** & Trade Simulator for practicing entries and exits!
+- 🎯 **Trading Playbook (Actionable Setups)**
+  - 7 complete, tradable setups (e.g., SMC Order Block, Wyckoff Spring, Bearish Bat).
+  - Features step-by-step chart breakdowns with sequence markers (① ② ③) and specific actionable **Entry, Stop Loss (SL), and Take Profit (TP)** parameters.
+- 🎨 **Premium UI/UX**
+  - Modern "Glassmorphism" dark theme with ambient glowing effects.
+  - Fully responsive design that works beautifully on both desktop and mobile devices.
 
-- **Bilingual UI (TH / EN)** — a language toggle in the top navigation bar
-  switches every text element between Thai and English: sidebar categories
-  and concept names, explanations, legends and the trade-plan cards. The
-  four playbook setups carry nested `{ en, th }` text in the mock data;
-  every other concept has Thai translations alongside the English source.
-  Technical abbreviations (BOS, OB, FVG, SL, TP…) stay unchanged in both
-  languages, and the UI uses the **Prompt** font family (Latin + Thai).
-- **Trading Playbook (featured setups)** — a dedicated section at the top of
-  the sidebar with **7 complete, tradable setups** on high-volatility,
-  Gold/XAUUSD-like data (noticeable wicks and liquidity sweeps):
-  1. **SMC Order Block with Liquidity Sweep** (long) — sweep → CHoCH → OB
-  2. **FVG Fill** (long) — impulsive gap → fill → resume
-  3. **Wyckoff Accumulation · Spring** (long) — SC → ST → Spring → entry
-  4. **QML Reversal** (short) — HH/LL → neckline break → retest
-  5. **Bearish Bat** (short) — XA impulse → D at 0.886 → PRZ entry
-  6. **VSA Stopping Volume** (long) — climax at support → no demand → SOS
-  7. **Uptrend Continuation** (long) — HH/HL → BOS → pullback entry
+## 📂 Project Architecture
 
-  Every setup draws **numbered ① ② ③ sequence markers** on the candles
-  (`createSeriesMarkers`), **Entry (green), Stop Loss (red) and Take Profit
-  (blue) price lines** via `createPriceLine`, and a three-part panel under the
-  chart: **Concept Explanation**, **Chart Breakdown** (what happens at each
-  numbered step) and the **Action Plan** with exact Entry / SL / TP
-  conditions and the risk:reward.
-- **Ultimate Master Index (left panel)** — searchable accordion of **47
-  concepts** in 7 categories:
-  1. **Trading Playbook** — the 7 featured setups
-  2. **Basic Structure** — High/Low, Swing High/Low, HH/HL/LH/LL, EQH/EQL,
-     Uptrend/Downtrend/Sideways, Impulse/Pullback, BOS/CHoCH/MSS,
-     Internal/External Structure
-  3. **SMC & ICT** — Order Block, Fair Value Gap (FVG)/Imbalance, Liquidity
-     Sweep, Inducement (IDM), Kill Zones
-  4. **Wyckoff Logic** — Accumulation, Spring, Markup, Distribution, UTAD
-  5. **Advanced PA** — Doji, Engulfing, Quasimodo (QML), Supply & Demand Zones
-  6. **Wave & Harmonics** — Elliott Wave, Harmonic Patterns (Gartley, Bat)
-  7. **Volume & Systematic** — VSA, Volume Profile & POC, Ichimoku Cloud,
-     Turtle Trading (Breakout), Mean Reversion (Bollinger)
-- **Interactive chart (right panel)** — each concept swaps in a purpose-built
-  simulated dataset with markers (arrows/labels), dashed structure-break lines,
-  shaded zones (horizontal bands *and* full-height session bands), and price
-  levels — plus indicator overlays where relevant:
-  - **volume histogram pane** (Wyckoff / VSA scenarios)
-  - **Ichimoku cloud** (Tenkan, Kijun, Senkou A/B, Chikou)
-  - **Bollinger Bands** (mean reversion)
-  - **Volume profile** with POC (right-edge, TradingView-style)
-- **Explanation card** — definition, trading logic, a color legend, and — for
-  playbook setups — the **How to Trade** action plan (Entry / SL / TP).
-- Dark trading-terminal theme, green/red candles, fully responsive with
-  auto-resizing chart (`autoSize`), intraday time axis where needed.
-
-## Project structure
-
-```
+```text
 src/
-  data/
-    types.ts          # shared types (Candle, MarkerSpec, ConceptScenario, …)
-    concepts.ts       # the 40 concepts, 7 categories, ordering
-    indicators.ts     # pure math: volume profile, Bollinger bands
-    scenarios.ts      # candle datasets + per-concept overlays & explanations
-  chart/
-    theme.ts          # dark chart options & candle colors
-    TrendLinesPlugin.ts      # sloped trend lines
-    ZonesPlugin.ts           # shaded zones (price bands + time bands)
-    VolumeProfilePlugin.ts   # right-edge volume profile with POC
-    IchimokuPlugin.ts        # full Ichimoku system + cloud
-    BollingerBandsPlugin.ts  # BB(20, 2σ) channel
-  components/
-    ConceptList.tsx      # Learning Hub (search + category accordion)
-    ChartPanel.tsx       # chart lifecycle, volume pane, indicator wiring
-    ExplanationCard.tsx  # concept explanation + legend
-  App.tsx
+├── data/
+│   ├── types.ts                 # Core type definitions (Candle, MarkerSpec, etc.)
+│   ├── concepts.ts              # 47 Concept definitions & category groupings
+│   ├── indicators.ts            # Pure math functions (Volume Profile, BB)
+│   └── scenarios.ts             # Simulated datasets + indicator overlays
+├── chart/
+│   ├── theme.ts                 # Chart UI styling & color palettes
+│   ├── TrendLinesPlugin.ts      # Custom plugin: Sloped trend lines
+│   ├── ZonesPlugin.ts           # Custom plugin: Shaded price/time bands
+│   ├── VolumeProfilePlugin.ts   # Custom plugin: Right-edge volume profile
+│   ├── IchimokuPlugin.ts        # Custom plugin: Ichimoku cloud rendering
+│   └── BollingerBandsPlugin.ts  # Custom plugin: BB channel rendering
+├── components/
+│   ├── ConceptList.tsx          # Sidebar: Learning Hub & Search
+│   ├── ChartPanel.tsx           # Main: Chart lifecycle & Replay Simulator
+│   ├── ExplanationCard.tsx      # Bottom/Sidebar: Details & Trade Plans
+│   └── ...
+└── App.tsx                      # Main application layout & state
 ```
 
-## Getting started
+## 🚀 Getting Started
 
+### Prerequisites
+- Node.js (v18+ recommended)
+- npm or yarn
+
+### Installation
 ```bash
+# 1. Clone the repository
+git clone https://github.com/sarawutms/market-structure-playbook.git
+
+# 2. Install dependencies
 npm install
-npm run dev       # local dev server
-npm run build     # production build → dist/
-npm run preview   # preview the production build
+
+# 3. Start the development server
+npm run dev
 ```
 
-## Deployment
+### Build for Production
+```bash
+npm run build
+npm run preview
+```
 
-The build outputs a fully static site in `dist/`:
+## 🛠 Adding a New Concept
 
-- **Vercel / Netlify** — build command `npm run build`, output directory `dist`.
-- **GitHub Pages** — run `npm run build`, publish the `dist/` folder
-  (add `"base": "/<repo>/"` to `vite.config.ts` if serving from a sub-path).
-- **Any static host** — upload the `dist/` folder.
+Expanding the playbook is straightforward:
+1. **Create Data:** Add a new candle dataset (or reuse an existing one) in `src/data/scenarios.ts`.
+2. **Define Overlays:** Create a `ConceptScenario` entry that describes markers, trend lines, price zones, indicators, and detailed textual explanations.
+3. **Register Concept:** Add the concept metadata to `src/data/concepts.ts` under your desired category. The UI will automatically pick it up!
 
-## Adding a concept
+## 🌍 Deployment
 
-1. Add a candle dataset (or reuse/generate one) in `src/data/scenarios.ts`.
-2. Add a `ConceptScenario` entry describing the overlays (markers, trend
-   lines, price lines, zones, volume/indicators) and the explanation.
-3. Add a `Concept` entry in `src/data/concepts.ts` (with `category` + `group`)
-   pointing at it.
+The project builds into a fully static site located in the `dist/` directory.
+- **GitHub Pages:** Set `"base": "/<repo-name>/"` in `vite.config.ts` and push the `dist/` folder.
+- **Vercel / Netlify:** Use the build command `npm run build` and publish the `dist` output directory.
 
-## Disclaimer
-
-For education only — all data is simulated. Not financial advice.
+## ⚠️ Disclaimer
+**For Educational Purposes Only.** All chart data is procedurally simulated. This application does not provide financial advice. Trading involves significant risk.
