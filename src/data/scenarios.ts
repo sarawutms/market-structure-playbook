@@ -4449,7 +4449,7 @@ export const SCENARIOS: Record<string, ConceptScenario> = {
     ],
     markers: [
       { time: downT(5), position: 'aboveBar', shape: 'arrowDown', color: COLORS.bear, text: { en: 'Bearish Cross (Sell)', th: 'เส้นตัดลง (จุดขาย)' } },
-      { time: downT(14), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Bullish Cross (Buy)', th: 'เส้นตัดขึ้น (จุดซื้อ)' } },
+      { time: downT(13), position: 'belowBar', shape: 'arrowUp', color: COLORS.bull, text: { en: 'Bullish Cross (Buy)', th: 'เส้นตัดขึ้น (จุดซื้อ)' } },
     ],
     legend: [
       { label: 'Bearish Signal', color: COLORS.bear },
