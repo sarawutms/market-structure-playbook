@@ -200,6 +200,10 @@ export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChan
     chart.subscribeClick(clickHandler);
     // -------------------------------------------------------------
 
+    // Note: the chart auto-resizes via the `autoSize: true` option in
+    // chartOptions (the library observes the container itself), so no
+    // manual ResizeObserver is needed here.
+
     return () => {
       chart.unsubscribeCrosshairMove(moveHandler);
       chart.unsubscribeClick(clickHandler);
@@ -439,7 +443,7 @@ export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChan
         setPosition(p => p ? { ...p, status, pnl: finalPnl } : null);
       }
     }
-  }, [replayIndex]);
+  }, [replayIndex, position, currentCandle, isReplay]);
 
   return (
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col bg-transparent">
@@ -575,7 +579,7 @@ export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChan
         </div>
         {/* Replay Controls or Hint bar */}
         {isReplay ? (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex w-[95%] max-w-[340px] flex-col items-center gap-2.5 z-10 animate-in slide-in-from-bottom-4 sm:bottom-6 sm:max-w-md sm:w-auto">
+          <div className="sm:absolute sm:bottom-6 sm:left-1/2 sm:-translate-x-1/2 flex w-[95%] max-w-[340px] flex-col items-center gap-2.5 z-10 animate-in slide-in-from-bottom-4 sm:max-w-md sm:w-auto mb-3 sm:mb-0 self-center">
             
             {/* Draft Order Panel */}
             {draftOrder && !position && (

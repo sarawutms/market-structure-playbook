@@ -283,7 +283,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-transparent lg:h-dvh relative overflow-hidden">
+    <div className="flex h-dvh flex-col bg-transparent relative overflow-hidden">
       <div className="ambient-glow-1" />
       <div className="ambient-glow-2" />
       
@@ -431,7 +431,7 @@ export default function App() {
       </div>
 
       {/* Main: Playbook Index (left) + Interactive chart (right) */}
-      <main className="flex min-h-0 flex-1 flex-col lg:flex-row relative">
+      <main className="flex min-h-0 flex-1 flex-col lg:flex-row relative overflow-y-auto lg:overflow-hidden">
         <div 
           className={`hidden lg:flex flex-col relative will-change-[width,opacity] ${!isDraggingSidebar ? 'transition-[width,opacity,margin] duration-300 ease-in-out' : ''} ${sidebarOpen ? 'opacity-100' : 'w-0 opacity-0 overflow-hidden border-r-0'}`}
           style={{ width: sidebarOpen ? sidebarWidth : 0 }}
@@ -450,7 +450,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="flex min-h-[50vh] min-w-0 flex-1 flex-col relative z-0">
+        <div className="flex min-h-[50vh] shrink-0 lg:shrink min-w-0 flex-1 flex-col relative z-0">
           <ChartPanel scenario={scenario} lang={lang} theme={theme} tf={tf} onTfChange={setTf} />
         </div>
 
