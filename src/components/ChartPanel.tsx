@@ -479,14 +479,16 @@ export function ChartPanel({ scenario, lang, theme = 'dark', tf = 'h1', onTfChan
       )}
 
       {/* Chart canvas (auto-resizes with the container via autoSize). */}
-      {/* Fixed height on mobile so `h-full` always resolves; flex-1 on desktop. */}
+      {/* Min-height on mobile so in-flow replay controls below the canvas are
+          not clipped; canvas keeps an explicit mobile height since h-full
+          can't resolve against a min-height parent. */}
       <div 
-        className="relative h-[420px] shrink-0 p-3 pb-0 lg:h-auto lg:min-h-0 lg:shrink lg:flex-1"
+        className="relative min-h-[420px] shrink-0 p-3 pb-0 lg:h-auto lg:min-h-0 lg:shrink lg:flex-1"
         onContextMenu={handleContextMenu}
       >
         <div
           ref={containerRef}
-          className="h-full w-full overflow-hidden rounded-xl border border-edge"
+          className="h-[420px] w-full overflow-hidden rounded-xl border border-edge lg:h-full"
         />
         {/* Timeframe selector — M5 / M15 / H1 / H4 / D1 */}
         <div className="absolute left-5 top-5 z-10 flex items-center overflow-hidden rounded-lg border border-edge bg-panel-2/95 shadow-lg backdrop-blur">
