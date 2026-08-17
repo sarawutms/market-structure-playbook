@@ -71,7 +71,7 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
       'HH แต่ละครั้งแสดงว่าดีมานด์ดูดซับซัปพลายได้ในระดับราคาที่สูงขึ้น',
       'เมื่อราคาหยุดสร้าง HH ให้ระวังการกลับตัว (CHoCH)',
     ],
-    legend: { 'Higher High': 'Higher High' },
+    legend: { 'Higher High': 'Higher High (จุดสูงขึ้น)' },
   },
   hl: {
     title: 'Higher Low (HL)',
@@ -82,7 +82,7 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
       'ตราบใดที่ราคายังสร้าง HL เส้นทางที่มีแรงต้านน้อยที่สุดคือขึ้น',
       'HL แท่งสุดท้ายคือจุดยกเลิก (invalidation) ของเทรนด์ขาขึ้น',
     ],
-    legend: { 'Higher Low': 'Higher Low' },
+    legend: { 'Higher Low': 'Higher Low (จุดต่ำขึ้น)' },
   },
   lh: {
     title: 'Lower High (LH)',
@@ -93,7 +93,7 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
       'การดีดที่ล้มเหลวแต่ละครั้งแสดงว่าซัปพลายชนะดีมานด์ในราคาที่ต่ำลง',
       'เมื่อราคาหยุดสร้าง LH ให้ระวังการกลับตัวเป็นขาขึ้น',
     ],
-    legend: { 'Lower High': 'Lower High' },
+    legend: { 'Lower High': 'Lower High (จุดสูงลง)' },
   },
   ll: {
     title: 'Lower Low (LL)',
@@ -104,7 +104,7 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
       'ตราบใดที่ราคายังสร้าง LL เส้นทางที่มีแรงต้านน้อยที่สุดคือลง',
       'LL แท่งสุดท้ายคือจุดยกเลิกของเทรนด์ขาลง',
     ],
-    legend: { 'Lower Low': 'Lower Low' },
+    legend: { 'Lower Low': 'Lower Low (จุดต่ำลง)' },
   },
   eqh: {
     title: 'Equal Highs (EQH)',
@@ -138,8 +138,8 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
       'เทรนเดอร์ซื้อตอนย่อเข้าหา HL และถือจนกว่า HL สุดท้ายจะถูกเบรก',
     ],
     legend: {
-      'Higher High': 'Higher High',
-      'Higher Low': 'Higher Low',
+      'Higher High': 'Higher High (จุดสูงขึ้น)',
+      'Higher Low': 'Higher Low (จุดต่ำขึ้น)',
       'Ascending swing-low line': 'เส้นแนวรับขาขึ้น',
     },
   },
@@ -153,8 +153,8 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
       'เทรนเดอร์ขายตอนดีดเข้าหา LH และถือจนกว่า LH สุดท้ายจะถูกยึดคืน',
     ],
     legend: {
-      'Lower High': 'Lower High',
-      'Lower Low': 'Lower Low',
+      'Lower High': 'Lower High (จุดสูงลง)',
+      'Lower Low': 'Lower Low (จุดต่ำลง)',
       'Descending swing-high line': 'เส้นแนวต้านขาลง',
     },
   },
@@ -278,7 +278,7 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
       'ช่องว่างแทนออเดอร์ที่ยังไม่ถูกเติม — ราคามักกลับมา',
       'การเติมบางส่วนเป็นเรื่องปกติ; การปิดทะลุทั้งแท่งทำให้โซนเป็นโมฆะ',
     ],
-    legend: { 'Fair Value Gap': 'Fair Value Gap', 'FVG bounds': 'ขอบของ FVG' },
+    legend: { 'Fair Value Gap': 'Fair Value Gap (ช่องว่างราคา)', 'FVG bounds': 'ขอบของ FVG' },
   },
   'liquidity-sweep': {
     title: 'การกวาดสภาพคล่อง (Liquidity Sweep)',
@@ -327,7 +327,7 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
   accumulation: {
     title: 'การสะสม (Accumulation)',
     summary:
-      'Accumulation คือช่วงของ Wyckoff ที่เม็ดเงินใหญ่ซื้อในขณะที่ประชาชนขายเข้าสู่กรอบราคา วอลุ่มเล่าเรื่อง: การเทขายจุดไคลแมกซ์ แล้วซัปพลายหดตัว แล้วจึงเบรกเอาท์',
+      'Accumulation คือช่วงของ Wyckoff ที่เม็ดเงินใหญ่ซื้อในขณะที่ประชาชนขายเข้าสู่กรอบราคา วอลุ่มเล่าเรื่อง: การเทขายจุดไคลแมกซ์ แล้วซัปพลายหดตัว แล้วจึงเบรกเอาต์',
     keyPoints: [
       'เฟส A: PS (แนวรับเบื้องต้น) → SC (การเทขายไคลแมกซ์) → AR (การดีดอัตโนมัติ)',
       'เฟส B: ST (การทดสอบครั้งที่สอง) ยืนเหนือ Low ของ SC ด้วยวอลุ่มที่ลดลง — ซัปพลายกำลังแห้ง',
@@ -363,7 +363,7 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
     ],
     legend: {
       'Markup leg': 'ขา Markup',
-      'SOS breakout': 'การเบรกเอาท์ SOS',
+      'SOS breakout': 'การเบรกเอาต์ SOS',
       'LPS pullback': 'การย่อที่ LPS',
     },
   },
@@ -448,7 +448,7 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
       'คลื่น 2 ไม่เคยย่อเต็มคลื่น 1; คลื่น 4 ไม่เคยลึกเข้าเขตคลื่น 1',
       'การปรับฐาน A-B-C ทำให้วัฏจักร 5-3 สมบูรณ์ก่อน impulse ถัดไป',
     ],
-    legend: { 'Impulse (1-2-3-4-5)': 'Impulse (1-2-3-4-5)', 'Correction (A-B-C)': 'การปรับฐาน (A-B-C)' },
+    legend: { 'Impulse (1-2-3-4-5)': 'คลื่น Impulse (1-2-3-4-5)', 'Correction (A-B-C)': 'การปรับฐาน (A-B-C)' },
   },
   harmonic: {
     title: 'รูปแบบฮาร์โมนิก (Gartley)',
@@ -488,7 +488,7 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
       'การเบรกเหนือ High ของ value area (หรือใต้ Low) สัญญาณการขยายตัว',
       'โหนดสูง = แนวรับ/แนวต้าน; โหนดวอลุ่มต่ำ = การเคลื่อนไหวเร็ว',
     ],
-    legend: { 'Value area': 'Value area', 'POC (Point of Control)': 'POC (Point of Control)' },
+    legend: { 'Value area': 'Value Area (โซนมูลค่า)', 'POC (Point of Control)': 'POC (จุดควบคุม)' },
   },
   ichimoku: {
     title: 'เมฆ Ichimoku',
@@ -502,10 +502,10 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
       '“การบิดของเมฆ” (A/B ไขว้) หมายถึงการเปลี่ยนภาวะที่อาจเกิดขึ้น',
     ],
     legend: {
-      'Tenkan-sen (conversion)': 'Tenkan-sen (conversion)',
-      'Kijun-sen (base)': 'Kijun-sen (base)',
+      'Tenkan-sen (conversion)': 'Tenkan-sen (เส้นแปลง)',
+      'Kijun-sen (base)': 'Kijun-sen (เส้นฐาน)',
       'Senkou A / B (cloud)': 'Senkou A / B (เมฆ)',
-      'Chikou span (lagging)': 'Chikou span (lagging)',
+      'Chikou span (lagging)': 'Chikou span (เส้นตามหลัง)',
     },
   },
   'mean-reversion': {
@@ -526,7 +526,7 @@ export const TH_SCENARIOS: Record<string, ScenarioTh> = {
     },
   },
   turtle: {
-    title: 'Turtle Trading (เบรกเอาท์)',
+    title: 'Turtle Trading (เบรกเอาต์)',
     summary:
       'Turtle Trading คือระบบเทรดตามเทรนด์จากทดลอง “Turtle” ปี 1983: ซื้อเมื่อราคาเบรก High 20 วัน ขายเมื่อเบรก Low 20 วัน เพิ่มตำแหน่งเมื่อเบรก 10 วัน และเสี่ยงไม่เกิน 2% ต่อออเดอร์ (Stop ที่ 2×ATR)',
     keyPoints: [
@@ -559,7 +559,7 @@ export const TH_LEGENDS: Record<string, Record<string, string>> = {
   },
   'fibonacci-golden-zone': {
     'Impulse Swing': 'ขา Impulse',
-    '61.8% Golden Ratio': '61.8% Golden Ratio',
+    '61.8% Golden Ratio': '61.8% อัตราทองคำ',
   },
   'rsi-divergence': {
     'Divergence Trend': 'แนว Divergence',
@@ -660,7 +660,7 @@ export const TH_LEGENDS: Record<string, Record<string, string>> = {
   'ict-concealed-fvg': { 'Concealed FVG': 'Concealed FVG (FVG ซ่อน)' },
   'ict-displacement': { 'Displacement leg': 'ขา Displacement (พุ่งแรง)' },
   'ict-turtle-soup': { 'Turtle soup entry': 'จุดเข้า Turtle Soup' },
-  'ict-point-of-interest': { 'Point of interest': 'Point of Interest (POI)' },
+  'ict-point-of-interest': { 'Point of interest': 'Point of Interest (จุดสนใจ)' },
   'ict-order-flow': {
     Absorption: 'Absorption (การดูดซับ)',
     Expansion: 'Expansion (การขยายตัว)',
@@ -684,7 +684,7 @@ export const TH_LEGENDS: Record<string, Record<string, string>> = {
   'ind-super-trend': { 'SuperTrend (short)': 'SuperTrend (ชอร์ต)' },
   'ind-keltner': { 'Keltner bands': 'Keltner Bands (แถบเคลท์เนอร์)' },
   'ind-vwap': { VWAP: 'VWAP' },
-  'ind-obv': { 'OBV divergence': 'OBV Divergence' },
+  'ind-obv': { 'OBV divergence': 'OBV Divergence (ความขัดแย้ง)' },
   'ind-mfi': { 'MFI signal': 'สัญญาณ MFI' },
   'ind-pivot-points': { 'Pivot levels': 'ระดับ Pivot' },
   'ind-bollinger-squeeze': { Squeeze: 'Squeeze (การบีบอัด)' },

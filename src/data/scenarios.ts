@@ -4214,7 +4214,7 @@ export const SCENARIOS: Record<string, ConceptScenario> = {
     title: { en: 'Uptrend Continuation', th: 'การต่อเนื่องของเทรนด์ขาขึ้น' },
     summary: {
       en: 'The trend is defined by a sequence of Higher Highs and Higher Lows. After the BOS extends the structure, the pullback to the demand zone / BOS level is the continuation entry — buy strength on a dip, not the breakout itself.',
-      th: 'เทรนด์ถูกนิยามด้วยลำดับ Higher High และ Higher Low หลัง BOS ขยายโครงสร้าง การย่อสู่โซนดีมานด์ / ระดับ BOS คือจุดเข้าร่วมต่อเนื่อง — ซื้อความแข็งแกร่งตอนย่อ ไม่ใช่ตอนเบรกเอาท์เอง',
+      th: 'เทรนด์ถูกนิยามด้วยลำดับ Higher High และ Higher Low หลัง BOS ขยายโครงสร้าง การย่อสู่โซนดีมานด์ / ระดับ BOS คือจุดเข้าร่วมต่อเนื่อง — ซื้อความแข็งแกร่งตอนย่อ ไม่ใช่ตอนเบรกเอาต์เอง',
     },
     keyPoints: [
       { en: 'The HL sequence shows buyers defending every dip.', th: 'ลำดับ HL แสดงว่าผู้ซื้อปกป้องทุกการย่อ' },
@@ -4325,7 +4325,7 @@ export const SCENARIOS: Record<string, ConceptScenario> = {
     markers: [
       { time: turtleT(4), position: 'belowBar', shape: 'arrowDown', color: COLORS.amber, text: { en: '① 20-day low', th: '① Low 20 วัน' } },
       { time: turtleT(16), position: 'aboveBar', shape: 'arrowUp', color: COLORS.cyan, text: { en: '② 20-day high', th: '② High 20 วัน' } },
-      { time: turtleT(19), position: 'aboveBar', shape: 'arrowUp', color: COLORS.bull, text: { en: '③ Breakout → Entry', th: '③ เบรกเอาท์ → เข้าเทรด' } },
+      { time: turtleT(19), position: 'aboveBar', shape: 'arrowUp', color: COLORS.bull, text: { en: '③ Breakout → Entry', th: '③ เบรกเอาต์ → เข้าเทรด' } },
     ],
     legend: [
       { label: '20-day high (Donchian)', color: COLORS.cyan, dashed: true },

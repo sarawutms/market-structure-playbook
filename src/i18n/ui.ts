@@ -451,7 +451,7 @@ export const TH_CONCEPTS: Record<string, { name: string; description: string }> 
   },
   turtle: {
     name: 'Turtle Trading',
-    description: 'ระบบเบรกเอาท์ 20 วัน พร้อม Stop แบบ ATR',
+    description: 'ระบบเบรกเอาต์ 20 วัน พร้อม Stop แบบ ATR',
   },
   high: { name: 'จุดสูงสุด', description: 'ราคาสูงสุดที่ซื้อขายได้ในหนึ่งช่วงเวลา' },
   low: { name: 'จุดต่ำสุด', description: 'ราคาต่ำสุดที่ซื้อขายได้ในหนึ่งช่วงเวลา' },
@@ -724,7 +724,7 @@ export const TH_CONCEPTS: Record<string, { name: string; description: string }> 
   },
   'pattern-failed-breakout': {
     name: 'Failed Breakout (Headfake)',
-    description: 'เบรกเอาท์ล้มเหลวแล้วพลิกกลับแรง',
+    description: 'เบรกเอาต์ล้มเหลวแล้วพลิกกลับแรง',
   },
   'ict-ote': {
     name: 'ICT OTE (จุดเข้าที่ดีที่สุด)',
