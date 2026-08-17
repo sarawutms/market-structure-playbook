@@ -14,7 +14,7 @@ An interactive educational web application designed for learning **Price Action*
   - Includes translated concept names, detailed explanations, legends, and trade plans.
   - Uses the **Prompt** font family for perfect Latin and Thai typography.
 - 📖 **Ultimate Master Index**
-  - A fully searchable hub containing **47 trading concepts** organized into 7 distinct categories:
+  - A fully searchable hub containing **86 trading concepts** organized into 9 distinct categories:
     1. *Trading Playbook* (Featured setups)
     2. *Basic Structure* (HH/HL, BOS, CHoCH, etc.)
     3. *SMC & ICT* (Order Blocks, FVG, Liquidity Sweeps)
